@@ -1,0 +1,2 @@
+@interface MPHURLProtocol : NSURLProtocol
+@end

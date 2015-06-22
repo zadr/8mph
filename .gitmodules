@@ -1,0 +1,12 @@
+[submodule "Code/External/FMDB"]
+	path = Code/External/FMDB
+	url = https://github.com/zadr/fmdb.git
+[submodule "Code/External/KissXML"]
+	path = Code/External/KissXML
+	url = git@github.com:robbiehanson/KissXML.git
+[submodule "Code/External/KMLViewer"]
+	path = Code/External/KMLViewer
+	url = git@github.com:zadr/KMLViewer.git
+[submodule "Code/External/PSPDFAlertView"]
+	path = Code/External/PSPDFAlertView
+	url = https://github.com/steipete/PSAlertView.git

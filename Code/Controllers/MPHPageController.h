@@ -1,0 +1,2 @@
+@interface MPHPageController : NSPageController
+@end

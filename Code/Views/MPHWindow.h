@@ -1,0 +1,2 @@
+@interface MPHWindow : NSWindow
+@end

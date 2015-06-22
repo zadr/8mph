@@ -1,0 +1,16 @@
+@interface MPHMessage : NSObject
+@property MPHService service;
+
+@property (copy) NSString *message;
+@property (copy) NSDate *startDate;
+@property (copy) NSDate *endDate;
+@property (copy) NSString *identifier;
+
+@property (nonatomic, readonly) NSString *text;
+- (NSDate *) effectiveUntil;
+
+@property (nonatomic, copy) NSArray *affectedLines;
+@property (copy) NSArray *affectedStops;
+
+@property (nonatomic, readonly) BOOL hasDetails;
+@end

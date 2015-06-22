@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>caltrain</key>
+	<string>Caltrain_News</string>
+	<key>bart</key>
+	<string>SFBART</string>
+	<key>muni</key>
+	<string>sfmta_muni</string>
+	<key>actransit</key>
+	<string>rideact</string>
+	<key>samtrans</key>
+	<string>GoSamTrans</string>
+	<key>vta</key>
+	<string>VTA</string>
+	<key>westcat</key>
+	<string>WCCTA</string>
+</dict>
+</plist>

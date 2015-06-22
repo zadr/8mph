@@ -1,0 +1,64 @@
+#import <Availability.h>
+#import <TargetConditionals.h>
+
+#ifdef __OBJC__
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
+	#import <Cocoa/Cocoa.h>
+	#import "NSTableViewAdditions.h"
+
+	@compatibility_alias NSPageViewController NSPageController;
+	@compatibility_alias NSTableViewCell NSTableCellView;
+
+#import "MPHAlertGenerator.h"
+#else
+	#import <UIKit/UIKit.h>
+	#import "UIColorAdditions.h"
+	#import "UIScreenAdditions.h"
+
+	#import "DDXML.h"
+
+	#define NSXMLNode DDXMLNode
+	#define NSXMLElement DDXMLElement
+	#define NSXMLDocument DDXMLDocument
+	#define NSXMLDocumentKind DDXMLDocumentKind
+	#define NSXMLInvalidKind DDXMLInvalidKind
+	#define NSXMLElementKind DDXMLElementKind
+	#define NSXMLAttributeKind DDXMLAttributeKind
+	#define NSXMLNamespaceKind DDXMLNamespaceKind
+	#define NSXMLProcessingInstructionKind DDXMLProcessingInstructionKind
+	#define NSXMLCommentKind DDXMLCommentKind
+	#define NSXMLTextKind DDXMLTextKind
+	#define NSXMLDTDKind DDXMLDTDKind
+	#define NSXMLEntityDeclarationKind DDXMLEntityDeclarationKind
+	#define NSXMLAttributeDeclarationKind DDXMLAttributeDeclarationKind
+	#define NSXMLElementDeclarationKind DDXMLElementDeclarationKind
+	#define NSXMLNotationDeclarationKind DDXMLNotationDeclarationKind
+	#define NSXMLNodeOptionsNone DDXMLNodeOptionsNone
+	#define NSXMLNodeExpandEmptyElement DDXMLNodeExpandEmptyElement
+	#define NSXMLNodeCompactEmptyElement DDXMLNodeCompactEmptyElement
+	#define NSXMLNodePrettyPrint DDXMLNodePrettyPrint
+	#define NSXMLDocumentXMLKind DDXMLDocumentXMLKind
+	#define NSXMLDocumentXHTMLKind DDXMLDocumentXHTMLKind
+	#define NSXMLDocumentHTMLKind DDXMLDocumentHTMLKind
+	#define NSXMLDocumentTextKind DDXMLDocumentTextKind
+	#define NSXMLDocumentContentKind DDXMLDocumentContentKind
+
+#endif
+
+	#import <MapKit/MapKit.h>
+	#import "MKPolylineAdditions.h"
+
+	#import <Foundation/Foundation.h>
+	#import "NSArrayAdditions.h"
+	#import "NSDateFormatterAdditions.h"
+	#import "NSDictionaryAdditions.h"
+	#import "NSObjectAdditions.h"
+	#import "NSStringAdditions.h"
+
+	#import <CoreLocation/CoreLocation.h>
+	#import "CLLocationAdditions.h"
+	#import "CLPlacemarkAdditions.h"
+
+	#import "MPHDefines.h"
+	#import "MPHUtilities.h"
+#endif
