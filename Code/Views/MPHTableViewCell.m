@@ -58,6 +58,7 @@
 
 		frame = [_routeIconImageViews.firstObject frame];
 		frame.origin.y = yOrigin;
+		frame.origin.x = self.textLabel.frame.origin.x;
 
 		NSInteger i = 0;
 		for (UIImageView *imageView in _routeIconImageViews) {
@@ -68,7 +69,7 @@
 
 			if (i == 10) {
 				i = 0;
-				frame.origin.x = CGRectGetMinX([_routeIconImageViews.firstObject frame]);
+				frame.origin.x = self.textLabel.frame.origin.x;
 				frame.origin.y += CGRectGetHeight(frame) + 4.;
 			}
 		}
