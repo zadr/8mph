@@ -59,11 +59,15 @@
 		frame = [_routeIconImageViews.firstObject frame];
 		frame.origin.y = yOrigin;
 
+		NSInteger i = 0;
 		for (UIImageView *imageView in _routeIconImageViews) {
 			imageView.frame = frame;
 			frame.origin.x += (frame.size.width + 4.);
 
-			if (CGRectGetMaxX(frame) > CGRectGetMaxX(self.contentView.frame)) {
+			i++;
+
+			if (i == 10) {
+				i = 0;
 				frame.origin.x = CGRectGetMinX([_routeIconImageViews.firstObject frame]);
 				frame.origin.y += CGRectGetHeight(frame) + 4.;
 			}

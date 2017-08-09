@@ -2,6 +2,8 @@
 
 #import "MPHAmalgamator.h"
 
+#import "MPHNextBusRoute.h"
+
 #import "MPHUtilities.h"
 
 @implementation MPHNextBusMessage {
@@ -62,5 +64,9 @@
 		}];
 	}
 	return _hasDetails;
+}
+
+- (UIColor *) colorForAffectedLine:(NSString *) line {
+	return [MPHNextBusRoute colorFromRouteTag:[line stringByAppendingString:@"-"]];
 }
 @end

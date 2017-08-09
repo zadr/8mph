@@ -14,4 +14,8 @@
 @property (copy) NSArray *affectedStops;
 
 @property (nonatomic, readonly) BOOL hasDetails;
+
+#if TARGET_OS_IPHONE
+- (UIColor *) colorForAffectedLine:(NSString *) line;
+#endif
 @end

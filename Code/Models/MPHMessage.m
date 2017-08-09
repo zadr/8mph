@@ -24,4 +24,12 @@
 - (BOOL) hasDetails {
 	return YES;
 }
+
+#if TARGET_OS_IPHONE
+- (UIColor *) colorForAffectedLine:(NSString *) line {
+	NSParameterAssert([self.affectedLines containsObject:line]);
+
+	return UIColorForMPHService(_service);
+}
+#endif
 @end

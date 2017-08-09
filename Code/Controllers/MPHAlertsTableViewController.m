@@ -85,11 +85,11 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 		NSMutableArray *images = [NSMutableArray array];
 		for (NSString *line in message.affectedLines) {
 			UIImage *image = [_imageGenerator generateImageWithParameters:@{
-// todo				MPHImageFillColor: [MPHNextBusRoute colorFromRouteTag:[line stringByAppendingString:@"-"]],
+ 				MPHImageFillColor: [message colorForAffectedLine:line],
 				MPHImageText: line,
 				MPHImageTextColor: [UIColor whiteColor],
 				MPHImageFont: line.length <= 3 ? line.length == 3 ? [UIFont systemFontOfSize:24.] : [UIFont systemFontOfSize:28.] : [UIFont systemFontOfSize:22.],
-				MPHImageRadius: @(15.)
+				MPHImageRadius: @(25.5)
 			}];
 
 			[images addObject:image];
@@ -108,16 +108,20 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 
 	CGFloat width = CGRectGetWidth(tableView.frame) - (MPHEdgeHorizontalInset * 2);
 	if (message.hasDetails)
-		width -= (MPHEdgeHorizontalInset * 2);
+		width -= MPHEdgeHorizontalInset;
 
-	CGSize size = [message.text boundingRectWithSize:CGSizeMake(width, 90000) options:(NSStringDrawingOptions)(NSStringDrawingUsesLineFragmentOrigin) attributes:@{ NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] } context:nil].size;
+	CGSize size = [message.text boundingRectWithSize:CGSizeMake(width, 90000) options:(NSStringDrawingOptions)(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:@{ NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] } context:nil].size;
 	CGSize subSize = CGSizeZero;
 
 	if (message.affectedLines.count) {
 		const CGFloat side = 25.5;
-		CGFloat numberOfRows = (message.affectedLines.count / 10) + 1;
+		CGFloat numberOfRows = (message.affectedLines.count / 10);
 		CGFloat remainder = message.affectedLines.count % 10;
-		subSize = CGSizeMake((numberOfRows > 1 ? 10 : remainder) * side, numberOfRows * side);
+
+		if (remainder > 0)
+			numberOfRows++;
+
+		subSize = CGSizeMake(numberOfRows * side, numberOfRows * side);
 	} else subSize = [NSLocalizedString(@"All Lines", @"All Lines subtitle text") boundingRectWithSize:CGSizeMake(width, 90000) options:(NSStringDrawingOptions)(NSStringDrawingUsesLineFragmentOrigin) attributes:nil context:nil].size;
 
 	return (size.height + subSize.height) + (MPHEdgeVerticalInset * 2);
