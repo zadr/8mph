@@ -13,6 +13,5 @@
 - (UIColor *) color;
 + (UIColor *) colorFromRouteTag:(NSString *) tag;
 #endif
-
-- (BOOL) bordered;
 @end
+

@@ -37,6 +37,21 @@ NSString *NSStringFromMPHService(MPHService service) {
 	MPHUnreachable
 }
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+UIColor *UIColorForMPHService(MPHService service) {
+	if (service == MPHServiceMUNI)
+		return [UIColor MUNIColor];
+
+	if (service == MPHServiceBART)
+		return [UIColor BARTColor];
+
+	if (service == MPHServiceCaltrain)
+		return [UIColor caltrainColor];
+
+	return nil;
+}
+#endif
+
 NSComparisonResult (^compareMUNIRoutes)(id, id) = ^(id one, id two) {
 	MPHNextBusRoute *routeOne = one;
 	MPHNextBusRoute *routeTwo = two;

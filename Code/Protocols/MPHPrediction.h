@@ -9,4 +9,7 @@
 // Calculated based on downloaded data
 @property (nonatomic, readonly) NSInteger minutesETA;
 @property (readonly) NSTimeInterval updatedAt;
+
+@optional
+@property (copy) UIColor *color;
 @end

@@ -1,6 +1,9 @@
 @protocol MPHStop;
 
-NSString *NSStringFromMPHService(MPHService service);
+extern NSString *NSStringFromMPHService(MPHService service);
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+extern UIColor *UIColorForMPHService(MPHService service);
+#endif
 
 extern NSComparisonResult (^compareMUNIRoutes)(id, id);
 extern NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id);

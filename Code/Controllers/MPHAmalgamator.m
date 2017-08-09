@@ -13,8 +13,6 @@
 #import "FMResultSet.h"
 #import "FMResultSetMPHAdditions.h"
 
-#import "DDXML.h"
-
 @implementation MPHAmalgamator {
 	NSMutableArray *_amalgamations;
 }
@@ -100,15 +98,23 @@
 }
 
 - (NSArray *) routesForService:(MPHService) service {
-	return [self amalgamationForService:service].routes;
+	return [self routesForService:service sorted:NO];
+}
+
+- (NSArray *) routesForService:(MPHService) service sorted:(BOOL) sorted {
+	if (!sorted) {
+		return [self amalgamationForService:service].routes;
+	}
+
+	return [self amalgamationForService:service].sortedRoutes;
 }
 
 - (id <MPHRoute>) routeWithTag:(id) tag onService:(MPHService) service {
 	return [[self amalgamationForService:service] routeWithTag:tag];
 }
 
-- (id <MPHRoute>) routeForStop:(id <MPHStop>) stop onService:(MPHService) service {
-	return [[self amalgamationForService:service] routeForStop:stop];
+- (NSArray <id <MPHRoute>> *) routesForStop:(id <MPHStop>) stop onService:(MPHService) service {
+	return [[self amalgamationForService:service] routesForStop:stop];
 }
 
 - (id <MPHRoute>) routeForDirectionTag:(NSString *) directionTag onService:(MPHService) service {

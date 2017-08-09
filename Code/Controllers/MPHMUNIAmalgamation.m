@@ -8,12 +8,9 @@
 
 #import "NSFileManagerAdditions.h"
 
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMResultSet.h"
+#import "FMDB.h"
 #import "FMResultSetMPHAdditions.h"
-
-#import "DDXML.h"
+#import <sqlite3.h>
 
 @implementation MPHMUNIAmalgamation {
 	dispatch_queue_t _queue;
@@ -61,7 +58,7 @@
 			NSString *newMUNIPath = [[NSFileManager defaultManager].documentsDirectory stringByAppendingPathComponent:@"muni.db"];
 
 			if (newMUNIPath) {
-				[[NSFileManager defaultManager] copyItemAtPath:defaultMUNIPath toPath:newMUNIPath error:nil];
+//				[[NSFileManager defaultManager] copyItemAtPath:defaultMUNIPath toPath:newMUNIPath error:nil];
 			}
 		});
 	}
@@ -201,6 +198,10 @@
 	return [self routesFromQuery:@"SELECT * FROM routes;"];
 }
 
+- (NSArray *) sortedRoutes {
+	return [[self routes] sortedArrayUsingComparator:compareMUNIRoutes];
+}
+
 - (NSArray *) stopsForRoute:(id <MPHRoute>) route inDirection:(MPHDirection) direction {
 	return [self stopsForRoute:route inRegion:MKCoordinateRegionForMapRect(MKMapRectWorld) direction:direction];
 }
@@ -236,9 +237,9 @@
 	return [[self routesFromQuery:query] lastObject];
 }
 
-- (id <MPHRoute>) routeForStop:(id <MPHStop>) stop {
+- (NSArray <id <MPHRoute>> *) routesForStop:(id <MPHStop>) stop {
 	NSString *query = [NSString stringWithFormat:@"SELECT * FROM routes WHERE tag = \"%@\";", stop.routeTag];
-	return [[self routesFromQuery:query] lastObject];
+	return [self routesFromQuery:query];
 }
 
 #pragma mark -
@@ -376,7 +377,7 @@
 
 	NSMutableSet *knownLines = [NSMutableSet set];
 	while ([results next])
-		[knownLines addObject:[results objectForColumnName:@"tag"]];
+		[knownLines addObject:[results objectForColumn:@"tag"]];
 
 	NSArray *nearbyRoutes = [self routesFromQuery:[NSString stringWithFormat:@"SELECT * from routes WHERE tag='%@';", [[knownLines allObjects] componentsJoinedByString:@"' OR tag='"]]];
 	return [nearbyRoutes sortedArrayUsingComparator:compareMUNIRoutes];

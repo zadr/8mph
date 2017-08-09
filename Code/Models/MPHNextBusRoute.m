@@ -30,10 +30,6 @@
 
 #pragma mark -
 
-- (BOOL) bordered {
-	return ([_title mph_hasCaseInsensitivePrefix:@"F-"] || [_title mph_hasCaseInsensitivePrefix:@"J-"] || [_title mph_hasCaseInsensitivePrefix:@"K-"] || [_title mph_hasCaseInsensitivePrefix:@"L-"] || [_title mph_hasCaseInsensitivePrefix:@"M-"] || [_title mph_hasCaseInsensitivePrefix:@"N-"] || [_title mph_hasCaseInsensitivePrefix:@"NX-"] || [_title mph_hasCaseInsensitivePrefix:@"T-"] || [_title mph_hasCaseInsensitivePrefix:@"Cali-"] || [_title mph_hasCaseInsensitivePrefix:@"PM-"] || [_title mph_hasCaseInsensitivePrefix:@"PH-"] || [_title mph_hasCaseInsensitivePrefix:@"1-"] || [_title mph_hasCaseInsensitivePrefix:@"5-"] || [_title mph_hasCaseInsensitivePrefix:@"6-"] || [_title mph_hasCaseInsensitivePrefix:@"8x-"] || [_title mph_hasCaseInsensitivePrefix:@"9-"] || [_title mph_hasCaseInsensitivePrefix:@"14-"] || [_title mph_hasCaseInsensitivePrefix:@"22-"] || [_title mph_hasCaseInsensitivePrefix:@"24-"] || [_title mph_hasCaseInsensitivePrefix:@"28-"] || [_title mph_hasCaseInsensitivePrefix:@"29-"] || [_title mph_hasCaseInsensitivePrefix:@"30-"] || [_title mph_hasCaseInsensitivePrefix:@"31-"] || [_title mph_hasCaseInsensitivePrefix:@"38-"] || [_title mph_hasCaseInsensitivePrefix:@"43-"] || [_title mph_hasCaseInsensitivePrefix:@"44-"] || [_title mph_hasCaseInsensitivePrefix:@"47-"] || [_title mph_hasCaseInsensitivePrefix:@"49-"] || [_title mph_hasCaseInsensitivePrefix:@"71-"]);
-}
-
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 + (UIColor *) colorFromRouteTag:(NSString *) tag {
 	if ([tag mph_hasCaseInsensitivePrefix:@"F-"])

@@ -12,8 +12,6 @@
 
 #import "MPHPredictions.h"
 
-#import "DDXML.h"
-
 #import "UIColorAdditions.h"
 
 @implementation MPH511RouteController {
@@ -133,6 +131,10 @@
 
 #pragma mark -
 
+- (NSArray *) routesForStop:(id <MPHStop>) stop {
+	return [[MPHAmalgamator amalgamator] routesForStop:stop onService:_route.service];
+}
+
 - (NSArray *) messagesForStop:(id <MPHStop>) stop {
 	return [[MPHAmalgamator amalgamator] messagesForStop:stop ofService:_route.service];
 }
@@ -149,6 +151,13 @@
 
 - (NSArray *) pathsForMap {
 	return [[MPHAmalgamator amalgamator] pathsForRoute:_route];
+}
+
+- (NSArray *) directionTitles {
+	return @[
+		NSLocalizedString(@"Inbound", @"Inbound segment item"),
+		NSLocalizedString(@"Outbound", @"Outbound segment item")
+	];
 }
 
 #pragma mark -

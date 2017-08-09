@@ -5,7 +5,7 @@
 #import "MPHPreferencesViewController.h"
 #import "MPHRulesTableController.h"
 
-enum {
+typedef NS_ENUM(NSInteger, MPHShow) {
 	MPHShowNever,
 	MPHShowAlways,
 	MPHShowOnAlert // Unused for dock icon

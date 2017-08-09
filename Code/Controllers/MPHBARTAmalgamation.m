@@ -15,8 +15,6 @@
 #import "FMDatabase.h"
 #import "FMResultSetMPHAdditions.h"
 
-#import "DDXML.h"
-
 @implementation MPHBARTAmalgamation {
 	dispatch_queue_t _queue;
 	FMDatabase *_database;
@@ -62,13 +60,13 @@
 		_database = [FMDatabase databaseWithPath:defaultBARTPath];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSString *newBARTPath = [[NSFileManager defaultManager].documentsDirectory stringByAppendingPathComponent:@"bart.db"];
+//			NSString *newBARTPath = [[NSFileManager defaultManager].documentsDirectory stringByAppendingPathComponent:@"bart.db"];
 
-			[[NSFileManager defaultManager] copyItemAtPath:defaultBARTPath toPath:newBARTPath error:nil];
+//			[[NSFileManager defaultManager] copyItemAtPath:defaultBARTPath toPath:newBARTPath error:nil];
 		});
 	}
 
-	[_database openWithFlags:SQLITE_OPEN_READONLY];
+	[_database open];
 	_database.crashOnErrors = YES;
 
 	_messages = [[NSMutableDictionary alloc] init];
@@ -259,6 +257,10 @@
 	return routes;
 }
 
+- (NSArray *) sortedRoutes {
+	return [[self routes] sortedArrayUsingComparator:compareStopsByTitle];
+}
+
 - (NSArray *) stopsForRoute:(id <MPHRoute>) route inDirection:(MPHDirection) direction {
 	if (direction != MPHDirectionIgnored)
 		return nil;
@@ -322,7 +324,7 @@
 	return _affectedLinesForMessage[message.identifier];
 }
 
-- (id <MPHRoute>) routeForStop:(id <MPHStop>) stop {
+- (NSArray <id <MPHRoute>> *) routesForStop:(id <MPHStop>) stop {
 	return nil;
 }
 

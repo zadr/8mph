@@ -13,6 +13,10 @@
 	return _message;
 }
 
+- (BOOL) messageWithoutAffectedLinesIsSystemMessage {
+	return NO;
+}
+
 - (NSDate *) effectiveUntil {
 	return _endDate;
 }

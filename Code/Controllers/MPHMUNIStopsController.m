@@ -51,7 +51,11 @@
 }
 
 - (void) fetchPredictionsForStop:(id <MPHStop>) aStop {
-	// do nothing
+    // ...
+}
+
+- (NSAttributedString *) predictionStringForStop:(id <MPHStop>) stop {
+	return nil;
 }
 
 - (void) fetchPredictions {
@@ -65,9 +69,6 @@
 	_reloadingStops = YES;
 	_lastRequestedPredictionTime = [NSDate date];
 
-	__weak id <MPHStopsControllerDelegate> weakDelegate = self.delegate;
-	__weak id weakSelf = self;
-
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 	for (id <MPHStop> stop in self.stops) {
 		NSMutableArray *array = dictionary[stop.routeTag];
@@ -75,41 +76,58 @@
 			array = [NSMutableArray array];
 			dictionary[stop.routeTag] = array;
 		}
-		[array addObject:stop];
-	}
 
-	NSURLRequest *request = [NSURLRequest nextBusPredictionsWithStopsAndRoutes:dictionary];
+        [array addObject:stop];
+
+        NSArray *routes = [[MPHAmalgamator amalgamator] routesForStop:stop onService:MPHServiceMUNI];
+        for (id <MPHRoute> route in routes) {
+            NSMutableArray *cachedRoutes = dictionary[route.tag];
+            if (!cachedRoutes) {
+                cachedRoutes = [NSMutableArray array];
+                dictionary[route.tag] = cachedRoutes;
+            }
+
+            [cachedRoutes addObject:stop];
+        }
+    }
+
+    __weak id <MPHStopsControllerDelegate> weakDelegate = self.delegate;
+    __weak id weakSelf = self;
+
+    NSURLRequest *request = [NSURLRequest nextBusPredictionsWithStopsAndRoutes:dictionary];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-		__strong id <MPHStopsControllerDelegate> strongDelegate = weakDelegate;
-		__strong MPHMUNIStopsController *strongSelf = weakSelf;
-		if (!strongSelf)
-			return;
-
-		NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-		for (NSXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
-			NSMutableArray *predictions = [NSMutableArray array];
-
-			for (NSXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
-				for (NSXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
-					NSString *directionTag = [predictionElement attributeForName:@"dirTag"].stringValue;
-
-					id <MPHRoute> route = [[MPHAmalgamator amalgamator] routeForDirectionTag:directionTag onService:MPHServiceMUNI];
-					[predictions addObject:[NSURLRequest predictionFromXMLElement:predictionElement onRoute:route withPredictionsElement:predictionsElement]];
-				}
-			}
-
-			strongSelf->_predictions[[predictionsElement attributeForName:@"stopTag"].stringValue] = predictions;
-		}
-
 		dispatch_async(dispatch_get_main_queue(), ^{
-			__strong MPHMUNIStopsController *strongAsyncSelf = weakSelf;
+			__strong id <MPHStopsControllerDelegate> strongDelegate = weakDelegate;
+			__strong MPHMUNIStopsController *strongSelf = weakSelf;
 			if (!strongSelf)
 				return;
 
-			if (strongDelegate && [strongDelegate respondsToSelector:@selector(stopsControllerDidLoadPredictionsForStop:)])
-				[strongDelegate stopsControllerDidLoadPredictionsForStop:self];
+			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
+			for (NSXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
+				NSMutableArray *predictions = [NSMutableArray array];
 
-			strongAsyncSelf->_reloadingStops = NO;
+				for (NSXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
+					for (NSXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
+						NSString *directionTag = [predictionElement attributeForName:@"dirTag"].stringValue;
+
+						id <MPHRoute> route = [[MPHAmalgamator amalgamator] routeForDirectionTag:directionTag onService:MPHServiceMUNI];
+						[predictions addObject:[NSURLRequest predictionFromXMLElement:predictionElement onRoute:route withPredictionsElement:predictionsElement]];
+					}
+				}
+
+				strongSelf->_predictions[[predictionsElement attributeForName:@"stopTag"].stringValue] = predictions;
+			}
+
+			dispatch_async(dispatch_get_main_queue(), ^{
+				__strong MPHMUNIStopsController *strongAsyncSelf = weakSelf;
+				if (!strongSelf)
+					return;
+
+				if (strongDelegate && [strongDelegate respondsToSelector:@selector(stopsControllerDidLoadPredictionsForStop:)])
+					[strongDelegate stopsControllerDidLoadPredictionsForStop:self];
+
+				strongAsyncSelf->_reloadingStops = NO;
+			});
 		});
 	}] resume];
 }

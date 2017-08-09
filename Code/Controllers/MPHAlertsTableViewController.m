@@ -5,15 +5,14 @@
 
 #import "MPHTableViewCell.h"
 
-#import "MPHNextBusRoute.h"
-#import "MPHNextBusMessage.h"
+#import "MPHRoute.h"
+#import "MPHMessage.h"
 
 static const CGFloat MPHEdgeHorizontalInset = 13.;
 static const CGFloat MPHEdgeVerticalInset = 14.;
 
 @implementation MPHAlertsTableViewController {
 	NSMutableArray *_alerts;
-	NSString *_groupingSeparator;
 
 	NSMutableDictionary *_hiddenAlerts;
 
@@ -30,7 +29,7 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 
 	NSMutableArray *workingAlerts = [alerts mutableCopy];
 	for (MPHMessage *message in alerts) {
-		NSDictionary *hiddenServiceAlerts = _hiddenAlerts[[NSString stringWithFormat:@"%d", message.service]];
+		NSDictionary *hiddenServiceAlerts = _hiddenAlerts[[NSString stringWithFormat:@"%zd", message.service]];
 
 		if (hiddenServiceAlerts[message.identifier])
 			[workingAlerts removeObject:message];
@@ -41,7 +40,6 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 	}
 
 	_alerts = workingAlerts;
-	_groupingSeparator = [NSString stringWithFormat:@"%@ ", [[NSLocale currentLocale] objectForKey:NSLocaleGroupingSeparator]];;
 	_imageGenerator = [[MPHImageGenerator alloc] init];
 
 	return self;
@@ -87,17 +85,17 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 		NSMutableArray *images = [NSMutableArray array];
 		for (NSString *line in message.affectedLines) {
 			UIImage *image = [_imageGenerator generateImageWithParameters:@{
-				MPHImageFillColor: [MPHNextBusRoute colorFromRouteTag:[line stringByAppendingString:@"-"]],
+// todo				MPHImageFillColor: [MPHNextBusRoute colorFromRouteTag:[line stringByAppendingString:@"-"]],
 				MPHImageText: line,
 				MPHImageTextColor: [UIColor whiteColor],
-				MPHImageFont: line.length <= 3 ? line.length == 3 ? [UIFont systemFontOfSize:12.] : [UIFont systemFontOfSize:14.] : [UIFont systemFontOfSize:10.],
+				MPHImageFont: line.length <= 3 ? line.length == 3 ? [UIFont systemFontOfSize:24.] : [UIFont systemFontOfSize:28.] : [UIFont systemFontOfSize:22.],
 				MPHImageRadius: @(15.)
 			}];
 
 			[images addObject:image];
 		}
 		cell.routeIcons = images;
-	} else if (message.service == MPHServiceMUNI) { // Hark, a hack!
+	} else if (message.messageWithoutAffectedLinesIsSystemMessage) {
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.detailTextLabel.text = NSLocalizedString(@"All Lines", @"All Lines subtitle text");
 	}
@@ -132,12 +130,12 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 - (void) tableView:(UITableView *) tableView commitEditingStyle:(UITableViewCellEditingStyle) editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath {
 	MPHMessage *message = _alerts[indexPath.row];
 
-	NSMutableDictionary *hiddenServiceAlerts = [_hiddenAlerts[[NSString stringWithFormat:@"%d", message.service]] mutableCopy];
+	NSMutableDictionary *hiddenServiceAlerts = [_hiddenAlerts[[NSString stringWithFormat:@"%zd", message.service]] mutableCopy];
 	if (!hiddenServiceAlerts) {
 		hiddenServiceAlerts = [NSMutableDictionary dictionary];
-		_hiddenAlerts[[NSString stringWithFormat:@"%d", message.service]] = hiddenServiceAlerts;
+		_hiddenAlerts[[NSString stringWithFormat:@"%zd", message.service]] = hiddenServiceAlerts;
 	}
-	_hiddenAlerts[[NSString stringWithFormat:@"%d", message.service]] = hiddenServiceAlerts;
+	_hiddenAlerts[[NSString stringWithFormat:@"%zd", message.service]] = hiddenServiceAlerts;
 	hiddenServiceAlerts[message.identifier] = message.identifier;
 
 	[[NSUserDefaults standardUserDefaults] setObject:_hiddenAlerts forKey:@"alerts"];

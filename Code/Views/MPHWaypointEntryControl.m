@@ -39,7 +39,8 @@
 
 	_containerView = [[UIView alloc] initWithFrame:frame];
 
-	[[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:@{
+
+	[[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[ [UISearchBar class] ]] setTitleTextAttributes:@{
 		NSForegroundColorAttributeName: [UIColor whiteColor],
 	} forState:UIControlStateNormal];
 

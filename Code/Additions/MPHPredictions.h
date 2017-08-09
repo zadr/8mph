@@ -1,7 +1,5 @@
 #import "MPHRoute.h"
 
-#import "DDXML.h"
-
 @class MPHBARTPrediction;
 @class MPHBARTStation;
 @class MPHNextBusRoute;

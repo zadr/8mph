@@ -9,12 +9,9 @@
 #import "NSFileManagerAdditions.h"
 #import "NSStringAdditions.h"
 
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMResultSet.h"
+#import "FMDB.h"
 #import "FMResultSetMPHAdditions.h"
-
-#import "DDXML.h"
+#import <sqlite3.h>
 
 @implementation MPH511Amalgamation {
 	dispatch_queue_t _queue;
@@ -67,10 +64,10 @@
 		_database = [FMDatabase databaseWithPath:defaultDatabasePath];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSString *newServiceDatabaseName = [NSString stringWithFormat:@"%@.db", serviceDatabaseName];
-			NSString *newDatabasePath = [[NSFileManager defaultManager].documentsDirectory stringByAppendingPathComponent:newServiceDatabaseName];
+//			NSString *newServiceDatabaseName = [NSString stringWithFormat:@"%@.db", serviceDatabaseName];
+//			NSString *newDatabasePath = [[NSFileManager defaultManager].documentsDirectory stringByAppendingPathComponent:newServiceDatabaseName];
 
-			[[NSFileManager defaultManager] copyItemAtPath:defaultDatabasePath toPath:newDatabasePath error:nil];
+//			[[NSFileManager defaultManager] copyItemAtPath:defaultDatabasePath toPath:newDatabasePath error:nil];
 		});
 	}
 
@@ -203,6 +200,10 @@
 	return [self routesFromQuery:@"SELECT * FROM routes;"];
 }
 
+- (NSArray *) sortedRoutes {
+	return [[self routes] sortedArrayUsingComparator:compareStopsByTitle];
+}
+
 - (NSArray *) stopsForRoute:(id <MPHRoute>) route inRegion:(MKCoordinateRegion) region direction:(MPHDirection) direction {
 	return [self stopsForRoute:route inDirection:direction];
 }
@@ -223,7 +224,7 @@
 	return nil;
 }
 
-- (id <MPHRoute>) routeForStop:(id<MPHStop>) stop {
+- (NSArray <id <MPHRoute>> *) routesForStop:(id<MPHStop>) stop {
 	return nil;
 }
 

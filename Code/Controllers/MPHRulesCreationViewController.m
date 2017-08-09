@@ -17,7 +17,7 @@ static NSString *const MPHRuleIdentifierRoute = @"route"; // id <MPHRoute>
 static NSString *const MPHRuleIdentifierTimeDate = @"time-date"; // NSArray of MPHDateRange
 static NSString *const MPHRuleIdentifierAlertType = @"alert-type"; // NSArray of NSDictionaries
 
-enum {
+typedef NS_ENUM(NSInteger, MPHPage) {
 	MPHPageService,
 	MPHPageRouteStop,
 	MPHPageTimeDate,

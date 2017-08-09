@@ -15,11 +15,11 @@
 		polylineControllers = [[NSMutableDictionary alloc] init];
 	});
 
-	MPHPolylineController *polylineController = polylineControllers[[NSString stringWithFormat:@"%d", service]];
+	MPHPolylineController *polylineController = polylineControllers[[NSString stringWithFormat:@"%zd", service]];
 	if (!polylineController) {
 		polylineController = [[MPHPolylineController alloc] init];
 
-		[polylineControllers setObject:polylineController forKey:[NSString stringWithFormat:@"%d", service]];
+		[polylineControllers setObject:polylineController forKey:[NSString stringWithFormat:@"%zd", service]];
 	}
 
 	return polylineController;

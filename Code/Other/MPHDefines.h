@@ -1,4 +1,4 @@
-typedef enum {
+typedef NS_ENUM(NSInteger, MPHService) {
 	MPHServiceNone,
 	MPHServiceMUNI,
 	MPHServiceBART,
@@ -8,20 +8,20 @@ typedef enum {
 	MPHServiceSamTrans,
 	MPHServiceVTA,
 	MPHServiceWestCat
-} MPHService;
+};
 
-typedef enum {
-	MPHDirectionInbound,
-	MPHDirectionOutbound,
-	MPHDirectionIgnored,
-	MPHDirectionNone
-} MPHDirection;
+typedef NS_ENUM(NSInteger, MPHDirection) {
+	MPHDirectionInbound = 1 << 0,
+	MPHDirectionOutbound = 1 << 1,
+	MPHDirectionIgnored = 1 << 2,
+	MPHDirectionNone = 0
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, MPHBARTDirection) {
 	MPHBARTDirectionNone,
 	MPHBARTDirectionNorth,
 	MPHBARTDirectionSouth
-} MPHBARTDirection;
+};
 
 #define MPHNearbyDefaultDistance 0.001953125
 

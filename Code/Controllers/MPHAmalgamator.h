@@ -17,10 +17,11 @@
 
 - (NSArray *) messagesForService:(MPHService) service;
 - (NSArray *) messagesForStop:(id <MPHStop>) stop ofService:(MPHService) service;
-- (NSArray *) routesForService:(MPHService) service;
+- (NSArray *) routesForService:(MPHService) service; // sorted:NO
+- (NSArray *) routesForService:(MPHService) service sorted:(BOOL) sorted;
 
 - (id <MPHRoute>) routeWithTag:(id) tag onService:(MPHService) service;
-- (id <MPHRoute>) routeForStop:(id <MPHStop>) stop onService:(MPHService) service;
+- (NSArray <id <MPHRoute>> *) routesForStop:(id <MPHStop>) stop onService:(MPHService) service;
 - (id <MPHRoute>) routeForDirectionTag:(NSString *) directionTag onService:(MPHService) service;
 
 - (NSArray *) stopsForRoute:(id <MPHRoute>) route inDirection:(MPHDirection) direction;

@@ -6,14 +6,14 @@
 #import "MPHRoutesViewController.h"
 #import "MPHStopsViewController.h"
 
-enum {
+typedef NS_ENUM(NSInteger, MPHSection) {
 	MPHSectionPlanATrip,
 	MPHSectionServices,
 	MPHSectionFavoriteStops,
 	MPHSectionCount // must stay at the bottom
 };
 
-enum {
+typedef NS_ENUM(NSInteger, MPHServiceRow) {
 	MPHServiceRowMUNI,
 	MPHServiceRowBART,
 	MPHServiceRowCaltrain,
@@ -27,7 +27,7 @@ enum {
 //	MPHServiceRowCount
 };
 
-enum {
+typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 #if defined(MPH_ENABLE_TRIP_PLANNING)
 	MPHTripPlanningSectionPlan,
 #endif
@@ -140,11 +140,11 @@ enum {
 		if (indexPath.row == MPHServiceRowDumbartonExpress)
 			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceDumbartonExpress];
 		if (indexPath.row == MPHServiceRowSamTrans)
-			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceRowSamTrans];
+			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceSamTrans];
 		if (indexPath.row == MPHServiceRowVTA)
-			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceRowVTA];
+			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceVTA];
 		if (indexPath.row == MPHServiceRowWestCat)
-			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceRowWestCat];
+			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceWestCat];
 	}
 
 	[self.navigationController pushViewController:viewController animated:_hasPresentedService];

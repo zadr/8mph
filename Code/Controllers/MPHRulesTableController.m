@@ -13,12 +13,12 @@
 
 typedef void (^MPHRuleChangedBlock)(void);
 
-enum {
+typedef NS_ENUM(NSInteger, MPHAlertItem) {
 	MPHAddAlertItem = 1,
 	MPHPauseAlertItem = 2
 };
 
-enum {
+typedef NS_ENUM(NSInteger, MPHMenuItem) {
 	MPHEditMenuItem = 1,
 	MPHPauseMenuItem = 2,
 	MPHDeleteMenuItem = 3

@@ -3,17 +3,19 @@ typedef NS_ENUM(NSInteger, MPHStopsSortType) {
 	MPHStopsSortTypeDistanceFromDistance
 };
 
+@protocol MPHRoute;
 @protocol MPHStop;
 @protocol MPHStopsControllerDelegate;
 
 @protocol MPHStopsController <NSObject>
 @required
 - (NSArray *) stopsSortedByType:(MPHStopsSortType) sortType;
-- (NSArray *) stopsForRoutes:(NSArray *) routes; // array of id <MPHRoute>'s
+- (NSArray *) stopsForRoutes:(NSArray <id <MPHRoute>> *) routes; // array of 's
 
-- (id) predictionsForStop:(id <MPHStop>) stop;
-- (void) fetchPredictionsForStop:(id <MPHStop>) stop;
 - (void) fetchPredictions;
+- (void) fetchPredictionsForStop:(id <MPHStop>) stop;
+- (id) predictionsForStop:(id <MPHStop>) stop;
+- (NSAttributedString *) predictionStringForStop:(id <MPHStop>) stop;
 
 @property (weak) id <MPHStopsControllerDelegate> delegate;
 

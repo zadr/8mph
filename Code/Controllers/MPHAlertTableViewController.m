@@ -2,8 +2,8 @@
 
 #import "MPHTableViewCell.h"
 
-#import "MPHNextBusMessage.h"
-#import "MPHNextBusStop.h"
+#import "MPHMessage.h"
+#import "MPHStop.h"
 
 #import "MPHAmalgamator.h"
 #import "MPHAmalgamation.h"

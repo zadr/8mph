@@ -5,8 +5,8 @@
 
 #import "MPHTableViewCell.h"
 
-#import "MPHNextBusStop.h"
-#import "MPHNextBusPrediction.h"
+#import "MPHStop.h"
+#import "MPHPrediction.h"
 
 @implementation MPHRouteTableViewController {
 	BOOL _usesMetric;
@@ -19,6 +19,10 @@
 
 	CGFloat _previousNearestDistance;
 	id <MPHStop> _nearestStop;
+
+    NSIndexPath *_selectedIndexPath;
+    NSIndexPath *_selectingIndexPath;
+    NSAttributedString *_cachedPredictionString;
 }
 
 - (id) initWithRouteController:(id <MPHRouteController>) routeController {
@@ -107,7 +111,9 @@
 }
 
 - (BOOL) tableView:(UITableView *) tableView shouldHighlightRowAtIndexPath:(NSIndexPath *) indexPath {
-	return NO;
+    __strong id <MPHRouteController> strongRouteController = _routeController;
+    id <MPHStop> stop = [[strongRouteController stopsForDirection:_selectedDirection] objectAtSignedIndex:indexPath.row];
+    return [strongRouteController routesForStop:stop].count > 1;
 }
 
 - (UITableViewCell *) tableView:(UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *) indexPath {
@@ -191,10 +197,35 @@
 	return cell;
 }
 
+- (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
+    if (_selectedIndexPath && [_selectedIndexPath isEqual:indexPath]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+
+    if (![self tableView:tableView shouldHighlightRowAtIndexPath:indexPath])
+        return;
+
+    NSIndexPath *previouslySelectedIndexPath = _selectedIndexPath;
+    _selectedIndexPath = indexPath;
+    _cachedPredictionString = nil;
+
+    if (![self.tableView.indexPathForSelectedRow isEqual:indexPath])
+        return;
+
+    if (!previouslySelectedIndexPath)
+        return;
+
+    [tableView beginUpdates];
+    [tableView reloadRowsAtIndexPaths:@[previouslySelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView endUpdates];
+}
+
 #pragma mark -
 
 - (void) directionSelected:(MPHDirection) direction {
 	_selectedDirection = direction;
+    _selectedIndexPath = nil;
 
 	[self.tableView reloadData];
 

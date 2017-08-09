@@ -9,7 +9,6 @@
 #import "MPHStop.h"
 
 @implementation MPHNearbyStopsViewController {
-	BOOL _onScreen;
 	NSMutableDictionary *_annotations;
 }
 
@@ -29,12 +28,6 @@
 
 	self.mapView.region =  MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(MPHNearbyDefaultDistance, MPHNearbyDefaultDistance));
 	self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:.2 alpha:.7];
-}
-
-- (void) viewDidAppear:(BOOL) animated {
-	[super viewDidAppear:animated];
-
-	_onScreen = YES;
 }
 
 #pragma mark -
@@ -62,9 +55,6 @@
 }
 
 - (void) mapView:(MKMapView *) mapView regionDidChangeAnimated:(BOOL) animated {
-	if (!_onScreen)
-		return;
-
 	NSMutableArray *oldAnnotations = [NSMutableArray array];
 	for (id <MKAnnotation> annotation in mapView.annotations) {
 		if (!MKMapRectContainsPoint(mapView.visibleMapRect, MKMapPointForCoordinate(annotation.coordinate))) {

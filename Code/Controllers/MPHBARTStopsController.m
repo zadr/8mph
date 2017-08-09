@@ -47,6 +47,75 @@
 	return _predictions;
 }
 
+- (NSAttributedString *) predictionStringForStop:(id <MPHStop>) stop {
+	NSDictionary *predictions = [self predictionsForStop:stop];
+	NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
+	NSArray *keys = [predictions.allKeys sortedArrayUsingComparator:^NSComparisonResult(id one, id two) {
+		id <MPHPrediction> predictionOne = [predictions[one] lastObject];
+		id <MPHPrediction> predictionTwo = [predictions[two] lastObject];
+
+		return [predictionOne.route compare:predictionTwo.route];
+	}];
+
+	NSString *groupingSeparator = [NSString stringWithFormat:@"%@ ", [[NSLocale currentLocale] objectForKey:NSLocaleGroupingSeparator]];;
+	for (id key in keys) {
+		id object = predictions[key];
+
+		NSDictionary *attributes = @{
+			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
+		};
+
+		id <MPHPrediction> anyPrediction = [object lastObject];
+		NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:@"\n " attributes:attributes];
+		[text appendAttributedString:prefix];
+
+		NSMutableDictionary *dotAttributes = [attributes mutableCopy];
+		dotAttributes[NSForegroundColorAttributeName] = anyPrediction.color;
+
+		NSAttributedString *dotString = [[NSAttributedString alloc] initWithString:@"•" attributes:dotAttributes];
+		[text appendAttributedString:dotString];
+
+		NSString *stationString = [NSString stringWithFormat:@" %@: ", key];
+		NSAttributedString *station = [[NSAttributedString alloc] initWithString:stationString attributes:attributes];
+		[text appendAttributedString:station];
+  
+		attributes = @{
+			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSFontAttributeName: [UIFont systemFontOfSize:13.]
+		};
+
+		for (id <MPHPrediction> prediction in object) {
+			if (prediction.minutesETA < 0.)
+				continue;
+
+			if (prediction.minutesETA) {
+				NSString *string = [NSString stringWithFormat:@"%zdm%@ ", prediction.minutesETA, groupingSeparator];
+				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+				[text appendAttributedString:attributedString];
+			} else {
+				NSString *string = [NSString stringWithFormat:@"now%@ ", groupingSeparator];
+				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+				[text appendAttributedString:attributedString];
+			}
+		}
+
+		if (text.length)
+			[text deleteCharactersInRange:NSMakeRange(text.length - (groupingSeparator.length + 1), (groupingSeparator.length + 1))];
+	}
+
+	if (text.length)
+		[text deleteCharactersInRange:NSMakeRange(0, 1)];
+	else {
+		text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
+			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSFontAttributeName: [UIFont systemFontOfSize:13.]
+		}];
+	}
+
+	return text;
+}
+
 - (void) fetchPredictionsForStop:(id <MPHStop>) aStop {
 	MPHBARTStation *stop = (MPHBARTStation *)aStop;
 	NSArray *predictionRequests = [NSURLRequest BARTPredictionsForStops:@[stop.abbreviation]];
@@ -77,7 +146,6 @@
 		}] resume];
 	}
 }
-
 
 - (MPHService) service {
 	return MPHServiceBART;

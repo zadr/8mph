@@ -9,6 +9,7 @@
 @property (nonatomic, readonly) NSString *text;
 - (NSDate *) effectiveUntil;
 
+@property (nonatomic, readonly) BOOL messageWithoutAffectedLinesIsSystemMessage; // NO, unless overridden
 @property (nonatomic, copy) NSArray *affectedLines;
 @property (copy) NSArray *affectedStops;
 

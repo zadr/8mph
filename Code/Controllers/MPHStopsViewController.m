@@ -6,17 +6,12 @@
 
 #import "MPHTableViewCell.h"
 
-#import "MPHBARTStation.h"
-#import "MPHBARTPrediction.h"
-
-#import "MPH511Prediction.h"
 #import "MPHStop.h"
+#import "MPHPrediction.h"
 
 #import "MPHAlertsTableViewController.h"
 
 #import "UIColorAdditions.h"
-
-#import "PSPDFActionSheet.h"
 
 @interface MPHStopsViewController () <MPHStopsControllerDelegate>
 @end
@@ -71,7 +66,7 @@
 
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Alerts" style:UIBarButtonItemStylePlain target:self action:@selector(showAlerts:)];
 
-	NSString *key = [NSString stringWithFormat:@"MPHStopsSortDirection-%d", _service];
+	NSString *key = [NSString stringWithFormat:@"MPHStopsSortDirection-%zd", _service];
 	_stops = [_stopsController stopsSortedByType:[[NSUserDefaults standardUserDefaults] integerForKey:key]];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationDidUpdate:) name:MPHLocationDidUpdateNotification object:nil];
@@ -90,16 +85,9 @@
 
 	self.title = NSStringFromMPHService(_service);
 
-	if (_service == MPHServiceBART) {
-		self.navigationController.navigationBar.barTintColor = [UIColor BARTColor];
-		self.navigationController.toolbar.tintColor = [UIColor BARTColor];
-	} else if (_service == MPHServiceMUNI) {
-		self.navigationController.toolbar.tintColor = [UIColor BARTColor];
-		self.navigationController.navigationBar.barTintColor = [UIColor BARTColor];
-	} else if (_service == MPHServiceCaltrain) {
-		self.navigationController.navigationBar.barTintColor = [UIColor caltrainColor];
-		self.navigationController.toolbar.tintColor = [UIColor caltrainColor];
-	}
+	self.navigationController.navigationBar.barTintColor = UIColorForMPHService(_service);
+	self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
+	self.navigationController.toolbar.barTintColor = [UIColor lightTextColor];
 }
 
 - (void) viewWillDisappear:(BOOL) animated {
@@ -139,8 +127,6 @@
 }
 
 - (void) showSortByOptions:(id) sender {
-	PSPDFActionSheet *actionSheet = [[PSPDFActionSheet alloc] initWithTitle:nil];
-
 	void (^changeToSortType)(MPHStopsViewController *, MPHStopsSortType) = ^(MPHStopsViewController *strongSelf, MPHStopsSortType sortType){
 		NSIndexPath *previouslySelectedIndexPath = strongSelf->_selectedIndexPath;
 		id <MPHStop> selectedStop = strongSelf->_selectedIndexPath ? strongSelf->_stops[strongSelf->_selectedIndexPath.row] : nil;
@@ -154,7 +140,7 @@
 		if (newSelectedStopIndex != NSNotFound)
 			strongSelf->_selectedIndexPath = [NSIndexPath indexPathForRow:newSelectedStopIndex inSection:0];
 
-		NSString *key = [NSString stringWithFormat:@"MPHStopsSortDirection-%d", strongSelf->_service];
+		NSString *key = [NSString stringWithFormat:@"MPHStopsSortDirection-%zd", strongSelf->_service];
 		[[NSUserDefaults standardUserDefaults] setObject:@(sortType) forKey:key];
 
 		[strongSelf.tableView beginUpdates];
@@ -169,17 +155,17 @@
 	};
 
 	__weak MPHStopsViewController *weakSelf = self;
-	[actionSheet addButtonWithTitle:NSLocalizedString(@"Sort Alphabetically" , @"Sort Alphabetically action sheet title") block:^(NSInteger buttonIndex){
+	UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+	[actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Sort Alphabetically" , @"Sort Alphabetically action sheet title") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 		__strong MPHStopsViewController *strongSelf = weakSelf;
 		changeToSortType(strongSelf, MPHStopsSortTypeAlphabetical);
-	}];
-	[actionSheet addButtonWithTitle:NSLocalizedString(@"Sort By Distance" , @"Sort By Distance action sheet title") block:^(NSInteger buttonIndex){
+	}]];
+	[actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Sort By Distance" , @"Sort By Distance action sheet title") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 		__strong MPHStopsViewController *strongSelf = weakSelf;
 		changeToSortType(strongSelf, MPHStopsSortTypeDistanceFromDistance);
-	}];
-
-	[actionSheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel action sheet title") block:NULL];
-	[actionSheet showFromToolbar:self.navigationController.toolbar];
+	}]];
+	[actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action sheet title") style:UIAlertActionStyleCancel handler:nil]];
+	[self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 #pragma mark -
@@ -296,141 +282,6 @@
 #pragma mark -
 
 - (void) _generatePredictionString {
-	if (_stopsController.service == MPHServiceMUNI) {
-
-	} else if (_stopsController.service == MPHServiceBART) {
-		[self _generateBARTPredictionsString];
-	} else {
-		[self _generate511PredictionsString];
-	}
-}
-
-- (void) _generate511PredictionsString {
-	NSDictionary *predictions = [_stopsController predictionsForStop:_stops[_selectedIndexPath.row]];
-	NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
-
-	[predictions enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stopIteration) {
-		MPH511Prediction *anyPrediction = [object lastObject];
-		NSString *stationString = [NSString stringWithFormat:@"\n • %@: ", anyPrediction.routeName.capitalizedString];
-		NSAttributedString *station = [[NSAttributedString alloc] initWithString:stationString attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
-			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
-		}];
-		[text appendAttributedString:station];
-		object = [object sortedArrayUsingComparator:^NSComparisonResult(id one, id two) {
-			return [@([one minutesETA]) compare:@([two minutesETA])];
-		}];
-
-		for (MPH511Prediction *prediction in object) {
-			if (prediction.minutesETA < 0.)
-				continue;
-
-			NSDictionary *attributes;
-			if (prediction.minutesETA < 5) {
-				attributes = @{
-					NSForegroundColorAttributeName: [UIColor colorWithRed:(0. / 255.) green:(102. / 255.) blue:(0. / 255.) alpha:1.],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
-				};
-			} else {
-				attributes = @{
-					NSForegroundColorAttributeName: [UIColor darkTextColor],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
-				};
-			}
-			if (prediction.minutesETA) {
-				NSString *string = [NSString stringWithFormat:@"%zdm%@ ", prediction.minutesETA, _groupingSeparator];
-				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
-				[text appendAttributedString:attributedString];
-			} else {
-				NSString *string = [NSString stringWithFormat:@"now%@ ", _groupingSeparator];
-				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
-				[text appendAttributedString:attributedString];
-			}
-		}
-
-		if (text.length)
-			[text deleteCharactersInRange:NSMakeRange(text.length - (_groupingSeparator.length + 1), (_groupingSeparator.length + 1))];
-	}];
-
-	if (text.length)
-		[text deleteCharactersInRange:NSMakeRange(0, 1)];
-	else text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
-			NSFontAttributeName: [UIFont systemFontOfSize:13.]
-		}];
-	
-	_cachedPredictionString = [text copy];
-}
-
-- (void) _generateBARTPredictionsString {
-	NSDictionary *predictions = [_stopsController  predictionsForStop:_stops[_selectedIndexPath.row]];
-	NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
-	NSArray *keys = [predictions.allKeys sortedArrayUsingComparator:^(id one, id two) {
-		MPHBARTPrediction *predictionOne = [predictions[one] lastObject];
-		MPHBARTPrediction *predictionTwo = [predictions[two] lastObject];
-
-		return [predictionOne.color mph_compare:predictionTwo.color];
-	}];
-
-	for (id key in keys) {
-		id object = predictions[key];
-
-		NSDictionary *attributes = @{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
-			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
-		};
-
-		MPHBARTPrediction *anyPrediction = [object lastObject];
-		NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:@"\n " attributes:attributes];
-		[text appendAttributedString:prefix];
-
-		NSMutableDictionary *dotAttributes = [attributes mutableCopy];
-		dotAttributes[NSForegroundColorAttributeName] = anyPrediction.color;
-
-		NSAttributedString *dotString = [[NSAttributedString alloc] initWithString:@"•" attributes:dotAttributes];
-		[text appendAttributedString:dotString];
-
-		NSString *stationString = [NSString stringWithFormat:@" %@: ", key];
-		NSAttributedString *station = [[NSAttributedString alloc] initWithString:stationString attributes:attributes];
-		[text appendAttributedString:station];
-
-		for (MPHBARTPrediction *prediction in object) {
-			if (prediction.minutesETA < 0.)
-				continue;
-
-			if (prediction.minutesETA < 5) {
-				attributes = @{
-					NSForegroundColorAttributeName: [UIColor colorWithRed:(0. / 255.) green:(102. / 255.) blue:(0. / 255.) alpha:1.],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
-				};
-			} else {
-				attributes = @{
-					NSForegroundColorAttributeName: [UIColor darkTextColor],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
-				};
-			}
-			if (prediction.minutesETA) {
-				NSString *string = [NSString stringWithFormat:@"%zdm%@ ", prediction.minutesETA, _groupingSeparator];
-				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
-				[text appendAttributedString:attributedString];
-			} else {
-				NSString *string = [NSString stringWithFormat:@"now%@ ", _groupingSeparator];
-				NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
-				[text appendAttributedString:attributedString];
-			}
-		}
-		
-		if (text.length)
-			[text deleteCharactersInRange:NSMakeRange(text.length - (_groupingSeparator.length + 1), (_groupingSeparator.length + 1))];
-	}
-
-	if (text.length)
-		[text deleteCharactersInRange:NSMakeRange(0, 1)];
-	else text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
-			NSFontAttributeName: [UIFont systemFontOfSize:13.]
-		}];
-
-	_cachedPredictionString = [text copy];
+	_cachedPredictionString = [_stopsController predictionStringForStop:_stops[_selectedIndexPath.row]];
 }
 @end

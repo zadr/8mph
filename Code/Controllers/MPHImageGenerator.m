@@ -36,7 +36,7 @@ NSString *const MPHImageFont = @"font";
 
 	CGFloat strokeWidth = ([parameters[MPHImageStrokeWidth] doubleValue] / 2.) ?: 0.;
 	CGFloat radius = radiusValue.doubleValue + strokeWidth;
-	CGFloat width = radius;
+	CGFloat width = radius * 2;
 
 	UIImage *image = nil;
 #ifdef USE_CGCONTEXT
@@ -46,7 +46,7 @@ NSString *const MPHImageFont = @"font";
 	UIGraphicsPushContext(contextRef);
 #else
 	CGSize size = CGSizeMake(width + (strokeWidth / 2.) + (strokeWidth / 4.), width + (strokeWidth / 2.) + (strokeWidth / 4.));
-	UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale * 2.);
+	UIGraphicsBeginImageContext(size);
 	CGContextRef contextRef = UIGraphicsGetCurrentContext();
 #endif
 	{
@@ -57,14 +57,14 @@ NSString *const MPHImageFont = @"font";
 		CGContextSetAllowsAntialiasing(contextRef, true);
 		CGContextSetShouldAntialias(contextRef, true);
 
-		UIColor *fillColor = parameters[MPHImageFillColor] ?: [UIColor blackColor];
+		UIColor *fillColor = parameters[MPHImageFillColor] ?: [UIColor clearColor];
 		CGContextSetFillColorWithColor(contextRef, fillColor.CGColor);
 		CGContextFillEllipseInRect(contextRef, ellipsesRect);
 
 		UIColor *strokeColor = parameters[MPHImageStrokeColor];
 		if (strokeColor) {
 			CGContextSetLineWidth(contextRef, strokeWidth);
-			CGContextSetStrokeColorWithColor(contextRef, strokeColor.CGColor); NSLog(@"%@", strokeColor.CGColor);
+			CGContextSetStrokeColorWithColor(contextRef, strokeColor.CGColor);
 			CGContextStrokeEllipseInRect(contextRef, ellipsesRect);
 		}
 
@@ -81,13 +81,13 @@ NSString *const MPHImageFont = @"font";
 			CGContextSetAllowsFontSubpixelQuantization(contextRef, true);
 			CGContextSetShouldSubpixelQuantizeFonts(contextRef, true);
 
-			CGSize textSize = [text sizeWithAttributes:@{ NSFontAttributeName: [font fontWithSize:(font.pointSize / 2.)] }];
+			CGSize textSize = [text sizeWithAttributes:@{ NSFontAttributeName: font }];
 			CGPoint center = CGPointMake((CGRectGetWidth(ellipsesRect) / 2.) - (textSize.width / 2.), (CGRectGetHeight(ellipsesRect) / 2.) - (textSize.height / 2.));
 			center.x += (strokeWidth / 2.) + (strokeWidth / 8.);
 			center.y += (strokeWidth / 2.) + (strokeWidth / 8.) - (strokeWidth / 32.);
 
 			[text drawAtPoint:center withAttributes:@{
-				NSFontAttributeName: [font fontWithSize:(font.pointSize / 2.)],
+				NSFontAttributeName: font,
 				NSForegroundColorAttributeName: (parameters[MPHImageTextColor] ?: [UIColor whiteColor])
 			}];
 		}
@@ -98,6 +98,7 @@ NSString *const MPHImageFont = @"font";
 	}
 #ifdef USE_CGCONTEXT
 	UIGraphicsPopContext();
+	CGContextRelease(contextRef);
 #else
 	UIGraphicsEndImageContext();
 #endif

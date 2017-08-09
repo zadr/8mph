@@ -10,8 +10,6 @@
 
 #import "UIColorAdditions.h"
 
-#import "DDXML.h"
-
 @interface MPHMUNIRouteController () <MPHStopsControllerDelegate>
 @end
 
@@ -81,6 +79,9 @@
 		}
 
 		__strong __typeof__((weakSelf)) strongSelf = weakSelf;
+		if (!strongSelf)
+			return;
+
 		for (NSXMLElement *vehicleElement in [document.rootElement elementsForName:@"vehicle"]) {
 			MPHVehicleLocation *vehicleLocation = [[MPHVehicleLocation alloc] init];
 			vehicleLocation.vehicleIdentifier = [vehicleElement attributeForName:@"id"].stringValue;
@@ -131,6 +132,10 @@
 
 #pragma mark -
 
+- (NSArray *) routesForStop:(id <MPHStop>) stop {
+    return [[MPHAmalgamator amalgamator] routesForStop:stop onService:_route.service];
+}
+
 - (NSArray *) messagesForStop:(id <MPHStop>) stop {
 	return [[MPHAmalgamator amalgamator] messagesForStop:stop ofService:_route.service];
 }
@@ -153,6 +158,13 @@
 
 - (NSArray *) pathsForMap {
 	return [[MPHAmalgamator amalgamator] pathsForRoute:_route];
+}
+
+- (NSArray *) directionTitles {
+	return @[
+		NSLocalizedString(@"Inbound", @"Inbound segment item"),
+		NSLocalizedString(@"Outbound", @"Outbound segment item")
+	];
 }
 
 #pragma mark -

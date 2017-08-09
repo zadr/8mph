@@ -1,12 +1,10 @@
-#import "MPHRouteViewController.h"
+ #import "MPHRouteViewController.h"
 
 #import "MPHAmalgamator.h"
 #import "MPHLocationCenter.h"
 
 #import "MPHRouteMapViewController.h"
 #import "MPHRouteTableViewController.h"
-
-#import "MPHNextBusRoute.h"
 
 #import "MPHRoute.h"
 
@@ -16,7 +14,7 @@
 #define MPHDefaultViewForRoute(route) \
 	[NSString stringWithFormat:@"MPHDefaultViewForRoute-%@", route]
 
-enum {
+typedef NS_ENUM(NSInteger, MPHView) {
 	MPHViewList,
 	MPHViewMap
 };
@@ -60,16 +58,7 @@ enum {
 
 	self.title = _route.name;
 
-	NSMutableArray *items = [NSMutableArray array];
-	if (_route.service == MPHServiceMUNI) {
-		[items addObject:NSLocalizedString(@"Inbound", @"Inbound segment item")];
-		[items addObject:NSLocalizedString(@"Outbound", @"Outbound segment item")];
-	} else if (_route.service == MPHServiceBART) {
-		[items addObject:[_route.name componentsSeparatedByString:@" - "][0]];
-		[items addObject:[_route.name componentsSeparatedByString:@" - "][1]];
-	}
-
-	_segmentedView = [[UISegmentedControl alloc] initWithItems:items];
+	_segmentedView = [[UISegmentedControl alloc] initWithItems:_routeController.directionTitles];
 	_segmentedView.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:MPHDefaultSegmentForRoute(_route.tag)];
 
 	[_segmentedView addTarget:self action:@selector(directionSegmentSelected:) forControlEvents:UIControlEventValueChanged];
@@ -114,7 +103,7 @@ enum {
 
 - (void) viewWillLayoutSubviews {
 	CGRect frame = CGRectZero;
-	frame.size.width = [UIScreen mainScreen].orientedSize.width - 30.;
+	frame.size.width = CGRectGetWidth(self.view.frame) - 30.;
 	if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
 		frame.size.height = 32.;
 	else frame.size.height = 24.;
@@ -135,9 +124,7 @@ enum {
 		frame.size = size;
 		_tableViewController.view.frame = frame;
 		_mapViewContrller.view.frame = frame;
-	} completion:^(id <UIViewControllerTransitionCoordinatorContext> context) {
-		// do nothing
-	}];
+	} completion:nil];
 }
 
 - (BOOL) shouldAutomaticallyForwardAppearanceMethods {
@@ -160,16 +147,18 @@ enum {
 #pragma mark -
 
 - (void) routeController:(id <MPHRouteController>) routeController didLoadPredictionsForDirection:(MPHDirection) direction {
-	if (!(direction == _segmentedView.selectedSegmentIndex || direction == MPHDirectionIgnored))
-		return;
+	BOOL updateForInbound = (direction == MPHDirectionInbound && _segmentedView.selectedSegmentIndex == 0);
+	BOOL updateForOutbound = (direction == MPHDirectionOutbound && _segmentedView.selectedSegmentIndex == 1);
+	BOOL update = direction == MPHDirectionIgnored;
 
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[_tableViewController.tableView reloadData];
-	});
+	if (updateForInbound || updateForOutbound || update)
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[_tableViewController.tableView reloadData];
+		});
 }
-
+// the display of data about a route, ,  from an
 - (void) routeControllerDidLoadVehicleLocations:(id <MPHRouteController>) routeController {
-
+	
 }
 
 #pragma mark -

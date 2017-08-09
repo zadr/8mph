@@ -14,6 +14,8 @@
 
 	window.rootViewController = [[UINavigationController alloc] initWithRootViewController:servicesTableViewController];
 
-	[servicesTableViewController tableView:servicesTableViewController.tableView didSelectRowAtIndexPath:selectedIndexPath];
+	[UIView performWithoutAnimation:^{
+		[servicesTableViewController tableView:servicesTableViewController.tableView didSelectRowAtIndexPath:selectedIndexPath];
+	}];
 }
 @end

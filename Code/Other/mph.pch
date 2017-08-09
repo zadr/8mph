@@ -13,9 +13,8 @@
 #else
 	#import <UIKit/UIKit.h>
 	#import "UIColorAdditions.h"
-	#import "UIScreenAdditions.h"
 
-	#import "DDXML.h"
+	#import <KissXML/KissXML.h>
 
 	#define NSXMLNode DDXMLNode
 	#define NSXMLElement DDXMLElement

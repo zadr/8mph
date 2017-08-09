@@ -8,7 +8,7 @@
 
 #import "NSStringAdditions.h"
 
-enum {
+typedef NS_ENUM(NSInteger, MPHRuleTimeRow) {
 	MPHRuleTimeRowDayOfTheWeek,
 	MPHRuleTimeRowStartTime,
 	MPHRuleTimeRowDuration,

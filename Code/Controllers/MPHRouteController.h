@@ -15,10 +15,13 @@
 
 - (id <MPHStop>) nearestStopForDirection:(MPHDirection) direction;
 
+- (NSArray *) routesForStop:(id <MPHStop>) stop;
 - (NSArray *) messagesForStop:(id <MPHStop>) stop;
 - (NSArray *) predictionsForStop:(id <MPHStop>) stop;
 - (NSArray *) stopsForDirection:(MPHDirection) direction;
 - (NSArray *) pathsForMap;
+
+- (NSArray *) directionTitles;
 
 #if TARGET_OS_IPHONE
 @property (nonatomic, readonly) UIColor *color;

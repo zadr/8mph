@@ -15,8 +15,6 @@
 
 #import "MPHPredictions.h"
 
-#import "DDXML.h"
-
 @implementation MPHBARTRouteController {
 	NSArray *_stops;
 	NSArray *_inboundStops;
@@ -133,6 +131,10 @@
 
 #pragma mark -
 
+- (NSArray *) routesForStop:(id <MPHStop>) stop {
+	return [[MPHAmalgamator amalgamator] routesForStop:stop onService:_route.service];
+}
+
 - (NSArray *) messagesForStop:(id <MPHStop>) stop {
 	return [[MPHAmalgamator amalgamator] messagesForStop:stop ofService:_route.service];
 }
@@ -147,6 +149,13 @@
 
 - (NSArray *) pathsForMap {
 	return [[MPHAmalgamator amalgamator] pathsForRoute:_route];
+}
+
+- (NSArray *) directionTitles {
+	return @[
+		[_route.name componentsSeparatedByString:@" - "][0],
+		[_route.name componentsSeparatedByString:@" - "][1]
+	];
 }
 
 #pragma mark -

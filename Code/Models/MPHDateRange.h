@@ -1,4 +1,4 @@
-typedef enum {
+typedef NS_ENUM(NSInteger, MPHRuleDay) {
 	MPHRuleDayMonday = 1,
 	MPHRuleDayTuesday = 2,
 	MPHRuleDayWednesday = 4,
@@ -10,7 +10,7 @@ typedef enum {
 	MPHRuleWeekday = (MPHRuleDayMonday | MPHRuleDayTuesday | MPHRuleDayWednesday | MPHRuleDayThursday | MPHRuleDayFriday),
 	MPHRuleWeekend = (MPHRuleDaySaturday | MPHRuleDaySunday),
 	MPHRuleDaily = (MPHRuleWeekday | MPHRuleWeekend)
-} MPHRuleDays;
+};
 
 //
 // NSDateFormatterFullStyle = Monday

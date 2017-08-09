@@ -8,9 +8,7 @@
 
 #import "MPHAlertsTableViewController.h"
 
-#import "MPHNextBusRoute.h"
-#import "MPHBARTRoute.h"
-#import "MPH511Route.h"
+#import "MPHRoute.h"
 
 #import "UIColorAdditions.h"
 
@@ -29,9 +27,7 @@
 		return nil;
 
 	_service = service;
-	if (service == MPHServiceMUNI)
-		_routes = [[[[MPHAmalgamator amalgamator] routesForService:service] sortedArrayUsingComparator:compareMUNIRoutes] copy];
-	else _routes = [[[[MPHAmalgamator amalgamator] routesForService:service] sortedArrayUsingComparator:compareStopsByTitle] copy];
+	_routes = [[[MPHAmalgamator amalgamator] routesForService:service sorted:YES] copy];
 	_imageGenerator = [[MPHImageGenerator alloc] init];
 
 	return self;
@@ -56,19 +52,9 @@
 - (void) viewWillAppear:(BOOL) animated {
 	[super viewWillAppear:animated];
 
-	if (_service == MPHServiceBART) {
-		self.title = NSLocalizedString(@"BART", @"BART title");
-		self.navigationController.navigationBar.barTintColor = [UIColor BARTColor];
-		self.navigationController.toolbar.tintColor = [UIColor BARTColor];
-	} else if (_service == MPHServiceMUNI) {
-		self.title = NSLocalizedString(@"MUNI", @"MUNI title");
-		self.navigationController.navigationBar.barTintColor = [UIColor MUNIColor];;
-		self.navigationController.toolbar.tintColor = [UIColor MUNIColor];
-	} else if (_service == MPHServiceCaltrain) {
-		self.title = NSLocalizedString(@"Caltrain", @"Caltrain title");
-		self.navigationController.navigationBar.tintColor = [UIColor caltrainColor];;
-		self.navigationController.toolbar.tintColor = [UIColor caltrainColor];
-	}
+	self.title = NSStringFromMPHService(_service);
+	self.navigationController.navigationBar.barTintColor = UIColorForMPHService(_service);
+	self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
 	self.navigationController.toolbar.barTintColor = [UIColor lightTextColor];
 }
 
@@ -99,39 +85,30 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 	}
 
-	id route = nil;
+	id <MPHRoute> route = nil;
 	if ([self _sectionIsNearbyStops:indexPath.section])
 		route = [_nearbyRoutes objectAtSignedIndex:indexPath.row];
 	else route = [_routes objectAtSignedIndex:indexPath.row];
 
-	if (_service == MPHServiceMUNI) {
-		MPHNextBusRoute *MUNIRoute = (MPHNextBusRoute *)route;
-		NSRange dashRange = [MUNIRoute.title rangeOfString:@"-"];
-		if (dashRange.location != NSNotFound)
-			cell.textLabel.text = [MUNIRoute.title substringFromIndex:dashRange.location + dashRange.length];
-		else cell.textLabel.text = MUNIRoute.title;
-		cell.imageView.image = _cachedRouteImages[MUNIRoute.title];
+	NSRange dashRange = [route.name rangeOfString:@"-"];
+	if (dashRange.location != NSNotFound)
+		cell.textLabel.text = [route.name substringFromIndex:dashRange.location + dashRange.length];
+	else cell.textLabel.text = route.name;
+	cell.imageView.image = _cachedRouteImages[route.name];
 
-		if (!cell.imageView.image) {
-			NSString *text = dashRange.location != NSNotFound ? [MUNIRoute.title substringToIndex:dashRange.location] : MUNIRoute.tag;
-			UIImage *image = [_imageGenerator generateImageWithParameters:@{
-				MPHImageFillColor: MUNIRoute.color,
-				MPHImageText: text,
-				MPHImageFont: text.length <= 3 ? text.length == 3 ? [UIFont systemFontOfSize:24.] : [UIFont systemFontOfSize:28.] : [UIFont systemFontOfSize:20.],
-				MPHImageRadius: @(30.)
-			}];
-			_cachedRouteImages[MUNIRoute.title] = image;
+	if (!cell.imageView.image) {
+		NSString *text = dashRange.location != NSNotFound ? [route.name substringToIndex:dashRange.location] : route.tag;
+		UIImage *image = [_imageGenerator generateImageWithParameters:@{
+			MPHImageFillColor: route.color,
+			MPHImageText: text,
+			MPHImageFont: text.length <= 3 ? (text.length == 3 ? [UIFont systemFontOfSize:24] : [UIFont systemFontOfSize:28]) : [UIFont systemFontOfSize:22],
+			MPHImageRadius: @(35)
+		}];
+		_cachedRouteImages[route.name] = image;
 
-			cell.imageView.image = image;
-			cell.imageView.transform = CGAffineTransformMakeScale(.3, .3);
-			cell.separatorInset = UIEdgeInsetsMake(0., 64., 0., 0.);
-		}
-	} else if (_service == MPHServiceBART) {
-		MPHBARTRoute *BARTRoute = (MPHBARTRoute *)route;
-		cell.textLabel.text = BARTRoute.name;
-	} else if (_service == MPHServiceCaltrain) {
-		MPH511Route *caltrainRoute = (MPH511Route *)route;
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", caltrainRoute.name, caltrainRoute.directionName].capitalizedString;
+		cell.imageView.contentMode = UIViewContentModeCenter;
+		cell.imageView.image = image;
+		cell.imageView.transform = CGAffineTransformMakeScale(.5, .5);
 	}
 
 	return cell;
