@@ -1,3 +1,8 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
+#import "MPHDefines.h"
+
 @interface MPHMessage : NSObject
 @property MPHService service;
 
@@ -15,7 +20,7 @@
 
 @property (nonatomic, readonly) BOOL hasDetails;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIColor *) colorForAffectedLine:(NSString *) line;
 #endif
 @end

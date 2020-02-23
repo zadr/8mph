@@ -1,3 +1,5 @@
+#import <MapKit/MapKit.h>
+
 #import "CLLocationAdditions.h"
 
 NSString *NSStringFromCLLocationCoordinate2D(CLLocationCoordinate2D coordinate) {

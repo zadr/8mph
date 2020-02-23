@@ -14,14 +14,14 @@
 	#import <UIKit/UIKit.h>
 	#import "UIColorAdditions.h"
 
-	#import <KissXML/KissXML.h>
+	#import "DDXML.h"
 
 	#define NSXMLNode DDXMLNode
-	#define NSXMLElement DDXMLElement
-	#define NSXMLDocument DDXMLDocument
-	#define NSXMLDocumentKind DDXMLDocumentKind
+	#define DDXMLElement DDXMLElement
+	#define DDXMLDocument DDXMLDocument
+	#define DDXMLDocumentKind DDXMLDocumentKind
 	#define NSXMLInvalidKind DDXMLInvalidKind
-	#define NSXMLElementKind DDXMLElementKind
+	#define DDXMLElementKind DDXMLElementKind
 	#define NSXMLAttributeKind DDXMLAttributeKind
 	#define NSXMLNamespaceKind DDXMLNamespaceKind
 	#define NSXMLProcessingInstructionKind DDXMLProcessingInstructionKind
@@ -30,17 +30,17 @@
 	#define NSXMLDTDKind DDXMLDTDKind
 	#define NSXMLEntityDeclarationKind DDXMLEntityDeclarationKind
 	#define NSXMLAttributeDeclarationKind DDXMLAttributeDeclarationKind
-	#define NSXMLElementDeclarationKind DDXMLElementDeclarationKind
+	#define DDXMLElementDeclarationKind DDXMLElementDeclarationKind
 	#define NSXMLNotationDeclarationKind DDXMLNotationDeclarationKind
 	#define NSXMLNodeOptionsNone DDXMLNodeOptionsNone
 	#define NSXMLNodeExpandEmptyElement DDXMLNodeExpandEmptyElement
 	#define NSXMLNodeCompactEmptyElement DDXMLNodeCompactEmptyElement
 	#define NSXMLNodePrettyPrint DDXMLNodePrettyPrint
-	#define NSXMLDocumentXMLKind DDXMLDocumentXMLKind
-	#define NSXMLDocumentXHTMLKind DDXMLDocumentXHTMLKind
-	#define NSXMLDocumentHTMLKind DDXMLDocumentHTMLKind
-	#define NSXMLDocumentTextKind DDXMLDocumentTextKind
-	#define NSXMLDocumentContentKind DDXMLDocumentContentKind
+	#define DDXMLDocumentXMLKind DDXMLDocumentXMLKind
+	#define DDXMLDocumentXHTMLKind DDXMLDocumentXHTMLKind
+	#define DDXMLDocumentHTMLKind DDXMLDocumentHTMLKind
+	#define DDXMLDocumentTextKind DDXMLDocumentTextKind
+	#define DDXMLDocumentContentKind DDXMLDocumentContentKind
 
 #endif
 

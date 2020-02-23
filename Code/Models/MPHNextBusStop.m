@@ -1,5 +1,7 @@
 #import "MPHNextBusStop.h"
 
+#import "CLLocationAdditions.h"
+
 @implementation MPHNextBusStop
 - (NSString *) description {
 	NSMutableString *description = [[super description] mutableCopy];
@@ -32,4 +34,9 @@
 - (id) link {
 	return @(_identifier);
 }
+
+- (MPHService) service {
+	return MPHServiceMUNI;
+}
+
 @end

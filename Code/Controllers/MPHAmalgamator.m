@@ -1,3 +1,6 @@
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
+
 #import "MPHAmalgamator.h"
 
 #import "MPHBARTAmalgamation.h"

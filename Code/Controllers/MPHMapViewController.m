@@ -28,7 +28,6 @@
 	[super viewDidLoad];
 
 	_mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
-//	_mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
 }
 
 - (BOOL) shouldAutorotate {

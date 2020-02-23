@@ -1,5 +1,8 @@
 #import "MPHNextBusPrediction.h"
 
+#import "MPHDefines.h"
+#import "MPHUtilities.h"
+
 @implementation MPHNextBusPrediction {
 	MPHService _service;
 	NSTimeInterval _updatedAt;

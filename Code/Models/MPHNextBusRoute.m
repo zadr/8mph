@@ -1,4 +1,12 @@
+#import <TargetConditionals.h>
+
 #import "MPHNextBusRoute.h"
+
+#import "NSStringAdditions.h"
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#import "UIColorAdditions.h"
+#endif
 
 @implementation MPHNextBusRoute
 - (NSString *) description {
@@ -48,24 +56,25 @@
 		return [UIColor MUNISColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"T-"] || [tag mph_hasCaseInsensitivePrefix:@"KT-"])
 		return [UIColor MUNITColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"1-"] || [tag mph_hasCaseInsensitivePrefix:@"2-"] || [tag mph_hasCaseInsensitivePrefix:@"3-"] || [tag mph_hasCaseInsensitivePrefix:@"5-"] || [tag mph_hasCaseInsensitivePrefix:@"5L-"] || [tag mph_hasCaseInsensitivePrefix:@"6-"] || [tag mph_hasCaseInsensitivePrefix:@"21-"] || [tag mph_hasCaseInsensitivePrefix:@"31-"] || [tag mph_hasCaseInsensitivePrefix:@"38-"] || [tag mph_hasCaseInsensitivePrefix:@"38L-"] || [tag mph_hasCaseInsensitivePrefix:@"71-"] || [tag mph_hasCaseInsensitivePrefix:@"71L-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"1-"] || [tag mph_hasCaseInsensitivePrefix:@"2-"] || [tag mph_hasCaseInsensitivePrefix:@"3-"] || [tag mph_hasCaseInsensitivePrefix:@"5-"] || [tag mph_hasCaseInsensitivePrefix:@"5R-"] || [tag mph_hasCaseInsensitivePrefix:@"6-"] || [tag mph_hasCaseInsensitivePrefix:@"21-"] || [tag mph_hasCaseInsensitivePrefix:@"31-"] || [tag mph_hasCaseInsensitivePrefix:@"38-"] || [tag mph_hasCaseInsensitivePrefix:@"38X-"] || [tag mph_hasCaseInsensitivePrefix:@"7-"] || [tag mph_hasCaseInsensitivePrefix:@"7L-"])
 		return [UIColor MUNIGreenColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"1ax-"] || [tag mph_hasCaseInsensitivePrefix:@"1bx-"] || [tag mph_hasCaseInsensitivePrefix:@"8x-"] || [tag mph_hasCaseInsensitivePrefix:@"8ax-"] || [tag mph_hasCaseInsensitivePrefix:@"8bx-"] || [tag mph_hasCaseInsensitivePrefix:@"16x-"] || [tag mph_hasCaseInsensitivePrefix:@"30x-"] || [tag mph_hasCaseInsensitivePrefix:@"31ax-"] || [tag mph_hasCaseInsensitivePrefix:@"31bx-"] || [tag mph_hasCaseInsensitivePrefix:@"38ax-"] || [tag mph_hasCaseInsensitivePrefix:@"38bx-"] || [tag mph_hasCaseInsensitivePrefix:@"81x-"] || [tag mph_hasCaseInsensitivePrefix:@"82x-"] || [tag mph_hasCaseInsensitivePrefix:@"83x-"] || [tag mph_hasCaseInsensitivePrefix:@"88-"] || [tag mph_hasCaseInsensitivePrefix:@"108-"] || [tag mph_hasCaseInsensitivePrefix:@"nx-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"1ax-"] || [tag mph_hasCaseInsensitivePrefix:@"1bx-"] || [tag mph_hasCaseInsensitivePrefix:@"8-"] || [tag mph_hasCaseInsensitivePrefix:@"8x-"] || [tag mph_hasCaseInsensitivePrefix:@"8ax-"] || [tag mph_hasCaseInsensitivePrefix:@"8bx-"] || [tag mph_hasCaseInsensitivePrefix:@"16x-"] || [tag mph_hasCaseInsensitivePrefix:@"30x-"] || [tag mph_hasCaseInsensitivePrefix:@"31ax-"] || [tag mph_hasCaseInsensitivePrefix:@"31bx-"] || [tag mph_hasCaseInsensitivePrefix:@"38ax-"] || [tag mph_hasCaseInsensitivePrefix:@"38bx-"] || [tag mph_hasCaseInsensitivePrefix:@"81x-"] || [tag mph_hasCaseInsensitivePrefix:@"82x-"] || [tag mph_hasCaseInsensitivePrefix:@"83x-"] || [tag mph_hasCaseInsensitivePrefix:@"88-"] || [tag mph_hasCaseInsensitivePrefix:@"108-"] || [tag mph_hasCaseInsensitivePrefix:@"nx-"])
 		return [UIColor MUNIPinkColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"9-"] || [tag mph_hasCaseInsensitivePrefix:@"9L-"] || [tag mph_hasCaseInsensitivePrefix:@"10-"] || [tag mph_hasCaseInsensitivePrefix:@"12-"] || [tag mph_hasCaseInsensitivePrefix:@"14-"] || [tag mph_hasCaseInsensitivePrefix:@"14L-"] || [tag mph_hasCaseInsensitivePrefix:@"27-"] || [tag mph_hasCaseInsensitivePrefix:@"30-"] || [tag mph_hasCaseInsensitivePrefix:@"41-"] || [tag mph_hasCaseInsensitivePrefix:@"45-"] || [tag mph_hasCaseInsensitivePrefix:@"76X-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"9-"] || [tag mph_hasCaseInsensitivePrefix:@"9R-"] || [tag mph_hasCaseInsensitivePrefix:@"10-"] || [tag mph_hasCaseInsensitivePrefix:@"12-"] || [tag mph_hasCaseInsensitivePrefix:@"14-"] || [tag mph_hasCaseInsensitivePrefix:@"14R-"] || [tag mph_hasCaseInsensitivePrefix:@"14X-"] || [tag mph_hasCaseInsensitivePrefix:@"27-"] || [tag mph_hasCaseInsensitivePrefix:@"30-"] || [tag mph_hasCaseInsensitivePrefix:@"41-"] || [tag mph_hasCaseInsensitivePrefix:@"45-"] || [tag mph_hasCaseInsensitivePrefix:@"76X-"])
 		return [UIColor MUNIVioletColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"17-"] || [tag mph_hasCaseInsensitivePrefix:@"35-"] || [tag mph_hasCaseInsensitivePrefix:@"36-"] || [tag mph_hasCaseInsensitivePrefix:@"37-"] || [tag mph_hasCaseInsensitivePrefix:@"39-"] || [tag mph_hasCaseInsensitivePrefix:@"52-"] || [tag mph_hasCaseInsensitivePrefix:@"56-"] || [tag mph_hasCaseInsensitivePrefix:@"66-"] || [tag mph_hasCaseInsensitivePrefix:@"67-"])
 		return [UIColor MUNIAquaColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"18-"] || [tag mph_hasCaseInsensitivePrefix:@"19-"] || [tag mph_hasCaseInsensitivePrefix:@"22-"] || [tag mph_hasCaseInsensitivePrefix:@"24-"] || [tag mph_hasCaseInsensitivePrefix:@"28-"] || [tag mph_hasCaseInsensitivePrefix:@"29-"] || [tag mph_hasCaseInsensitivePrefix:@"33-"] || [tag mph_hasCaseInsensitivePrefix:@"44-"] || [tag mph_hasCaseInsensitivePrefix:@"49-"])
 		return [UIColor MUNIOrangeColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"23-"] || [tag mph_hasCaseInsensitivePrefix:@"28L-"] || [tag mph_hasCaseInsensitivePrefix:@"43-"] || [tag mph_hasCaseInsensitivePrefix:@"47-"] || [tag mph_hasCaseInsensitivePrefix:@"54-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"23-"] || [tag mph_hasCaseInsensitivePrefix:@"28R-"] || [tag mph_hasCaseInsensitivePrefix:@"43-"] || [tag mph_hasCaseInsensitivePrefix:@"47-"] || [tag mph_hasCaseInsensitivePrefix:@"54-"])
 		return [UIColor MUNIPaleOrangeColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"Powell/Mason"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"PM-Powell/Mason"])
 		return [UIColor MUNIPowellMasonColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"Powell/Hyde"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"PH-Powell/Hyde"])
 		return [UIColor MUNIPowellHydeColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"California"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"C-California"])
 		return [UIColor MUNICaliforniaColor];
+	NSLog(@":( %@", tag);
 	return [UIColor MUNIColor];
 
 }

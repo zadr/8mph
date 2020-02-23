@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHStopsController.h"
 
 @interface MPHMUNIStopsController : MPHStopsController <MPHStopsController>

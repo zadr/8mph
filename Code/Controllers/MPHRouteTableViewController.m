@@ -5,8 +5,12 @@
 
 #import "MPHTableViewCell.h"
 
+#import "MPHDefines.h"
 #import "MPHStop.h"
 #import "MPHPrediction.h"
+
+#import "CLLocationAdditions.h"
+#import "NSArrayAdditions.h"
 
 @implementation MPHRouteTableViewController {
 	BOOL _usesMetric;
@@ -53,13 +57,13 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
-	[self selectNearestStopAnimated:NO];
-
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationDidUpdate:) name:MPHLocationDidUpdateNotification object:nil];
 }
 
 - (void) viewWillAppear:(BOOL) animated {
 	[super viewWillAppear:animated];
+
+	[self selectNearestStopAnimated:NO];
 
 	[self performSelector:@selector(reloadData) withObject:nil afterDelay:30.];
 }
@@ -161,19 +165,19 @@
 		NSDictionary *attributes = nil;
 		if (prediction.minutesETA < 5) {
 			attributes = @{
-				NSForegroundColorAttributeName: [UIColor darkTextColor],
+				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont systemFontOfSize:13.]
 			};
 		} else if (prediction.minutesETA > 45) {
 			attributes = @{
-				NSForegroundColorAttributeName: [UIColor darkTextColor],
+				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont systemFontOfSize:13.]
 			};
 		} else {
 			attributes = @{
-				NSForegroundColorAttributeName: [UIColor darkTextColor],
+				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont systemFontOfSize:13.]
 			};
@@ -237,8 +241,12 @@
 	_nearestStop = [strongRouteController nearestStopForDirection:_selectedDirection];
 	NSInteger nearestStopIndex = [[strongRouteController stopsForDirection:_selectedDirection] indexOfObject:_nearestStop];
 
-	if (nearestStopIndex != NSNotFound && [self.tableView numberOfRowsInSection:0] > nearestStopIndex)
-		[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:nearestStopIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+	for (NSInteger i = 4; i > -1; i--) {
+		if (nearestStopIndex != NSNotFound && (nearestStopIndex - i) >= 0 && [self.tableView numberOfRowsInSection:0] > nearestStopIndex - i) {
+			[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:nearestStopIndex - i inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+			break;
+		}
+	}
 
 	[self reloadData];
 }

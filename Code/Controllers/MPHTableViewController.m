@@ -22,22 +22,6 @@
 	self.tableView.delegate = self;
 }
 
-- (void) viewWillAppear:(BOOL) animated {
-	[super viewWillAppear:animated];
-
-	self.navigationController.hidesBarsOnSwipe = NO;
-	self.navigationController.hidesBarsOnTap = NO;
-	self.navigationController.hidesBarsWhenVerticallyCompact = NO;
-
-	[self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(statusBarActionGestureRecognizer:)];
-}
-
-- (void) viewWillDisappear:(BOOL) animated {
-	[super viewWillDisappear:animated];
-
-	[self.navigationController.barHideOnSwipeGestureRecognizer removeTarget:self action:@selector(statusBarActionGestureRecognizer:)];
-}
-
 - (void) viewDidAppear:(BOOL) animated {
 	[super viewDidAppear:animated];
 
@@ -70,11 +54,4 @@
 	return UIStatusBarAnimationSlide;
 }
 
-#pragma mark -
-
-- (void) statusBarActionGestureRecognizer:(UIGestureRecognizer *) gestureRecognizer {
-	self.shouldHideStatusBar = (self.navigationController.navigationBar.frame.origin.y < 0);
-
-	[self setNeedsStatusBarAppearanceUpdate];
-}
 @end

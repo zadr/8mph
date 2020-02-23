@@ -1,3 +1,6 @@
+#import <TargetConditionals.h>
+#import <MapKit/MapKit.h>
+
 #import "MPHBARTAmalgamation.h"
 
 #import "MPHBARTRoute.h"
@@ -8,12 +11,18 @@
 #import "MPHKeyedDictionary.h"
 
 #import "MPHDefines.h"
+#import "MPHUtilities.h"
 
+#import "CLLocationAdditions.h"
 #import "NSDictionaryAdditions.h"
 #import "NSFileManagerAdditions.h"
+#import "NSStringAdditions.h"
 
 #import "FMDatabase.h"
 #import "FMResultSetMPHAdditions.h"
+
+#import "DDXMLDocument.h"
+#import "DDXMLElement.h"
 
 @implementation MPHBARTAmalgamation {
 	dispatch_queue_t _queue;
@@ -113,10 +122,10 @@
 
 	NSURLRequest *routeListRequest = [self BARTAPIReqestWithURLString:@"http://api.bart.gov/api/route.aspx" parameters:@{ @"cmd": @"routes" }];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:routeListRequest completionHandler:^(NSData *completedRouteListRequestData, NSURLResponse *completedRouteListRequestResponse, NSError *completedRouteListRequestError) {
-		NSXMLDocument *routesDocument = [[NSXMLDocument alloc] initWithData:completedRouteListRequestData options:NSXMLDocumentXMLKind error:nil];
-		NSXMLElement *routesElement = [[routesDocument.rootElement elementsForName:@"routes"] lastObject];
+		DDXMLDocument *routesDocument = [[DDXMLDocument alloc] initWithData:completedRouteListRequestData options:DDXMLDocumentXMLKind error:nil];
+		DDXMLElement *routesElement = [[routesDocument.rootElement elementsForName:@"routes"] lastObject];
 
-		for (NSXMLElement *routeElement in [routesElement elementsForName:@"route"]) {
+		for (DDXMLElement *routeElement in [routesElement elementsForName:@"route"]) {
 			NSString *number = [[[routeElement elementsForName:@"number"] lastObject] stringValue];
 			NSString *routeIdentifier = [[[routeElement elementsForName:@"routeID"] lastObject] stringValue];
 			NSString *update = [NSString stringWithFormat:@"INSERT INTO routes (name, abbreviation, routeIdentifier, number, color) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", [[[routeElement elementsForName:@"name"] lastObject] stringValue], [[[routeElement elementsForName:@"abbr"] lastObject] stringValue], routeIdentifier, number, [[[routeElement elementsForName:@"color"] lastObject] stringValue]];
@@ -126,13 +135,13 @@
 
 			NSURLRequest *routeInformationRequest = [self BARTAPIReqestWithURLString:@"http://api.bart.gov/api/route.aspx" parameters:@{ @"cmd": @"routeInfo", @"route": number }];
 			[[[NSURLSession sharedSession] dataTaskWithRequest:routeInformationRequest completionHandler:^(NSData *completedRouteInformationRequestData, NSURLResponse *completedRouteInformationRequestResponse, NSError *completedRouteInformationRequestError) {
-				NSXMLDocument *routeInformationDocument = [[NSXMLDocument alloc] initWithData:completedRouteInformationRequestData options:NSXMLDocumentXMLKind error:nil];
-				NSXMLElement *routesInformationElement = [[routeInformationDocument.rootElement elementsForName:@"routes"] lastObject];
-				NSXMLElement *routeInformationElement = [[routesInformationElement elementsForName:@"route"] lastObject];
-				NSXMLElement *configElement = [[routeInformationElement elementsForName:@"config"] lastObject];
+				DDXMLDocument *routeInformationDocument = [[DDXMLDocument alloc] initWithData:completedRouteInformationRequestData options:DDXMLDocumentXMLKind error:nil];
+				DDXMLElement *routesInformationElement = [[routeInformationDocument.rootElement elementsForName:@"routes"] lastObject];
+				DDXMLElement *routeInformationElement = [[routesInformationElement elementsForName:@"route"] lastObject];
+				DDXMLElement *configElement = [[routeInformationElement elementsForName:@"config"] lastObject];
 
 				NSMutableString *stations = [NSMutableString string];
-				for (NSXMLElement *stationElement in [configElement elementsForName:@"station"])
+				for (DDXMLElement *stationElement in [configElement elementsForName:@"station"])
 					[stations appendFormat:@"%@`", stationElement.stringValue];
 				[stations deleteCharactersInRange:NSMakeRange(stations.length - 1, 1)];
 
@@ -146,9 +155,9 @@
 
 	NSURLRequest *stationsRequest = [self BARTAPIReqestWithURLString:@"http://api.bart.gov/api/stn.aspx" parameters:@{ @"cmd": @"stns" }];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:stationsRequest completionHandler:^(NSData *completedStationsRequestData, NSURLResponse *completedStationsRequestResponse, NSError *completedStationsRequestError) {
-		NSXMLDocument *stationsDocument = [[NSXMLDocument alloc] initWithData:completedStationsRequestData options:NSXMLDocumentXMLKind error:nil];
-		NSXMLElement *stationsElement = [[stationsDocument.rootElement elementsForName:@"stations"] lastObject];
-		for (NSXMLElement *stationElement in [stationsElement elementsForName:@"station"]) {
+		DDXMLDocument *stationsDocument = [[DDXMLDocument alloc] initWithData:completedStationsRequestData options:DDXMLDocumentXMLKind error:nil];
+		DDXMLElement *stationsElement = [[stationsDocument.rootElement elementsForName:@"stations"] lastObject];
+		for (DDXMLElement *stationElement in [stationsElement elementsForName:@"station"]) {
 			NSString *abbreviation = [[[stationElement elementsForName:@"abbr"] lastObject] stringValue];
 			NSString *update = [NSString stringWithFormat:@"INSERT INTO stations (name, abbreviation, latitude, longitude, address, city, county, state, zipcode) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", [[[stationElement elementsForName:@"name"] lastObject] stringValue], abbreviation, [[[stationElement elementsForName:@"gtfs_latitude"] lastObject] stringValue], [[[stationElement elementsForName:@"gtfs_longitude"] lastObject] stringValue], [[[stationElement elementsForName:@"address"] lastObject] stringValue], [[[stationElement elementsForName:@"city"] lastObject] stringValue], [[[stationElement elementsForName:@"county"] lastObject] stringValue], [[[stationElement elementsForName:@"state"] lastObject] stringValue], [[[stationElement elementsForName:@"zipcode"] lastObject] stringValue]];
 			dispatch_sync(self->_queue, ^{
@@ -157,28 +166,28 @@
 
 			NSURLRequest *stationInformationRequest = [self BARTAPIReqestWithURLString:@"http://api.bart.gov/api/stn.aspx" parameters:@{ @"cmd": @"stninfo", @"orig": abbreviation }];
 			[[[NSURLSession sharedSession] dataTaskWithRequest:stationInformationRequest completionHandler:^(NSData *completedStationInformationRequestData, NSURLResponse *completedStationInformationRequestResponse, NSError *completedStationInformationRequestError) {
-				NSXMLDocument *stationDocument = [[NSXMLDocument alloc] initWithData:completedStationInformationRequestData options:NSXMLDocumentXMLKind error:nil];
-				NSXMLElement *stationsInformationElement = [[stationDocument.rootElement elementsForName:@"stations"] lastObject];
-				NSXMLElement *stationInformationElement = [[stationsInformationElement elementsForName:@"station"] lastObject];
+				DDXMLDocument *stationDocument = [[DDXMLDocument alloc] initWithData:completedStationInformationRequestData options:DDXMLDocumentXMLKind error:nil];
+				DDXMLElement *stationsInformationElement = [[stationDocument.rootElement elementsForName:@"stations"] lastObject];
+				DDXMLElement *stationInformationElement = [[stationsInformationElement elementsForName:@"station"] lastObject];
 
 				NSString *stationInformationElementAbbreviation = [[[stationInformationElement elementsForName:@"abbr"] lastObject] stringValue];
 				NSMutableString *northRoutes = [NSMutableString string];
-				for (NSXMLElement *routeElement in [stationInformationElement elementsForName:@"north_routes"])
+				for (DDXMLElement *routeElement in [stationInformationElement elementsForName:@"north_routes"])
 					[northRoutes appendFormat:@"%@`", routeElement.stringValue];
 				[northRoutes deleteCharactersInRange:NSMakeRange(northRoutes.length - 1, 1)];
 
 				NSMutableString *southRoutes = [NSMutableString string];
-				for (NSXMLElement *routeElement in [stationInformationElement elementsForName:@"south_routes"])
+				for (DDXMLElement *routeElement in [stationInformationElement elementsForName:@"south_routes"])
 					[southRoutes appendFormat:@"%@`", routeElement.stringValue];
 				[southRoutes deleteCharactersInRange:NSMakeRange(southRoutes.length - 1, 1)];
 
 				NSMutableString *northPlatforms = [NSMutableString string];
-				for (NSXMLElement *platformElement in [stationInformationElement elementsForName:@"north_platforms"])
+				for (DDXMLElement *platformElement in [stationInformationElement elementsForName:@"north_platforms"])
 					[northPlatforms appendFormat:@"%@`", platformElement.stringValue];
 				[northPlatforms deleteCharactersInRange:NSMakeRange(northPlatforms.length - 1, 1)];
 
 				NSMutableString *southPlatforms = [NSMutableString string];
-				for (NSXMLElement *platformElement in [stationInformationElement elementsForName:@"south_platforms"])
+				for (DDXMLElement *platformElement in [stationInformationElement elementsForName:@"south_platforms"])
 					[southPlatforms appendFormat:@"%@`", platformElement.stringValue];
 				[southPlatforms deleteCharactersInRange:NSMakeRange(southPlatforms.length - 1, 1)];
 
@@ -201,9 +210,9 @@
 
 			NSURLRequest *stationAccessRequest = [self BARTAPIReqestWithURLString:@"http://api.bart.gov/api/stn.aspx" parameters:@{ @"cmd": @"stnaccess", @"orig": abbreviation, @"l": @"0" }];
 			[[[NSURLSession sharedSession] dataTaskWithRequest:stationAccessRequest completionHandler:^(NSData *completedStationAccessRequestData, NSURLResponse *completedStationAccessRequestResponse, NSError *completedStationAccessRequestError) {
-				NSXMLDocument *stationDocument = [[NSXMLDocument alloc] initWithData:completedStationAccessRequestData options:NSXMLDocumentXMLKind error:nil];
-				NSXMLElement *stationsAccessElement = [[stationDocument.rootElement elementsForName:@"stations"] lastObject];
-				NSXMLElement *stationAccessElement = [[stationsAccessElement elementsForName:@"station"] lastObject];
+				DDXMLDocument *stationDocument = [[DDXMLDocument alloc] initWithData:completedStationAccessRequestData options:DDXMLDocumentXMLKind error:nil];
+				DDXMLElement *stationsAccessElement = [[stationDocument.rootElement elementsForName:@"stations"] lastObject];
+				DDXMLElement *stationAccessElement = [[stationsAccessElement elementsForName:@"station"] lastObject];
 
 				NSString *accessUpdate = [NSString stringWithFormat:@"UPDATE station_data SET parking_flag = \"%@\", bike_flag = \"%@\", bike_station_flag = \"%@\", locker_flag = \"%@\" WHERE abbreviation = \"%@\";", [stationAccessElement attributeForName:@"parking_flag"].stringValue, [stationAccessElement attributeForName:@"bike_flag"].stringValue, [stationAccessElement attributeForName:@"bike_station_flag"].stringValue, [stationAccessElement attributeForName:@"locker_flag"].stringValue, abbreviation];
 				dispatch_sync(self->_queue, ^{
@@ -348,7 +357,7 @@
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
 
 			static NSDateFormatter *dateFormatter = nil;
 			static dispatch_once_t onceToken;
@@ -357,7 +366,7 @@
 				dateFormatter.dateFormat = @"EEE MMM dd yyyy hh:mm a zzz";
 			});
 
-			for (NSXMLElement *bsaElement in [document.rootElement elementsForName:@"bsa"]) {
+			for (DDXMLElement *bsaElement in [document.rootElement elementsForName:@"bsa"]) {
 				NSString *identifier = [bsaElement attributeForName:@"id"].stringValue;
 				if (!identifier.length)
 					identifier = @"null"; // no delays reported

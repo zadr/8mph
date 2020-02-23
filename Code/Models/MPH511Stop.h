@@ -1,3 +1,6 @@
+#import <CoreLocation/CoreLocation.h>
+#import <Foundation/Foundation.h>
+
 #import "MPHStop.h"
 
 @interface MPH511Stop : NSObject <MPHStop>

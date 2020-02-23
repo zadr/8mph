@@ -1,12 +1,16 @@
 #import "MPHAnnotation.h"
 
-@implementation MPHStopAnnotation {
-	id <MPHStop> _stop;
-}
+#import "CLLocationAdditions.h"
+#import "CLPlacemarkAdditions.h"
 
-+ (MPHStopAnnotation *) annotationWithStop:(id <MPHStop>) stop {
+@implementation MPHStopAnnotation
+@synthesize stop = _stop;
+@synthesize route = _route;
+
++ (MPHStopAnnotation *) annotationWithStop:(id <MPHStop>) stop route:(id <MPHRoute>)route {
 	MPHStopAnnotation *annotation = [[MPHStopAnnotation alloc] init];
 	annotation->_stop = stop;
+	annotation->_route = route;
 
 	return annotation;
 }
@@ -16,14 +20,26 @@
 }
 
 - (NSString *) title {
-	if (_stop.name.length)
-		return _stop.name;
-	return NSStringFromCLLocationCoordinate2D(self.coordinate);
+	NSString *title = nil;
+	if (_stop.name.length && _route.tag.length)
+		title = [NSString stringWithFormat:@"%@ @ %@", _route.tag, _stop.name];
+	else if (_stop.name.length)
+		title = _stop.name;
+	else if (_route.tag.length)
+		title = _route.tag;
+	else title = NSStringFromCLLocationCoordinate2D(self.coordinate);
+
+	if (self.titlePrefix.length) {
+		return [NSString stringWithFormat:@"%@ %@", self.titlePrefix, title];
+	}
+
+	return title;
 }
 
-//- (NSString *) subtitle {
-//	return _stop;
-//}
+- (NSString *) subtitle {
+	return self.subtitleText;
+}
+
 #pragma mark -
 
 - (NSUInteger) hash {
@@ -31,7 +47,12 @@
 }
 
 - (BOOL) isEqual:(id) object {
-	return [_stop isEqual:object];
+	if ([object class] != [self class]) {
+		return NO;
+	}
+
+	MPHStopAnnotation *stopAnnotation = (MPHStopAnnotation *)object;
+	return _stop.rowID == stopAnnotation->_stop.rowID;
 }
 @end
 

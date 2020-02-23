@@ -6,6 +6,10 @@
 #import "MPH511Stop.h"
 
 #import "MPHAmalgamator.h"
+#import "MPHUtilities.h"
+
+#import "DDXMLDocument.h"
+#import "DDXMLElement.h"
 
 @implementation MPH511StopsController {
 	NSMutableDictionary *_predictions;
@@ -54,17 +58,17 @@
 			if (!strongSelf->_predictions)
 				strongSelf->_predictions = [NSMutableDictionary dictionary];
 
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-			NSXMLElement *agencyListElement = [document.rootElement elementsForName:@"AgencyList"].lastObject;
-			NSXMLElement *agencyElement = [agencyListElement elementsForName:@"Agency"].lastObject;
-			NSXMLElement *routeListElement = [agencyElement elementsForName:@"RouteList"].lastObject;
-			for (NSXMLElement *routeElement in [routeListElement elementsForName:@"Route"]) {
-				for (NSXMLElement *routeDirectionListElement in [routeElement elementsForName:@"RouteDirectionList"]) {
-					for (NSXMLElement *routeDirectionElement in [routeDirectionListElement elementsForName:@"RouteDirection"]) {
-						for (NSXMLElement *stopListElement in [routeDirectionElement elementsForName:@"StopList"]) {
-							for (NSXMLElement *stopElement in [stopListElement elementsForName:@"Stop"]) {
-								for (NSXMLElement *departureTimeListElement in [stopElement elementsForName:@"DepartureTimeList"]) {
-									for (NSXMLElement *departureTimeElement in [departureTimeListElement elementsForName:@"DepartureTime"]) {
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+			DDXMLElement *agencyListElement = [document.rootElement elementsForName:@"AgencyList"].lastObject;
+			DDXMLElement *agencyElement = [agencyListElement elementsForName:@"Agency"].lastObject;
+			DDXMLElement *routeListElement = [agencyElement elementsForName:@"RouteList"].lastObject;
+			for (DDXMLElement *routeElement in [routeListElement elementsForName:@"Route"]) {
+				for (DDXMLElement *routeDirectionListElement in [routeElement elementsForName:@"RouteDirectionList"]) {
+					for (DDXMLElement *routeDirectionElement in [routeDirectionListElement elementsForName:@"RouteDirection"]) {
+						for (DDXMLElement *stopListElement in [routeDirectionElement elementsForName:@"StopList"]) {
+							for (DDXMLElement *stopElement in [stopListElement elementsForName:@"Stop"]) {
+								for (DDXMLElement *departureTimeListElement in [stopElement elementsForName:@"DepartureTimeList"]) {
+									for (DDXMLElement *departureTimeElement in [departureTimeListElement elementsForName:@"DepartureTime"]) {
 										MPH511Prediction *prediction = [NSURLRequest predictionFromDepartureTimeElement:departureTimeElement inRouteDirectionElement:routeDirectionElement];
 
 										NSMutableDictionary *stopsPredictions = strongSelf->_predictions[stop.name] ?: [NSMutableDictionary dictionary];
@@ -104,7 +108,7 @@
 		id <MPHPrediction> anyPrediction = [object lastObject];
 		NSString *stationString = [NSString stringWithFormat:@"\n • %@: ", anyPrediction.route.capitalizedString];
 		NSAttributedString *station = [[NSAttributedString alloc] initWithString:stationString attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
 		}];
 		[text appendAttributedString:station];
@@ -124,7 +128,7 @@
 				};
 			} else {
 				attributes = @{
-					NSForegroundColorAttributeName: [UIColor darkTextColor],
+					NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 					NSFontAttributeName: [UIFont systemFontOfSize:13.]
 				};
 			}
@@ -147,7 +151,7 @@
 		[text deleteCharactersInRange:NSMakeRange(0, 1)];
 	else {
 		text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 			NSFontAttributeName: [UIFont systemFontOfSize:13.]
 		}];
 	}

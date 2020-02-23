@@ -1,3 +1,5 @@
+#import <TargetConditionals.h>
+
 #import "MPHBARTPrediction.h"
 
 #if TARGET_OS_IPHONE

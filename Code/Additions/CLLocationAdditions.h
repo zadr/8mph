@@ -1,3 +1,6 @@
+#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+
 #define MPHDistanceKilometersPerFoot 0.0003048
 #define MPHDistanceFeetPerMeter 3.28084
 #define MPHDistanceMilesPerFoot 5280

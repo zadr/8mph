@@ -1,3 +1,5 @@
+#import <TargetConditionals.h>
+
 #import "MPHPredictions.h"
 
 #import "MPHBARTPrediction.h"
@@ -8,6 +10,10 @@
 #import "MPHNextBusStop.h"
 
 #import "MPH511Prediction.h"
+
+#import "NSStringAdditions.h"
+
+#import "DDXMLElement.h"
 
 @implementation NSURLRequest (Predictions)
 + (NSURLRequest *) nextBusPredictionsForStops:(NSArray *) stops onRoute:(id <MPHRoute>) route {
@@ -39,7 +45,7 @@
 	return [NSString mph_requestWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&%@", stopsParameter];
 }
 
-+ (MPHNextBusPrediction *) predictionFromXMLElement:(NSXMLElement *) predictionElement onRoute:(MPHNextBusRoute *) route withPredictionsElement:(NSXMLElement *) predictionsElement {
++ (MPHNextBusPrediction *) predictionFromXMLElement:(DDXMLElement *) predictionElement onRoute:(MPHNextBusRoute *) route withPredictionsElement:(DDXMLElement *) predictionsElement {
 	MPHNextBusPrediction *prediction = [[MPHNextBusPrediction alloc] init];
 	prediction.stopTag = [predictionsElement attributeForName:@"stopTag"].stringValue;
 	prediction.service = route.service;
@@ -56,7 +62,7 @@
 
 #pragma mark -
 
-+ (MPHBARTPrediction *) predictionFromETDElement:(NSXMLElement *) etdElement estimateElement:(NSXMLElement *) estimateElement atStation:(nullable MPHBARTStation *) station {
++ (MPHBARTPrediction *) predictionFromETDElement:(DDXMLElement *) etdElement estimateElement:(DDXMLElement *) estimateElement atStation:(nullable MPHBARTStation *) station {
 	MPHBARTPrediction *prediction = [[MPHBARTPrediction alloc] init];
 	prediction.destination = [[[etdElement elementsForName:@"destination"] lastObject] stringValue];
 	prediction.abbreviation = [[[etdElement elementsForName:@"abbreviation"] lastObject] stringValue];
@@ -109,13 +115,13 @@
 	return array;
 }
 
-+ (MPH511Prediction *) predictionFromDepartureTimeElement:(NSXMLElement *) departureTimeElement inRouteDirectionElement:(NSXMLElement *) routeDirectionElement {
++ (MPH511Prediction *) predictionFromDepartureTimeElement:(DDXMLElement *) departureTimeElement inRouteDirectionElement:(DDXMLElement *) routeDirectionElement {
 	MPH511Prediction *prediction = [[MPH511Prediction alloc] init];
 	prediction.routeCode = [routeDirectionElement attributeForName:@"Code"].stringValue;
 	prediction.routeName = [routeDirectionElement attributeForName:@"Name"].stringValue;
 
-	NSXMLElement *stopListElement = [routeDirectionElement elementsForName:@"StopList"].lastObject;
-	NSXMLElement *stopElement = [stopListElement elementsForName:@"Stop"].lastObject;
+	DDXMLElement *stopListElement = [routeDirectionElement elementsForName:@"StopList"].lastObject;
+	DDXMLElement *stopElement = [stopListElement elementsForName:@"Stop"].lastObject;
 	prediction.stopCode = [stopElement attributeForName:@"StopCode"].stringValue;
 	prediction.stopName = [stopElement attributeForName:@"name"].stringValue;
 

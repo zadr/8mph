@@ -8,6 +8,8 @@
 
 #import "MPHRoute.h"
 
+#import "UIColorAdditions.h"
+
 #define MPHDefaultSegmentForRoute(route) \
 	[NSString stringWithFormat:@"MPHDefaultSegmentForRoute-%@", route]
 
@@ -42,6 +44,12 @@ typedef NS_ENUM(NSInteger, MPHView) {
 	_mapViewContrller = [[MPHRouteMapViewController alloc] initWithRouteController:_routeController];
 
 	MPHDirection selectedDirection = (MPHDirection)[[NSUserDefaults standardUserDefaults] integerForKey:MPHDefaultSegmentForRoute(_route.tag)];
+
+	// first time visiting a route
+	if (selectedDirection == MPHDirectionNone) {
+		selectedDirection = MPHDirectionInbound;
+	}
+
 	[_tableViewController directionSelected:selectedDirection];
 
 	return self;
@@ -54,7 +62,7 @@ typedef NS_ENUM(NSInteger, MPHView) {
 
 	self.navigationController.navigationBar.barTintColor = _routeController.color.mph_darkenedColor;
 	self.navigationController.toolbar.tintColor = _routeController.color.mph_darkenedColor;
-	self.navigationController.toolbar.barTintColor = [UIColor lightTextColor];
+	self.navigationController.toolbar.barTintColor = [UIColor secondarySystemBackgroundColor];
 
 	self.title = _route.name;
 
@@ -77,9 +85,9 @@ typedef NS_ENUM(NSInteger, MPHView) {
 		[self.navigationController setToolbarHidden:NO animated:YES];
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(flipViewsAround:)];
 
+		[self.view addSubview:_mapViewContrller.mapView];
 		[self.view addSubview:_tableViewController.tableView];
 
-		_tableViewController.tableView.frame = self.view.bounds;
 		break;
 	case MPHViewMap:
 		[self.navigationController setToolbarHidden:YES animated:YES];
@@ -88,17 +96,15 @@ typedef NS_ENUM(NSInteger, MPHView) {
 		_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
 		_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
 		_mapViewContrller.mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
-		_mapViewContrller.mapView.frame = self.view.bounds;
 
+		[self.view addSubview:_tableViewController.tableView];
 		[self.view addSubview:_mapViewContrller.mapView];
+
 		break;
 	}
-}
 
-- (void) viewWillAppear:(BOOL) animated {
-	[super viewWillAppear:animated];
-
-	[self.navigationController setToolbarHidden:NO animated:YES];
+	_tableViewController.tableView.frame = self.view.bounds;
+	_mapViewContrller.mapView.frame = self.view.bounds;
 }
 
 - (void) viewWillLayoutSubviews {
@@ -108,6 +114,9 @@ typedef NS_ENUM(NSInteger, MPHView) {
 		frame.size.height = 32.;
 	else frame.size.height = 24.;
 	_segmentedView.frame = frame;
+
+	_tableViewController.tableView.frame = self.view.bounds;
+	_mapViewContrller.mapView.frame = self.view.bounds;
 }
 
 - (void) viewWillDisappear:(BOOL) animated {
@@ -164,47 +173,59 @@ typedef NS_ENUM(NSInteger, MPHView) {
 #pragma mark -
 
 - (void) directionSegmentSelected:(id) sender {
-	MPHDirection direction = (MPHDirection)_segmentedView.selectedSegmentIndex;
-	[_tableViewController directionSelected:direction];
-
 	[[NSUserDefaults standardUserDefaults] setInteger:_segmentedView.selectedSegmentIndex forKey:MPHDefaultSegmentForRoute(_route.tag)];
+
+	MPHDirection direction = MPHDirectionNone;
+	if (_segmentedView.selectedSegmentIndex == 0) {
+		direction = MPHDirectionInbound;
+	} else if (_segmentedView.selectedSegmentIndex == 1) {
+		direction = MPHDirectionOutbound;
+	} else {
+		NSAssert(NO, @"Unknown direction selected %@", @(_segmentedView.selectedSegmentIndex));
+	}
+
+	[_tableViewController directionSelected:direction];
 }
 
 - (void) flipViewsAround:(id) sender {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:.25];
+	UIViewAnimationOptions transition = 0;
+	dispatch_block_t animation = NULL;
 
-	if (_tableViewController.tableView.superview) {
-		[self.navigationController setToolbarHidden:YES animated:YES];
-		self.navigationItem.rightBarButtonItem.title = @"Times";
-
+	switch ([[NSUserDefaults standardUserDefaults] integerForKey:MPHDefaultViewForRoute(_route.tag)]) {
+	case MPHViewList: {
+		transition = UIViewAnimationOptionTransitionCurlUp;
 		[[NSUserDefaults standardUserDefaults] setInteger:MPHViewMap forKey:MPHDefaultViewForRoute(_route.tag)];
 
 		_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
 		_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
 
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+		animation = ^{
+			[self.navigationController setToolbarHidden:YES animated:YES];
+			self.navigationItem.rightBarButtonItem.title = @"Times";
 
-		_mapViewContrller.mapView.frame = _tableViewController.tableView.frame;
-
-		[_tableViewController.tableView removeFromSuperview];
-
-		[self.view addSubview:_mapViewContrller.mapView];
-	} else if (_mapViewContrller.mapView.superview) {
-		[self.navigationController setToolbarHidden:NO animated:YES];
-		self.navigationItem.rightBarButtonItem.title = @"Map";
-
-		[[NSUserDefaults standardUserDefaults] setInteger:MPHViewList forKey:MPHDefaultViewForRoute(_route.tag)];
-
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
-
-		_tableViewController.tableView.frame = _mapViewContrller.mapView.frame;
-
-		[_mapViewContrller.mapView removeFromSuperview];
-
-		[self.view addSubview:_tableViewController.tableView];
+			[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
+						   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
+		};
+		break;
 	}
 
-	[UIView commitAnimations];
+	case MPHViewMap: {
+		transition = UIViewAnimationOptionTransitionCurlDown;
+		[[NSUserDefaults standardUserDefaults] setInteger:MPHViewList forKey:MPHDefaultViewForRoute(_route.tag)];
+
+		animation = ^{
+			[self.navigationController setToolbarHidden:NO animated:YES];
+			self.navigationItem.rightBarButtonItem.title = @"Map";
+			[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
+						   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
+		};
+	}
+	}
+
+	[UIView transitionWithView:self.view
+					  duration:0.6
+					   options:transition
+					animations:animation
+					completion:NULL];
 }
 @end

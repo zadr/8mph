@@ -9,7 +9,9 @@
 #import "MPHAlertsTableViewController.h"
 
 #import "MPHRoute.h"
+#import "MPHUtilities.h"
 
+#import "NSArrayAdditions.h"
 #import "UIColorAdditions.h"
 
 @implementation MPHRoutesViewController {
@@ -55,7 +57,7 @@
 	self.title = NSStringFromMPHService(_service);
 	self.navigationController.navigationBar.barTintColor = UIColorForMPHService(_service);
 	self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
-	self.navigationController.toolbar.barTintColor = [UIColor lightTextColor];
+	self.navigationController.toolbar.barTintColor = [UIColor secondarySystemBackgroundColor];
 }
 
 #pragma mark -

@@ -1,3 +1,8 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
+#import "MPHDefines.h"
+
 @protocol MPHStop;
 
 extern NSString *NSStringFromMPHService(MPHService service);

@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHRoute.h"
 
 @interface MPHNextBusRoute : NSObject <MPHRoute>

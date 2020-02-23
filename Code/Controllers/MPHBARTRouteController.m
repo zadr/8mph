@@ -15,6 +15,10 @@
 
 #import "MPHPredictions.h"
 
+#import "CLLocationAdditions.h"
+
+#import "DDXMLDocument.h"
+
 @implementation MPHBARTRouteController {
 	NSArray *_stops;
 	NSArray *_inboundStops;
@@ -69,10 +73,10 @@
 			__strong id <MPHRouteControllerDelegate> strongDelegate = weakDelegate;
 			__strong MPHBARTRouteController *strongSelf = weakSelf;
 
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-			NSXMLElement *stationElement = [[document.rootElement elementsForName:@"station"] lastObject];
-			for (NSXMLElement *etdElement in [stationElement elementsForName:@"etd"]) {
-				for (NSXMLElement *estimateElement in [etdElement elementsForName:@"estimate"]) {
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+			DDXMLElement *stationElement = [[document.rootElement elementsForName:@"station"] lastObject];
+			for (DDXMLElement *etdElement in [stationElement elementsForName:@"etd"]) {
+				for (DDXMLElement *estimateElement in [etdElement elementsForName:@"estimate"]) {
 					MPHBARTPrediction *prediction = [NSURLRequest predictionFromETDElement:etdElement estimateElement:estimateElement atStation:nil];
 
 					NSMutableArray *predictions = strongSelf->_predictions[prediction.destination] ?: [NSMutableArray array];

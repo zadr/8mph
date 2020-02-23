@@ -1,6 +1,10 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHRoute.h"
 
 @class MPHRouteController;
+@class MKPolylineRenderer;
+@protocol MKOverlay;
 
 @interface MPHPolylineController : NSObject
 + (MPHPolylineController *) polylineControllerForService:(MPHService) service;

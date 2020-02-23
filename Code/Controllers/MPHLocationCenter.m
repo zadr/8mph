@@ -1,3 +1,9 @@
+#import <TargetConditionals.h>
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#import <UIKit/UIKit.h>
+#endif
+
 #import "MPHLocationCenter.h"
 
 NSString *const MPHLocationDidUpdateNotification = @"MPHLocationDidUpdateNotification";
@@ -24,21 +30,13 @@ NSString *const MPHLocationDidUpdateNotification = @"MPHLocationDidUpdateNotific
 
 	_locationManager = [[CLLocationManager alloc] init];
 	_locationManager.delegate = self;
-#if TARGET_OS_IPHONE
-	_locationManager.activityType = CLActivityTypeAutomotiveNavigation;
-#endif
 	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 	_locationManager.distanceFilter = 10.;
-
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+	_locationManager.activityType = CLActivityTypeAutomotiveNavigation;
 	_locationManager.pausesLocationUpdatesAutomatically = YES;
 	_locationManager.activityType = CLActivityTypeOtherNavigation;
-#endif
 
-	[_locationManager startUpdatingLocation];
-	[_locationManager startMonitoringSignificantLocationChanges];
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 	__weak typeof(self) weakSelf = self;
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *n) {
 		__strong typeof(weakSelf) strongSelf = weakSelf;
@@ -52,6 +50,9 @@ NSString *const MPHLocationDidUpdateNotification = @"MPHLocationDidUpdateNotific
 		[strongSelf->_locationManager startMonitoringSignificantLocationChanges];
 	}];
 #endif
+
+	[_locationManager startUpdatingLocation];
+	[_locationManager startMonitoringSignificantLocationChanges];
 
 	return self;
 }

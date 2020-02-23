@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHAmalgamation.h"
 
 // Note on paths:

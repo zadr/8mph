@@ -1,5 +1,7 @@
 #import "MPHBARTStation.h"
 
+#import "CLLocationAdditions.h"
+
 @implementation MPHBARTStation
 - (NSString *) description {
 	NSMutableString *description = [[super description] mutableCopy];
@@ -39,4 +41,9 @@
 - (NSString *) routeTag {
 	return nil;
 }
+
+- (MPHService) service {
+	return MPHServiceBART;
+}
+
 @end

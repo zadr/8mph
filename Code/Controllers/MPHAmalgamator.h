@@ -1,3 +1,6 @@
+#import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
+
 #import "MPHRoute.h"
 #import "MPHStop.h"
 

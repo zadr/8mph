@@ -8,7 +8,11 @@
 #import "MPHLocationCenter.h"
 #import "MPHVehicleLocation.h"
 
+#import "CLLocationAdditions.h"
+
 #import "UIColorAdditions.h"
+
+#import "DDXMLDocument.h"
 
 @interface MPHMUNIRouteController () <MPHStopsControllerDelegate>
 @end
@@ -72,9 +76,9 @@
 	NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:URLRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		NSError *xmlError = nil;
-		NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:&xmlError];
+		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:&xmlError];
 		if (!document) {
-			NSLog(@"Error making a NSXMLDocument from vehicle location data: %@, %@", xmlError, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+			NSLog(@"Error making a DDXMLDocument from vehicle location data: %@, %@", xmlError, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 			return;
 		}
 
@@ -82,7 +86,7 @@
 		if (!strongSelf)
 			return;
 
-		for (NSXMLElement *vehicleElement in [document.rootElement elementsForName:@"vehicle"]) {
+		for (DDXMLElement *vehicleElement in [document.rootElement elementsForName:@"vehicle"]) {
 			MPHVehicleLocation *vehicleLocation = [[MPHVehicleLocation alloc] init];
 			vehicleLocation.vehicleIdentifier = [vehicleElement attributeForName:@"id"].stringValue;
 			vehicleLocation.routeTag = [vehicleElement attributeForName:@"routeTag"].stringValue;
@@ -96,7 +100,7 @@
 			strongSelf->_vehicleLocations[vehicleLocation.vehicleIdentifier] = vehicleLocation;
 		}
 
-		NSXMLElement *lastTimeElement = [document.rootElement elementsForName:@"lastTime"].lastObject;
+		DDXMLElement *lastTimeElement = [document.rootElement elementsForName:@"lastTime"].lastObject;
 		strongSelf->_lastVehicleLocationTime = [lastTimeElement attributeForName:@"time"].stringValue.doubleValue;
 
 		__strong __typeof__((strongSelf.delegate)) strongDelegate = strongSelf.delegate;

@@ -9,7 +9,7 @@
 		return nil;
 
 	self.selectionStyle = UITableViewCellSelectionStyleGray;
-	self.textLabel.textColor = [UIColor darkTextColor];
+	self.textLabel.textColor = [UIColor labelColor];
 	self.textLabel.backgroundColor = [UIColor clearColor];
 
 	_subTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -82,7 +82,7 @@
 	_subTextLabel.text = @"";
 	self.textLabel.text = @"";
 	self.detailTextLabel.text = @"";
-	self.textLabel.textColor = [UIColor darkTextColor];
+	self.textLabel.textColor = [UIColor labelColor];
 	self.accessoryType = UITableViewCellAccessoryNone;
 	self.selectionStyle = UITableViewCellSelectionStyleGray;
 

@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @interface NSArray (Additions)
 @property (readonly) NSInteger signedCount;
 

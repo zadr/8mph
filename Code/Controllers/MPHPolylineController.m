@@ -1,6 +1,10 @@
+#import <MapKit/MapKit.h>
+
 #import "MPHPolylineController.h"
 
 #import "MPHAmalgamator.h"
+
+#import "CLLocationAdditions.h"
 
 @implementation MPHPolylineController {
 	NSMutableDictionary *_polylines;

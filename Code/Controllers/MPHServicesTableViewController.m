@@ -6,6 +6,8 @@
 #import "MPHRoutesViewController.h"
 #import "MPHStopsViewController.h"
 
+#import "MPHUtilities.h"
+
 typedef NS_ENUM(NSInteger, MPHSection) {
 	MPHSectionPlanATrip,
 	MPHSectionServices,
@@ -39,7 +41,7 @@ typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 }
 
 - (id) init {
-	return (self = [super initWithStyle:UITableViewStyleGrouped]);
+	return self = [super initWithStyle:UITableViewStyleGrouped];
 }
 
 - (void) viewDidLoad {
@@ -65,21 +67,21 @@ typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 		cell.textLabel.text = NSStringFromMPHService((MPHService)(indexPath.row + 1));
 
 		if (indexPath.row == MPHServiceRowMUNI)
-			cell.imageView.image = [UIImage imageNamed:@"bus-4"];
+			cell.imageView.image = [[UIImage imageNamed:@"bus-4"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		else if (indexPath.row == MPHServiceRowBART)
-			cell.imageView.image = [UIImage imageNamed:@"train-3"];
+			cell.imageView.image = [[UIImage imageNamed:@"train-3"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		else if (indexPath.row == MPHServiceRowCaltrain)
-			cell.imageView.image = [UIImage imageNamed:@"train-2"];
+			cell.imageView.image = [[UIImage imageNamed:@"train-2"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	} else if (indexPath.section == MPHSectionPlanATrip) {
 #if defined(MPH_ENABLE_TRIP_PLANNING)
 		if (indexPath.row == MPHTripPlanningSectionPlan) {
 			cell.textLabel.text = NSLocalizedString(@"Plan A Trip", @"Plan A Trip row title");
-			cell.imageView.image = [UIImage imageNamed:@"directions-3"];
+			cell.imageView.image = [[UIImage imageNamed:@"directions-3"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		} else
 #endif
-			if (indexPath.row == MPHTripPlanningSectionNearby) {
+		if (indexPath.row == MPHTripPlanningSectionNearby) {
 			cell.textLabel.text = NSLocalizedString(@"Nearby", @"Nearby row title");
-			cell.imageView.image = [UIImage imageNamed:@"nearby-3"];
+			cell.imageView.image = [[UIImage imageNamed:@"nearby-3"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		}
 	}
 

@@ -12,6 +12,8 @@
 
 #import "MPHPredictions.h"
 
+#import "CLLocationAdditions.h"
+
 #import "UIColorAdditions.h"
 
 @implementation MPH511RouteController {
@@ -76,11 +78,11 @@
 
 	NSURLRequest *request = [NSURLRequest nextBusPredictionsForStops:stops onRoute:_route];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//		NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:request.responseData options:NSXMLDocumentXMLKind error:nil];
-//		for (NSXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
+//		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:request.responseData options:DDXMLDocumentXMLKind error:nil];
+//		for (DDXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
 //			NSMutableArray *predictions = [NSMutableArray array];
 //
-//			for (NSXMLElement *predictionElement in [[[predictionsElement elementsForName:@"direction"] lastObject] elementsForName:@"prediction"])
+//			for (DDXMLElement *predictionElement in [[[predictionsElement elementsForName:@"direction"] lastObject] elementsForName:@"prediction"])
 //				[predictions addObject:[MPHHTTPRequest predictionFromXMLElement:predictionElement onRoute:_route withPredictionsElement:predictionsElement]];
 //
 //			_predictions[[predictionsElement attributeForName:@"stopTag"].stringValue] = predictions;

@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHPrediction.h"
 
 @interface MPHNextBusPrediction : NSObject <MPHPrediction>

@@ -1,3 +1,5 @@
+#import <UIKit/UIKit.h>
+
 @interface UIColor (Hex)
 + (UIColor *) mph_colorFromHexString:(NSString *) string;
 

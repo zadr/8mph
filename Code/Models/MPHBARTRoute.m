@@ -1,3 +1,5 @@
+#import <TargetConditionals.h>
+
 #import "MPHBARTRoute.h"
 
 @implementation MPHBARTRoute

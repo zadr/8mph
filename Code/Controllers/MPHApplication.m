@@ -1,3 +1,5 @@
+#import <UIKit/UIKit.h>
+
 #import "MPHApplication.h"
 
 #import "MPHURLProtocol.h"
@@ -13,8 +15,6 @@
 - (BOOL) application:(UIApplication *) application didFinishLaunchingWithOptions:(NSDictionary *) options {
 	[NSURLProtocol registerClass:[MPHURLProtocol class]];
 
-	application.statusBarStyle = UIStatusBarStyleLightContent;
-
 	[[UINavigationBar appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] }];
 
 	[MPHLocationCenter locationCenter];
@@ -29,4 +29,5 @@
 
 	return YES;
 }
+
 @end

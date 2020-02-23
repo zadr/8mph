@@ -1,3 +1,4 @@
+#import "NSDictionaryAdditions.h"
 #import "MPHOTPPlanning.h"
 
 NSString *const MPHParameterPlanFromPlaceKey = @"fromPlace"; // lat,long

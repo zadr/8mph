@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MPHStop.h"
 
 @interface MPHNextBusStop : NSObject <MPHStop>

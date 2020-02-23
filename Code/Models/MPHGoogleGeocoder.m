@@ -1,4 +1,7 @@
+#import <TargetConditionals.h>
+
 #import "MPHGoogleGeocoder.h"
+#import "NSStringAdditions.h"
 
 #import <AddressBook/AddressBook.h>
 #import <CoreLocation/CoreLocation.h>

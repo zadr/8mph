@@ -22,4 +22,9 @@
 - (NSString *) routeTag {
 	return _routeCode;
 }
+
+- (MPHService) service {
+	return MPHServiceCaltrain; // todo
+}
+
 @end

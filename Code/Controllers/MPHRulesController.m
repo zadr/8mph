@@ -72,14 +72,14 @@
 		if (!response.responseData.length)
 			return;
 
-		NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:response.responseData options:NSXMLDocumentXMLKind error:nil];
+		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:response.responseData options:DDXMLDocumentXMLKind error:nil];
 		id <MPHRoute> route = [[[strongSelf->_rules lastObject] routes] lastObject];
 
 		[strongSelf->_predictionData removeAllObjects];
 
-		for (NSXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
-			for (NSXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
-				for (NSXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
+		for (DDXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
+			for (DDXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
+				for (DDXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
 					id <MPHPrediction> prediction = [MPHHTTPRequest predictionFromXMLElement:predictionElement onRoute:route withPredictionsElement:predictionsElement];
 					strongSelf->_predictionData[prediction.uniqueIdentifier] = prediction;
 				}

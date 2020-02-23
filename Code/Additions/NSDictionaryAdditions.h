@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @interface NSDictionary (Additions)
 @property (nonatomic, readonly) NSArray *mph_alphabeticallyOrderedKeys;
 

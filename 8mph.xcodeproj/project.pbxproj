@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1951DA941FC0FD8A009E02F2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1951DA931FC0FD8A009E02F2 /* Launch.storyboard */; };
+		19824F8923EFC0EB00D02E05 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1151FB007260062BF42 /* FMDatabasePool.m */; };
+		19824F8A23EFC0EB00D02E05 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1131FB007250062BF42 /* FMDatabaseQueue.m */; };
+		19824F8B23EFC0EB00D02E05 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1111FB007250062BF42 /* FMDatabase.m */; };
+		19824F8C23EFC0EB00D02E05 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE10F1FB007240062BF42 /* FMDatabaseAdditions.m */; };
+		19824F8D23EFC0EB00D02E05 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1141FB007260062BF42 /* FMResultSet.m */; };
+		19AFE1181FB007270062BF42 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE10F1FB007240062BF42 /* FMDatabaseAdditions.m */; };
+		19AFE1191FB007270062BF42 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1111FB007250062BF42 /* FMDatabase.m */; };
+		19AFE11A1FB007270062BF42 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1131FB007250062BF42 /* FMDatabaseQueue.m */; };
+		19AFE11B1FB007270062BF42 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1141FB007260062BF42 /* FMResultSet.m */; };
+		19AFE11C1FB007270062BF42 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1151FB007260062BF42 /* FMDatabasePool.m */; };
+		19AFE12D1FB007580062BF42 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1201FB007580062BF42 /* DDXMLElement.m */; };
+		19AFE12E1FB007580062BF42 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1231FB007580062BF42 /* DDXMLElementAdditions.m */; };
+		19AFE12F1FB007580062BF42 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1241FB007580062BF42 /* DDXMLNode.m */; };
+		19AFE1301FB007580062BF42 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1251FB007580062BF42 /* DDXMLDocument.m */; };
+		19AFE1311FB007580062BF42 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE12B1FB007580062BF42 /* NSString+DDXML.m */; };
+		19D9032B23FB3F54007CDFD9 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1201FB007580062BF42 /* DDXMLElement.m */; };
+		19D9032C23FB3F54007CDFD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1231FB007580062BF42 /* DDXMLElementAdditions.m */; };
+		19D9032D23FB3F54007CDFD9 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1241FB007580062BF42 /* DDXMLNode.m */; };
+		19D9032E23FB3F54007CDFD9 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1251FB007580062BF42 /* DDXMLDocument.m */; };
+		19D9032F23FB3F54007CDFD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE12B1FB007580062BF42 /* NSString+DDXML.m */; };
 		9202A9CD170BE02100EE6B52 /* MPHHoveringButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9202A9CC170BE02000EE6B52 /* MPHHoveringButton.m */; };
 		9202A9D4170E3C7E00EE6B52 /* MPHPopupAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9202A9D3170E3C7E00EE6B52 /* MPHPopupAlertViewController.m */; };
 		9202A9D8170E3CB600EE6B52 /* MPHSoundAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9202A9D7170E3CB600EE6B52 /* MPHSoundAlertViewController.m */; };
@@ -46,7 +67,6 @@
 		9225C7051849C02100B41E32 /* MPH511Prediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9225C7041849C02100B41E32 /* MPH511Prediction.m */; };
 		9225C749184D672400B41E32 /* MPHGoogleGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9225C748184D672400B41E32 /* MPHGoogleGeocoder.m */; };
 		9225C74A184D672400B41E32 /* MPHGoogleGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9225C748184D672400B41E32 /* MPHGoogleGeocoder.m */; };
-		9225C74C184D67E700B41E32 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225C74B184D67E700B41E32 /* AddressBook.framework */; };
 		9225C74E184D67F000B41E32 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225C74D184D67F000B41E32 /* AddressBook.framework */; };
 		92267A3E1873BDDE00FA0713 /* MPHImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 92267A3D1873BDDE00FA0713 /* MPHImageGenerator.m */; };
 		922DD39C15AEA5830011BD23 /* MPHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 922DD39B15AEA5830011BD23 /* MPHTableViewCell.m */; };
@@ -277,65 +297,7 @@
 		92F7C0D3187033DC00FAA65F /* CLPlacemarkAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F7C0D1187033DC00FAA65F /* CLPlacemarkAdditions.m */; };
 		92F7C0D7187152DC00FAA65F /* MKPolylineAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F7C0D6187152DC00FAA65F /* MKPolylineAdditions.m */; };
 		92F7C0D8187152DC00FAA65F /* MKPolylineAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F7C0D6187152DC00FAA65F /* MKPolylineAdditions.m */; };
-		B63812EE1F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E31F3434CE00AE3228 /* FMDatabaseQueue.m */; };
-		B63812EF1F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E31F3434CE00AE3228 /* FMDatabaseQueue.m */; };
-		B63812F01F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E31F3434CE00AE3228 /* FMDatabaseQueue.m */; };
-		B63812F11F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E61F3434CE00AE3228 /* FMDatabaseAdditions.m */; };
-		B63812F21F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E61F3434CE00AE3228 /* FMDatabaseAdditions.m */; };
-		B63812F31F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E61F3434CE00AE3228 /* FMDatabaseAdditions.m */; };
-		B63812F41F3434CE00AE3228 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E71F3434CE00AE3228 /* FMDatabase.m */; };
-		B63812F51F3434CE00AE3228 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E71F3434CE00AE3228 /* FMDatabase.m */; };
-		B63812F61F3434CE00AE3228 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812E71F3434CE00AE3228 /* FMDatabase.m */; };
-		B63812F71F3434CE00AE3228 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EB1F3434CE00AE3228 /* FMDatabasePool.m */; };
-		B63812F81F3434CE00AE3228 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EB1F3434CE00AE3228 /* FMDatabasePool.m */; };
-		B63812F91F3434CE00AE3228 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EB1F3434CE00AE3228 /* FMDatabasePool.m */; };
-		B63812FA1F3434CE00AE3228 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EC1F3434CE00AE3228 /* FMResultSet.m */; };
-		B63812FB1F3434CE00AE3228 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EC1F3434CE00AE3228 /* FMResultSet.m */; };
-		B63812FC1F3434CE00AE3228 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B63812EC1F3434CE00AE3228 /* FMResultSet.m */; };
-		B63812FD1F3434CE00AE3228 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B63812ED1F3434CE00AE3228 /* Info.plist */; };
-		B63812FE1F3434CE00AE3228 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B63812ED1F3434CE00AE3228 /* Info.plist */; };
-		B63812FF1F3434CE00AE3228 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B63812ED1F3434CE00AE3228 /* Info.plist */; };
-		B63813111F343C6000AE3228 /* KissXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63813081F343C5400AE3228 /* KissXML.framework */; };
-		B63813131F343C8500AE3228 /* KissXML.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B63813081F343C5400AE3228 /* KissXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B63813071F343C5400AE3228 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0DCD8DCA1E54A3A3001D9832;
-			remoteInfo = "KissXML (iOS)";
-		};
-		B63813091F343C5400AE3228 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D94131BA1E5CEBE700189BD5;
-			remoteInfo = "KissXML (macOS)";
-		};
-		B638130B1F343C5400AE3228 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D94131D31E5CEC8300189BD5;
-			remoteInfo = "KissXML (tvOS)";
-		};
-		B638130D1F343C5400AE3228 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D94131EC1E5CECC700189BD5;
-			remoteInfo = "KissXML (watchOS)";
-		};
-		B638130F1F343C5A00AE3228 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0DCD8DC91E54A3A3001D9832;
-			remoteInfo = "KissXML (iOS)";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		925C6438193D49800036E314 /* Embed App Extensions */ = {
@@ -354,13 +316,35 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B63813131F343C8500AE3228 /* KissXML.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1951DA931FC0FD8A009E02F2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Launch.storyboard; path = Resources/Launch.storyboard; sourceTree = "<group>"; };
+		19AFE10E1FB007240062BF42 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = Code/External/FMDB/src/FMDatabase.h; sourceTree = SOURCE_ROOT; };
+		19AFE10F1FB007240062BF42 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = Code/External/FMDB/src/FMDatabaseAdditions.m; sourceTree = SOURCE_ROOT; };
+		19AFE1101FB007250062BF42 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = Code/External/FMDB/src/FMDatabaseAdditions.h; sourceTree = SOURCE_ROOT; };
+		19AFE1111FB007250062BF42 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = Code/External/FMDB/src/FMDatabase.m; sourceTree = SOURCE_ROOT; };
+		19AFE1121FB007250062BF42 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = Code/External/FMDB/src/FMResultSet.h; sourceTree = SOURCE_ROOT; };
+		19AFE1131FB007250062BF42 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = Code/External/FMDB/src/FMDatabaseQueue.m; sourceTree = SOURCE_ROOT; };
+		19AFE1141FB007260062BF42 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = Code/External/FMDB/src/FMResultSet.m; sourceTree = SOURCE_ROOT; };
+		19AFE1151FB007260062BF42 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = Code/External/FMDB/src/FMDatabasePool.m; sourceTree = SOURCE_ROOT; };
+		19AFE1161FB007260062BF42 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = Code/External/FMDB/src/FMDatabasePool.h; sourceTree = SOURCE_ROOT; };
+		19AFE1171FB007270062BF42 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = Code/External/FMDB/src/FMDatabaseQueue.h; sourceTree = SOURCE_ROOT; };
+		19AFE11E1FB007580062BF42 /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
+		19AFE11F1FB007580062BF42 /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
+		19AFE1201FB007580062BF42 /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
+		19AFE1221FB007580062BF42 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		19AFE1231FB007580062BF42 /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
+		19AFE1241FB007580062BF42 /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
+		19AFE1251FB007580062BF42 /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
+		19AFE1271FB007580062BF42 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
+		19AFE1281FB007580062BF42 /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
+		19AFE12A1FB007580062BF42 /* NSString+DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDXML.h"; sourceTree = "<group>"; };
+		19AFE12B1FB007580062BF42 /* NSString+DDXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DDXML.m"; sourceTree = "<group>"; };
+		19AFE12C1FB007580062BF42 /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
 		9202A9CB170BE02000EE6B52 /* MPHHoveringButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPHHoveringButton.h; path = Code/Views/MPHHoveringButton.h; sourceTree = "<group>"; };
 		9202A9CC170BE02000EE6B52 /* MPHHoveringButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPHHoveringButton.m; path = Code/Views/MPHHoveringButton.m; sourceTree = "<group>"; };
 		9202A9D2170E3C7E00EE6B52 /* MPHPopupAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPHPopupAlertViewController.h; path = Code/Controllers/MPHPopupAlertViewController.h; sourceTree = "<group>"; };
@@ -573,7 +557,6 @@
 		92A54AB115AD209300F21FC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92A54AB415AD209400F21FC5 /* MPHDataImporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPHDataImporter-Info.plist"; sourceTree = "<group>"; };
 		92A54AB815AD209400F21FC5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		92A54ABA15AD209400F21FC5 /* MPHDataImporter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPHDataImporter-Prefix.pch"; sourceTree = "<group>"; };
 		92A54ABE15AD209400F21FC5 /* MPHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPHAppDelegate.h; sourceTree = "<group>"; };
 		92A54ABF15AD209400F21FC5 /* MPHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPHAppDelegate.m; sourceTree = "<group>"; };
 		92A54AC215AD209400F21FC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -658,19 +641,6 @@
 		92F7C0D1187033DC00FAA65F /* CLPlacemarkAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLPlacemarkAdditions.m; path = Code/Additions/CLPlacemarkAdditions.m; sourceTree = "<group>"; };
 		92F7C0D5187152DC00FAA65F /* MKPolylineAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKPolylineAdditions.h; path = Code/Additions/MKPolylineAdditions.h; sourceTree = "<group>"; };
 		92F7C0D6187152DC00FAA65F /* MKPolylineAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MKPolylineAdditions.m; path = Code/Additions/MKPolylineAdditions.m; sourceTree = "<group>"; };
-		B63812E21F3434CE00AE3228 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		B63812E31F3434CE00AE3228 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		B63812E41F3434CE00AE3228 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		B63812E51F3434CE00AE3228 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		B63812E61F3434CE00AE3228 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		B63812E71F3434CE00AE3228 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		B63812E81F3434CE00AE3228 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		B63812E91F3434CE00AE3228 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		B63812EA1F3434CE00AE3228 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		B63812EB1F3434CE00AE3228 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		B63812EC1F3434CE00AE3228 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		B63812ED1F3434CE00AE3228 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B63813001F343C5400AE3228 /* KissXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KissXML.xcodeproj; path = Code/External/KissXML/KissXML.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -678,11 +648,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B63813111F343C6000AE3228 /* KissXML.framework in Frameworks */,
 				921932F215A010E800BE1D86 /* CoreLocation.framework in Frameworks */,
 				92792EC5193DA10800BF3330 /* MapKit.framework in Frameworks */,
 				92F7C0CF18702C4700FAA65F /* libz.dylib in Frameworks */,
-				9225C74C184D67E700B41E32 /* AddressBook.framework in Frameworks */,
 				929B9FEA15EA245300D2C362 /* QuartzCore.framework in Frameworks */,
 				928346CE15A190CE00528467 /* libxml2.dylib in Frameworks */,
 				921932F415A010F300BE1D86 /* MessageUI.framework in Frameworks */,
@@ -720,6 +688,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19AFE11D1FB007580062BF42 /* KissXML */ = {
+			isa = PBXGroup;
+			children = (
+				19AFE11E1FB007580062BF42 /* DDXMLDocument.h */,
+				19AFE11F1FB007580062BF42 /* DDXML.h */,
+				19AFE1201FB007580062BF42 /* DDXMLElement.m */,
+				19AFE1211FB007580062BF42 /* Additions */,
+				19AFE1241FB007580062BF42 /* DDXMLNode.m */,
+				19AFE1251FB007580062BF42 /* DDXMLDocument.m */,
+				19AFE1261FB007580062BF42 /* Private */,
+				19AFE1281FB007580062BF42 /* DDXMLElement.h */,
+				19AFE1291FB007580062BF42 /* Categories */,
+				19AFE12C1FB007580062BF42 /* DDXMLNode.h */,
+			);
+			name = KissXML;
+			path = Code/External/KissXML/KissXML;
+			sourceTree = "<group>";
+		};
+		19AFE1211FB007580062BF42 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				19AFE1221FB007580062BF42 /* DDXMLElementAdditions.h */,
+				19AFE1231FB007580062BF42 /* DDXMLElementAdditions.m */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		19AFE1261FB007580062BF42 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				19AFE1271FB007580062BF42 /* DDXMLPrivate.h */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		19AFE1291FB007580062BF42 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				19AFE12A1FB007580062BF42 /* NSString+DDXML.h */,
+				19AFE12B1FB007580062BF42 /* NSString+DDXML.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		9202A9CE170E3B4400EE6B52 /* xibs */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +796,7 @@
 		9219325815A0052C00BE1D86 = {
 			isa = PBXGroup;
 			children = (
+				1951DA931FC0FD8A009E02F2 /* Launch.storyboard */,
 				9219326D15A0052C00BE1D86 /* Code */,
 				9219326E15A0052C00BE1D86 /* Resources */,
 				92A54AB215AD209300F21FC5 /* Data Importer */,
@@ -1245,7 +1258,6 @@
 				92A54ABF15AD209400F21FC5 /* MPHAppDelegate.m */,
 				92A54ABE15AD209400F21FC5 /* MPHAppDelegate.h */,
 				92A54AB815AD209400F21FC5 /* main.m */,
-				92A54ABA15AD209400F21FC5 /* MPHDataImporter-Prefix.pch */,
 				92A54ADA15AD27A300F21FC5 /* Frameworks */,
 				92A54AB315AD209400F21FC5 /* Resources */,
 			);
@@ -1367,7 +1379,7 @@
 		92AA468816F9781900A18D04 /* External */ = {
 			isa = PBXGroup;
 			children = (
-				B63813001F343C5400AE3228 /* KissXML.xcodeproj */,
+				19AFE11D1FB007580062BF42 /* KissXML */,
 			);
 			name = External;
 			sourceTree = "<group>";
@@ -1535,32 +1547,19 @@
 		B63812E11F3434CE00AE3228 /* FMDB */ = {
 			isa = PBXGroup;
 			children = (
-				B63812E21F3434CE00AE3228 /* FMDatabase.h */,
-				B63812E31F3434CE00AE3228 /* FMDatabaseQueue.m */,
-				B63812E41F3434CE00AE3228 /* FMResultSet.h */,
-				B63812E51F3434CE00AE3228 /* FMDatabasePool.h */,
-				B63812E61F3434CE00AE3228 /* FMDatabaseAdditions.m */,
-				B63812E71F3434CE00AE3228 /* FMDatabase.m */,
-				B63812E81F3434CE00AE3228 /* FMDatabaseQueue.h */,
-				B63812E91F3434CE00AE3228 /* FMDB.h */,
-				B63812EA1F3434CE00AE3228 /* FMDatabaseAdditions.h */,
-				B63812EB1F3434CE00AE3228 /* FMDatabasePool.m */,
-				B63812EC1F3434CE00AE3228 /* FMResultSet.m */,
-				B63812ED1F3434CE00AE3228 /* Info.plist */,
+				19AFE1161FB007260062BF42 /* FMDatabasePool.h */,
+				19AFE1151FB007260062BF42 /* FMDatabasePool.m */,
+				19AFE1171FB007270062BF42 /* FMDatabaseQueue.h */,
+				19AFE1131FB007250062BF42 /* FMDatabaseQueue.m */,
+				19AFE1111FB007250062BF42 /* FMDatabase.m */,
+				19AFE1101FB007250062BF42 /* FMDatabaseAdditions.h */,
+				19AFE10E1FB007240062BF42 /* FMDatabase.h */,
+				19AFE10F1FB007240062BF42 /* FMDatabaseAdditions.m */,
+				19AFE1121FB007250062BF42 /* FMResultSet.h */,
+				19AFE1141FB007260062BF42 /* FMResultSet.m */,
 			);
 			name = FMDB;
 			path = 8mph/Code/External/FMDB/src/fmdb;
-			sourceTree = "<group>";
-		};
-		B63813011F343C5400AE3228 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B63813081F343C5400AE3228 /* KissXML.framework */,
-				B638130A1F343C5400AE3228 /* KissXML.framework */,
-				B638130C1F343C5400AE3228 /* KissXML.framework */,
-				B638130E1F343C5400AE3228 /* KissXML.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1579,7 +1578,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B63813101F343C5A00AE3228 /* PBXTargetDependency */,
 			);
 			name = 8mph;
 			productName = 8mph;
@@ -1643,17 +1641,12 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 9219325815A0052C00BE1D86;
 			productRefGroup = 9219326415A0052C00BE1D86 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = B63813011F343C5400AE3228 /* Products */;
-					ProjectRef = B63813001F343C5400AE3228 /* KissXML.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9219326215A0052C00BE1D86 /* 8mph */,
@@ -1662,37 +1655,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		B63813081F343C5400AE3228 /* KissXML.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KissXML.framework;
-			remoteRef = B63813071F343C5400AE3228 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B638130A1F343C5400AE3228 /* KissXML.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KissXML.framework;
-			remoteRef = B63813091F343C5400AE3228 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B638130C1F343C5400AE3228 /* KissXML.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KissXML.framework;
-			remoteRef = B638130B1F343C5400AE3228 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B638130E1F343C5400AE3228 /* KissXML.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KissXML.framework;
-			remoteRef = B638130D1F343C5400AE3228 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9219326115A0052C00BE1D86 /* Resources */ = {
@@ -1710,6 +1672,7 @@
 				921D69F71A4F9E6B00D02988 /* Images.xcassets in Resources */,
 				9287E1AF186E5FBE0066BC90 /* car-4.png in Resources */,
 				9287E1EB186E5FFB0066BC90 /* default-568@2x.png in Resources */,
+				1951DA941FC0FD8A009E02F2 /* Launch.storyboard in Resources */,
 				9287E19B186E5FAF0066BC90 /* dumbartonexpress.db in Resources */,
 				9287E197186E5FAF0066BC90 /* bart.db in Resources */,
 				9287E1AB186E5FBE0066BC90 /* bus-4.png in Resources */,
@@ -1719,7 +1682,6 @@
 				9287E1B1186E5FBE0066BC90 /* car-4@2x.png in Resources */,
 				9230EAE7197B701000C1DEA6 /* Twitter.plist in Resources */,
 				9287E1A1186E5FAF0066BC90 /* vta.db in Resources */,
-				B63812FD1F3434CE00AE3228 /* Info.plist in Resources */,
 				9287E1B5186E5FBE0066BC90 /* train-3@2x.png in Resources */,
 				9219328C15A0063E00BE1D86 /* InfoPlist.strings in Resources */,
 				9287E19D186E5FAF0066BC90 /* muni.db in Resources */,
@@ -1733,7 +1695,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B63812FE1F3434CE00AE3228 /* Info.plist in Resources */,
 				92A54AC315AD209400F21FC5 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1755,7 +1716,6 @@
 				9287E1F8186E625A0066BC90 /* train-2@2x.png in Resources */,
 				92AA470216FC0DB600A18D04 /* MPHRulesTableWindowController.xib in Resources */,
 				9287E1E5186E5FCC0066BC90 /* Stoof.aiff in Resources */,
-				B63812FF1F3434CE00AE3228 /* Info.plist in Resources */,
 				92AA472316FC3F0E00A18D04 /* MPHRulesCreationViewController.xib in Resources */,
 				92AA473716FD0C0D00A18D04 /* MPHServiceSelectionView.xib in Resources */,
 				9287E1FC186E67640066BC90 /* directions-3.png in Resources */,
@@ -1819,15 +1779,17 @@
 				9225C65618470B2200B41E32 /* MPHMUNIStopsController.m in Sources */,
 				921932E615A00A6800BE1D86 /* NSFileManagerAdditions.m in Sources */,
 				9287E129186D83E90066BC90 /* MPHOTPPlanning.m in Sources */,
+				19AFE12E1FB007580062BF42 /* DDXMLElementAdditions.m in Sources */,
 				9225C63F1847059800B41E32 /* MPHStopsViewController.m in Sources */,
+				19AFE1301FB007580062BF42 /* DDXMLDocument.m in Sources */,
 				927FC838195178230062BDFB /* MPHVehicleLocation.m in Sources */,
 				921932E815A00C4600BE1D86 /* MPHUtilities.m in Sources */,
 				9225C749184D672400B41E32 /* MPHGoogleGeocoder.m in Sources */,
 				92C0EADF18387F170012DCF6 /* MPHMUNIRouteController.m in Sources */,
 				9225C65018470A8A00B41E32 /* MPHBARTStopsController.m in Sources */,
 				9241088415A1ABC0001F7681 /* MPHTableViewController.m in Sources */,
+				19AFE1191FB007270062BF42 /* FMDatabase.m in Sources */,
 				92B221CA1813687E004FD8A9 /* MPH511Stop.m in Sources */,
-				B63812FA1F3434CE00AE3228 /* FMResultSet.m in Sources */,
 				9241088715A1ABE9001F7681 /* MPHRoutesViewController.m in Sources */,
 				9241088B15A1AE01001F7681 /* MPHNextBusRoute.m in Sources */,
 				92267A3E1873BDDE00FA0713 /* MPHImageGenerator.m in Sources */,
@@ -1845,9 +1807,12 @@
 				92E75D8A15A6B17D00C90116 /* NSArrayAdditions.m in Sources */,
 				92E75D8E15A6B78000C90116 /* MPHPredictions.m in Sources */,
 				92B221C51813686C004FD8A9 /* MPH511Route.m in Sources */,
+				19AFE11A1FB007270062BF42 /* FMDatabaseQueue.m in Sources */,
+				19AFE12F1FB007580062BF42 /* DDXMLNode.m in Sources */,
 				9225C65318470AD200B41E32 /* MPH511StopsController.m in Sources */,
-				B63812F41F3434CE00AE3228 /* FMDatabase.m in Sources */,
 				9295B63F15A6D2B100CB3679 /* MPHNextBusPrediction.m in Sources */,
+				19AFE1181FB007270062BF42 /* FMDatabaseAdditions.m in Sources */,
+				19AFE1311FB007580062BF42 /* NSString+DDXML.m in Sources */,
 				92A54A8515AA4B8800F21FC5 /* MPHMapViewController.m in Sources */,
 				92A54A8815AA4C1500F21FC5 /* MPHRouteController.m in Sources */,
 				92A54A8D15AA4D2300F21FC5 /* MPHRouteTableViewController.m in Sources */,
@@ -1855,23 +1820,23 @@
 				92A54A9815AA799200F21FC5 /* MPHLocationCenter.m in Sources */,
 				922DD39C15AEA5830011BD23 /* MPHTableViewCell.m in Sources */,
 				922DD39F15B15C530011BD23 /* MPHMUNIAmalgamation.m in Sources */,
-				B63812F11F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */,
 				922DD3A315B15C770011BD23 /* MPHBARTAmalgamation.m in Sources */,
 				922DD3AD15B168C60011BD23 /* MPHBARTRoute.m in Sources */,
-				B63812F71F3434CE00AE3228 /* FMDatabasePool.m in Sources */,
 				922DD3B215B16A8B0011BD23 /* MPHBARTStation.m in Sources */,
 				922DD3BA15B208210011BD23 /* MPHServicesTableViewController.m in Sources */,
 				92F7C0D2187033DC00FAA65F /* CLPlacemarkAdditions.m in Sources */,
 				92C0EAE318387F2C0012DCF6 /* MPH511RouteController.m in Sources */,
 				928EA1EB15CFA7CC00382988 /* MPHBARTStationData.m in Sources */,
+				19AFE12D1FB007580062BF42 /* DDXMLElement.m in Sources */,
 				928EA1F215CFBED500382988 /* MPHBARTPrediction.m in Sources */,
 				928EA1F515CFC08000382988 /* UIColorAdditions.m in Sources */,
 				9287E208186E6E5C0066BC90 /* MPHWaypointEntryControl.m in Sources */,
 				928EA1F815CFD3F800382988 /* MPHTripPlannerViewController.m in Sources */,
+				19AFE11C1FB007270062BF42 /* FMDatabasePool.m in Sources */,
 				928EA1FE15CFD68000382988 /* MPHPolylineController.m in Sources */,
 				929B9FDA15EA17D100D2C362 /* MPHNearbyStopsViewController.m in Sources */,
+				19AFE11B1FB007270062BF42 /* FMResultSet.m in Sources */,
 				9225C64D1847074100B41E32 /* MPHStopsController.m in Sources */,
-				B63812EE1F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */,
 				929B9FEE15EA2CFB00D2C362 /* MPHAnnotation.m in Sources */,
 				928E658C15FF1BB6000D4E28 /* MPHPlannedTripViewController.m in Sources */,
 				924740BA160ED80F009132B5 /* MPHNextBusMessage.m in Sources */,
@@ -1890,11 +1855,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19D9032B23FB3F54007CDFD9 /* DDXMLElement.m in Sources */,
+				19D9032C23FB3F54007CDFD9 /* DDXMLElementAdditions.m in Sources */,
+				19D9032D23FB3F54007CDFD9 /* DDXMLNode.m in Sources */,
+				19D9032E23FB3F54007CDFD9 /* DDXMLDocument.m in Sources */,
+				19D9032F23FB3F54007CDFD9 /* NSString+DDXML.m in Sources */,
+				19824F8923EFC0EB00D02E05 /* FMDatabasePool.m in Sources */,
+				19824F8A23EFC0EB00D02E05 /* FMDatabaseQueue.m in Sources */,
+				19824F8B23EFC0EB00D02E05 /* FMDatabase.m in Sources */,
+				19824F8C23EFC0EB00D02E05 /* FMDatabaseAdditions.m in Sources */,
+				19824F8D23EFC0EB00D02E05 /* FMResultSet.m in Sources */,
 				9234421418AF2D2500258AAE /* MPHURLProtocol.m in Sources */,
 				9225C74A184D672400B41E32 /* MPHGoogleGeocoder.m in Sources */,
 				929381781721BE3600CFD252 /* MPHUtilities.m in Sources */,
-				B63812F51F3434CE00AE3228 /* FMDatabase.m in Sources */,
-				B63812F81F3434CE00AE3228 /* FMDatabasePool.m in Sources */,
 				929381771721BE3100CFD252 /* MPHMessage.m in Sources */,
 				929381761721BE2600CFD252 /* MPHNextBusMessage.m in Sources */,
 				929381751721BE2000CFD252 /* MPHKeyedDictionary.m in Sources */,
@@ -1909,14 +1882,11 @@
 				92AF95CF1A538D17006E3152 /* NSDictionaryAdditions.m in Sources */,
 				92A54AD915AD273400F21FC5 /* NSObjectAdditions.m in Sources */,
 				92A54ACB15AD25B900F21FC5 /* NSStringAdditions.m in Sources */,
-				B63812EF1F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */,
 				92A54AB915AD209400F21FC5 /* main.m in Sources */,
 				92A54AC015AD209400F21FC5 /* MPHAppDelegate.m in Sources */,
 				92A54AC715AD211100F21FC5 /* MPHAmalgamator.m in Sources */,
 				922DD3A015B15C530011BD23 /* MPHMUNIAmalgamation.m in Sources */,
-				B63812FB1F3434CE00AE3228 /* FMResultSet.m in Sources */,
 				92B221CB1813687E004FD8A9 /* MPH511Stop.m in Sources */,
-				B63812F21F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */,
 				922DD3A415B15C770011BD23 /* MPHBARTAmalgamation.m in Sources */,
 				928EA1EC15CFA7CC00382988 /* MPHBARTStationData.m in Sources */,
 				92AA46F816FB9E0100A18D04 /* MPH511Amalgamation.m in Sources */,
@@ -1948,7 +1918,6 @@
 				92AA46B116F97EBE00A18D04 /* MPHRouteController.m in Sources */,
 				92AA46B216F97EDB00A18D04 /* MPHAnnotation.m in Sources */,
 				92AA46B316F97EDB00A18D04 /* MPHBARTPrediction.m in Sources */,
-				B63812F91F3434CE00AE3228 /* FMDatabasePool.m in Sources */,
 				92AA46B416F97EDB00A18D04 /* MPHBARTRoute.m in Sources */,
 				92AA46B516F97EDB00A18D04 /* MPHBARTStation.m in Sources */,
 				92AA46B616F97EDB00A18D04 /* MPHBARTStationData.m in Sources */,
@@ -1957,7 +1926,6 @@
 				92AA46B916F97EDB00A18D04 /* MPHNextBusRoute.m in Sources */,
 				92AA46BA16F97EDB00A18D04 /* MPHNextBusStop.m in Sources */,
 				92AA46BC16F97EEA00A18D04 /* MPHPredictions.m in Sources */,
-				B63812FC1F3434CE00AE3228 /* FMResultSet.m in Sources */,
 				92AA46D616F982D000A18D04 /* MPHKeyedDictionary.m in Sources */,
 				92AA46BD16F97EEA00A18D04 /* MPHMessage.m in Sources */,
 				92AA46F116FB9C5300A18D04 /* MPHMenuController.m in Sources */,
@@ -1972,7 +1940,6 @@
 				92AA471F16FC3EEB00A18D04 /* MPHRulesCreationViewController.m in Sources */,
 				92AA472716FC406900A18D04 /* MPHServiceSelectionView.m in Sources */,
 				92AA472A16FC40D000A18D04 /* MPHRouteStopsSelectionView.m in Sources */,
-				B63812F31F3434CE00AE3228 /* FMDatabaseAdditions.m in Sources */,
 				92C0EADC18387F060012DCF6 /* MPHBARTRouteController.m in Sources */,
 				92AA472D16FC40F600A18D04 /* MPHRulesTimeSelectionView.m in Sources */,
 				92AA473016FC425100A18D04 /* MPHAlertTypeSelectionView.m in Sources */,
@@ -1984,7 +1951,6 @@
 				92303D731702CB69002CAF13 /* MPHAlertTypeSelectionViewController.m in Sources */,
 				92303D951703C863002CAF13 /* MPHPreferencesViewController.m in Sources */,
 				92B221CC1813687E004FD8A9 /* MPH511Stop.m in Sources */,
-				B63812F01F3434CE00AE3228 /* FMDatabaseQueue.m in Sources */,
 				9287E135186D87780066BC90 /* MPHOTPPlan.m in Sources */,
 				9204185C170A335800B8E355 /* MPHWindow.m in Sources */,
 				9204185F170A5E8600B8E355 /* MPHDatePicker.m in Sources */,
@@ -1992,7 +1958,6 @@
 				9202A9CD170BE02100EE6B52 /* MPHHoveringButton.m in Sources */,
 				92B221C71813686C004FD8A9 /* MPH511Route.m in Sources */,
 				9202A9D4170E3C7E00EE6B52 /* MPHPopupAlertViewController.m in Sources */,
-				B63812F61F3434CE00AE3228 /* FMDatabase.m in Sources */,
 				9202A9D8170E3CB600EE6B52 /* MPHSoundAlertViewController.m in Sources */,
 				9202A9E2170E3D4500EE6B52 /* MPHRunScriptAlertViewController.m in Sources */,
 				9202A9E5170E3D5700EE6B52 /* MPHFlashScreenAlertViewController.m in Sources */,
@@ -2008,14 +1973,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B63813101F343C5A00AE3228 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "KissXML (iOS)";
-			targetProxy = B638130F1F343C5A00AE3228 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9202A9E9170E403100EE6B52 /* MPHPopupAlertView.xib */ = {
@@ -2204,7 +2161,6 @@
 				GCC_FAST_MATH = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
-				GCC_PREFIX_HEADER = Code/Other/mph.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2225,9 +2181,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LLVM_LTO = YES_THIN;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2261,7 +2215,6 @@
 				GCC_FAST_MATH = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
-				GCC_PREFIX_HEADER = Code/Other/mph.pch;
 				GCC_STRICT_ALIASING = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_THREADSAFE_STATICS = NO;
@@ -2278,9 +2231,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LLVM_LTO = YES_THIN;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
@@ -2292,7 +2243,6 @@
 		9219327C15A0052C00BE1D86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
@@ -2306,12 +2256,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 37EUQ42C7J;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
 				GCC_WARN_SHADOW = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-Wno-objc-missing-property-synthesis",
@@ -2336,7 +2288,6 @@
 		9219327D15A0052C00BE1D86 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
@@ -2351,11 +2302,12 @@
 				DEVELOPMENT_TEAM = 37EUQ42C7J;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
 				GCC_WARN_SHADOW = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
 					"-ObjC",
@@ -2380,9 +2332,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPHDataImporter/MPHDataImporter-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "MPHDataImporter/MPHDataImporter-Info.plist";
+				INFOPLIST_FILE = "Data Importer/MPHDataImporter-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2411,8 +2362,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPHDataImporter/MPHDataImporter-Prefix.pch";
-				INFOPLIST_FILE = "MPHDataImporter/MPHDataImporter-Info.plist";
+				INFOPLIST_FILE = "Data Importer/MPHDataImporter-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",

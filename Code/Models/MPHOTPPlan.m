@@ -1,5 +1,7 @@
 #import "MPHOTPPlan.h"
 
+#import "MKPolylineAdditions.h"
+
 @interface MPHOTPItinerary ()
 @property (readwrite) NSTimeInterval duration; // in milliseconds
 @property (readwrite, copy) NSDate *startTime;

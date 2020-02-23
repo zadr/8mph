@@ -1,3 +1,8 @@
+#import <CoreLocation/CoreLocation.h>
+#import <Foundation/Foundation.h>
+
+#import "MPHDefines.h"
+
 @protocol MPHStop <NSObject, NSCopying>
 @required
 - (NSString *) name;
@@ -9,4 +14,6 @@
 - (id) link;
 
 - (NSString *) routeTag;
+
+- (MPHService)service;
 @end

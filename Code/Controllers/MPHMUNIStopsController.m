@@ -8,6 +8,11 @@
 
 #import "MPHPredictions.h"
 
+#import "MPHUtilities.h"
+
+#import "DDXMLDocument.h"
+#import "DDXMLElement.h"
+
 @implementation MPHMUNIStopsController {
 	NSMutableDictionary *_predictions;
 	NSDate *_lastRequestedPredictionTime;
@@ -71,6 +76,10 @@
 
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 	for (id <MPHStop> stop in self.stops) {
+		if (![stop isKindOfClass:MPHNextBusStop.class]) {
+			continue;
+		}
+
 		NSMutableArray *array = dictionary[stop.routeTag];
 		if (!array) {
 			array = [NSMutableArray array];
@@ -102,12 +111,12 @@
 			if (!strongSelf)
 				return;
 
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-			for (NSXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+			for (DDXMLElement *predictionsElement in [document.rootElement elementsForName:@"predictions"]) {
 				NSMutableArray *predictions = [NSMutableArray array];
 
-				for (NSXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
-					for (NSXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
+				for (DDXMLElement *directionElement in [predictionsElement elementsForName:@"direction"]) {
+					for (DDXMLElement *predictionElement in [directionElement elementsForName:@"prediction"]) {
 						NSString *directionTag = [predictionElement attributeForName:@"dirTag"].stringValue;
 
 						id <MPHRoute> route = [[MPHAmalgamator amalgamator] routeForDirectionTag:directionTag onService:MPHServiceMUNI];

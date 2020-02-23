@@ -5,10 +5,17 @@
 #import "MPHNextBusStop.h"
 
 #import "MPHKeyedDictionary.h"
+#import "MPHUtilities.h"
 
+#import "CLLocationAdditions.h"
 #import "NSFileManagerAdditions.h"
+#import "NSStringAdditions.h"
 
-#import "FMDB.h"
+#import "DDXMLDocument.h"
+#import "DDXMLElement.h"
+
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
 #import "FMResultSetMPHAdditions.h"
 #import <sqlite3.h>
 
@@ -103,22 +110,22 @@
 	routeListRequest.URL = [NSURL URLWithString:@"http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=sf-muni"];
 
 	[[[NSURLSession sharedSession] dataTaskWithRequest:routeListRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-		NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-		for (NSXMLElement *routeElement in [document.rootElement elementsForName:@"route"]) {
+		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+		for (DDXMLElement *routeElement in [document.rootElement elementsForName:@"route"]) {
 			NSMutableURLRequest *routeRequest = [[NSMutableURLRequest alloc] init];
 			NSString *tag = [routeElement attributeForName:@"tag"].stringValue;
 
 			routeRequest.URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=sf-muni&r=%@", [tag mph_stringByPercentEncodingString]]];
 			[[[NSURLSession sharedSession] dataTaskWithRequest:routeRequest completionHandler:^(NSData *successfulRouteRequestData, NSURLResponse *successfulRouteRequestResponse, NSError *successfulRouteRequestError) {
-				NSXMLDocument *innerDocument = [[NSXMLDocument alloc] initWithData:successfulRouteRequestData options:NSXMLDocumentXMLKind error:nil];
-				NSXMLElement *requestRouteElement = [innerDocument.rootElement elementsForName:@"route"].lastObject;
+				DDXMLDocument *innerDocument = [[DDXMLDocument alloc] initWithData:successfulRouteRequestData options:DDXMLDocumentXMLKind error:nil];
+				DDXMLElement *requestRouteElement = [innerDocument.rootElement elementsForName:@"route"].lastObject;
 				NSString *routeTag = [requestRouteElement attributeForName:@"tag"].stringValue;
 				NSString *routeTitle = [requestRouteElement attributeForName:@"title"].stringValue;
 				NSString *inboundRoutes = @"";
 				NSString *outboundRoutes = @"";
 
 				NSMutableDictionary *stops = [NSMutableDictionary dictionary];
-				for (NSXMLElement *stopElement in [requestRouteElement elementsForName:@"stop"]) {
+				for (DDXMLElement *stopElement in [requestRouteElement elementsForName:@"stop"]) {
 					NSMutableDictionary *stop = [NSMutableDictionary dictionary];
 					stop[@"tag"] = [stopElement attributeForName:@"tag"].stringValue;
 					stop[@"title"] = [stopElement attributeForName:@"title"].stringValue;
@@ -129,7 +136,7 @@
 					stops[stop[@"tag"]] = stop;
 				}
 
-				for (NSXMLElement *directionElement in [requestRouteElement elementsForName:@"direction"]) {
+				for (DDXMLElement *directionElement in [requestRouteElement elementsForName:@"direction"]) {
 					NSString *directionTag = [directionElement attributeForName:@"tag"].stringValue;
 					NSString *directionTitle = [directionElement attributeForName:@"title"].stringValue;
 					NSString *directionName = [directionElement attributeForName:@"name"].stringValue;
@@ -146,7 +153,7 @@
 					}
 
 					NSString *stopList = @"";
-					for (NSXMLElement *stopElement in [directionElement elementsForName:@"stop"]) {
+					for (DDXMLElement *stopElement in [directionElement elementsForName:@"stop"]) {
 						NSString *stopTag = [stopElement attributeForName:@"tag"].stringValue;
 						NSDictionary *stopDictionary = stops[stopTag];
 
@@ -175,8 +182,8 @@
 				});
 
 				NSUInteger pathCount = 1;
-				for (NSXMLElement *pathElement in [requestRouteElement elementsForName:@"path"]) {
-					for (NSXMLElement *pointElement in [pathElement elementsForName:@"point"]) {
+				for (DDXMLElement *pathElement in [requestRouteElement elementsForName:@"path"]) {
+					for (DDXMLElement *pointElement in [pathElement elementsForName:@"point"]) {
 						NSString *latitude = [pointElement attributeForName:@"lat"].stringValue;
 						NSString *longitude = [pointElement attributeForName:@"lon"].stringValue;
 						NSString *pointInsert = [NSString stringWithFormat:@"INSERT INTO paths (tag, pathCount, latitude, longitude) VALUES (\"%@\", \"%zd\", \"%@\", \"%@\")", routeTag, pathCount, latitude, longitude];
@@ -297,9 +304,9 @@
 				formatter.dateFormat = @"EEE, MMM d HH:mm:ss zzz yyyy";
 			});
 
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-			for (NSXMLElement *element in [document.rootElement elementsForName:@"route"]) {
-				for (NSXMLElement *messageElement in [element elementsForName:@"message"]) {
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+			for (DDXMLElement *element in [document.rootElement elementsForName:@"route"]) {
+				for (DDXMLElement *messageElement in [element elementsForName:@"message"]) {
 					NSString *identifier = [[messageElement attributeForName:@"id"] stringValue];
 
 					MPHMessage *message = strongSelf->_messages[identifier];
@@ -331,11 +338,11 @@
 						[strongSelf->_affectedStopsPerLine setObject:affectedStops forKey:message.identifier key:line];
 					}
 
-					for (NSXMLElement *routeConfigurationElement in [messageElement elementsForName:@"routeConfiguredForMessage"]) {
+					for (DDXMLElement *routeConfigurationElement in [messageElement elementsForName:@"routeConfiguredForMessage"]) {
 						NSString *tag = [routeConfigurationElement attributeForName:@"tag"].stringValue;
 						[affectedLines addObject:tag];
 
-						for (NSXMLElement *stopElement in [routeConfigurationElement elementsForName:@"stop"]) {
+						for (DDXMLElement *stopElement in [routeConfigurationElement elementsForName:@"stop"]) {
 							MPHNextBusStop *stop = [[MPHNextBusStop alloc] init];
 							stop.tag = [[[stopElement attributeForName:@"tag"] stringValue] longLongValue];
 							stop.title = [[stopElement attributeForName:@"title"] stringValue];
@@ -377,7 +384,7 @@
 
 	NSMutableSet *knownLines = [NSMutableSet set];
 	while ([results next])
-		[knownLines addObject:[results objectForColumn:@"tag"]];
+		[knownLines addObject:[results objectForColumnName:@"tag"]];
 
 	NSArray *nearbyRoutes = [self routesFromQuery:[NSString stringWithFormat:@"SELECT * from routes WHERE tag='%@';", [[knownLines allObjects] componentsJoinedByString:@"' OR tag='"]]];
 	return [nearbyRoutes sortedArrayUsingComparator:compareMUNIRoutes];

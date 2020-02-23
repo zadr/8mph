@@ -1,3 +1,6 @@
+#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+
 @class MPHNextBusStop;
 
 extern NSString *const MPHLocationDidUpdateNotification;

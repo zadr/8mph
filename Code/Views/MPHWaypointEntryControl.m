@@ -12,8 +12,15 @@
 @implementation MPHSearchBar
 - (void) setFrame:(CGRect) frame {
 	CGFloat cappedWidth = self.maxPortraitWidth;
-	if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
-		cappedWidth = self.maxPortraitWidth;
+	for (UIWindow *window in UIApplication.sharedApplication.windows) {
+		if (!window.isKeyWindow) {
+			continue;
+		}
+
+		if (UIInterfaceOrientationIsLandscape(window.windowScene.interfaceOrientation))
+			cappedWidth = self.maxPortraitWidth;
+	}
+
 	if (frame.size.width > cappedWidth)
 		frame.size.width = cappedWidth;
 	[super setFrame:frame];
@@ -80,7 +87,16 @@
 
 - (void) _positionSearchBar {
 	CGRect frame = self.searchBar.frame;
-	frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+
+	for (UIWindow *window in UIApplication.sharedApplication.windows) {
+		if (!window.isKeyWindow) {
+			continue;
+		}
+
+		frame.origin.y = window.windowScene.statusBarManager.statusBarFrame.size.height;
+		break;
+	}
+
 	if (self.showingSearchController) {
 		frame.origin.x = 0.;
 		frame.size.width = self.frame.size.width;

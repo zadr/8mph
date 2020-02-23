@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 // http://www.opentripplanner.org/apidoc/0.9.2/resource_Planner.html
 
 extern NSString *const MPHParameterPlanFromPlaceKey; // lat,long

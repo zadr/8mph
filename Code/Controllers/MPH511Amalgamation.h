@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 // Eventually, this will support more than Caltrain.
 
 #import "MPHAmalgamation.h"

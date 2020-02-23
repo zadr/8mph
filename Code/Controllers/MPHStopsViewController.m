@@ -9,9 +9,16 @@
 #import "MPHStop.h"
 #import "MPHPrediction.h"
 
+#import "MPHDefines.h"
+#import "MPHUtilities.h"
+
 #import "MPHAlertsTableViewController.h"
 
+#import "CLLocationAdditions.h"
+
 #import "UIColorAdditions.h"
+
+#import "NSArrayAdditions.h"
 
 @interface MPHStopsViewController () <MPHStopsControllerDelegate>
 @end
@@ -87,7 +94,7 @@
 
 	self.navigationController.navigationBar.barTintColor = UIColorForMPHService(_service);
 	self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
-	self.navigationController.toolbar.barTintColor = [UIColor lightTextColor];
+	self.navigationController.toolbar.barTintColor = [UIColor secondarySystemBackgroundColor];
 }
 
 - (void) viewWillDisappear:(BOOL) animated {

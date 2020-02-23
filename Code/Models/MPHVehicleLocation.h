@@ -1,3 +1,6 @@
+#import <CoreLocation/CoreLocation.h>
+#import <Foundation/Foundation.h>
+
 #import "MPHRoute.h"
 
 @interface MPHVehicleLocation : NSObject

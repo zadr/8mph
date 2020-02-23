@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @interface MPHBARTStationData : NSObject
 @property (copy) NSString *platformInfo;
 @property (copy) NSString *introduction;

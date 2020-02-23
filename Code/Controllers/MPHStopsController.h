@@ -1,3 +1,7 @@
+#import <Foundation/Foundation.h>
+
+#import "MPHDefines.h"
+
 typedef NS_ENUM(NSInteger, MPHStopsSortType) {
 	MPHStopsSortTypeAlphabetical,
 	MPHStopsSortTypeDistanceFromDistance

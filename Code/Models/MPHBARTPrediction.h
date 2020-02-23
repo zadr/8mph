@@ -1,3 +1,6 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
 #import "MPHPrediction.h"
 
 @interface MPHBARTPrediction : NSObject <MPHPrediction>

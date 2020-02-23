@@ -40,9 +40,14 @@
 - (NSString *) mph_stringByReplacingStrings:(NSArray *) strings withStrings:(NSArray *) replacements {
 	NSMutableString *string = [self mutableCopy];
 
-	[strings enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
-		[string replaceOccurrencesOfString:object withString:replacements[index] options:NSCaseInsensitiveSearch range:NSMakeRange(0, string.length)];
-	}];
+	for (NSUInteger i = 0; i < strings.count; i++) {
+		NSString *search = strings[i];
+		NSString *replacement = replacements[i];
+		[string replaceOccurrencesOfString:search
+								withString:replacement
+								   options:NSCaseInsensitiveSearch
+									 range:NSMakeRange(0, string.length)];
+	}
 
 	return [string copy];
 }

@@ -1,3 +1,6 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
 #import "MPHRoute.h"
 
 @interface MPHBARTRoute : NSObject <MPHRoute>

@@ -1,3 +1,5 @@
+#import <UIKit/UIKit.h>
+
 extern NSString *const MPHImageFillColor; // UIColor, default black
 extern NSString *const MPHImageStrokeColor; // UIColor, default clear
 extern NSString *const MPHImageStrokeWidth; // NSNumber, default 0

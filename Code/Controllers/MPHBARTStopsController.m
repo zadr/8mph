@@ -6,6 +6,9 @@
 #import "MPHBARTStation.h"
 
 #import "MPHAmalgamator.h"
+#import "MPHUtilities.h"
+
+#import "DDXMLDocument.h"
 
 @implementation MPHBARTStopsController {
 	NSMutableDictionary *_predictions;
@@ -62,7 +65,7 @@
 		id object = predictions[key];
 
 		NSDictionary *attributes = @{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
 		};
 
@@ -81,7 +84,7 @@
 		[text appendAttributedString:station];
   
 		attributes = @{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 			NSFontAttributeName: [UIFont systemFontOfSize:13.]
 		};
 
@@ -108,7 +111,7 @@
 		[text deleteCharactersInRange:NSMakeRange(0, 1)];
 	else {
 		text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
-			NSForegroundColorAttributeName: [UIColor darkTextColor],
+			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 			NSFontAttributeName: [UIFont systemFontOfSize:13.]
 		}];
 	}
@@ -125,10 +128,10 @@
 			__strong MPHBARTStopsController *strongSelf = weakSelf;
 			strongSelf->_predictions = [NSMutableDictionary dictionary];
 
-			NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-			NSXMLElement *stationElement = [[document.rootElement elementsForName:@"station"] lastObject];
-			for (NSXMLElement *etdElement in [stationElement elementsForName:@"etd"]) {
-				for (NSXMLElement *estimateElement in [etdElement elementsForName:@"estimate"]) {
+			DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+			DDXMLElement *stationElement = [[document.rootElement elementsForName:@"station"] lastObject];
+			for (DDXMLElement *etdElement in [stationElement elementsForName:@"etd"]) {
+				for (DDXMLElement *estimateElement in [etdElement elementsForName:@"estimate"]) {
 					MPHBARTPrediction *prediction = [NSURLRequest predictionFromETDElement:etdElement estimateElement:estimateElement atStation:nil];
 
 					NSMutableArray *predictions = strongSelf->_predictions[prediction.destination] ?: [NSMutableArray array];

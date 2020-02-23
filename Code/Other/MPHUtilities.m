@@ -1,3 +1,5 @@
+#import <TargetConditionals.h>
+
 #import "MPHUtilities.h"
 
 #import "MPHNextBusRoute.h"
@@ -5,6 +7,14 @@
 #import "MPHStop.h"
 
 #import "MPHLocationCenter.h"
+
+#import "CLLocationAdditions.h"
+
+#import "NSStringAdditions.h"
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#import "UIColorAdditions.h"
+#endif
 
 NSString *NSStringFromMPHService(MPHService service) {
 	if (service == MPHServiceMUNI)
@@ -71,8 +81,13 @@ NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id) = ^(id one, id two) {
 	BOOL oneIsCharacter = oneContainsCharacter && oneCharacterRange.location == 0;
 	BOOL twoIsCharacter = twoContainsCharacter && twoCharacterRange.location == 0;
 
-	BOOL oneIsCableCar = [one mph_hasCaseInsensitiveSubstring:@"Cable Car"];
-	BOOL twoIsCableCar = [two mph_hasCaseInsensitiveSubstring:@"Cable Car"];
+	BOOL oneIsCableCar = NO;
+	BOOL twoIsCableCar = NO;
+	NSArray *cableCarNames = @[ @"Cable Car", @"Powell-" ];
+	for (NSString *cableCarName in cableCarNames) {
+		oneIsCableCar = oneIsCableCar || [one mph_hasCaseInsensitiveSubstring:cableCarName];
+		twoIsCableCar = twoIsCableCar || [two mph_hasCaseInsensitiveSubstring:cableCarName];
+	}
 
 	BOOL oneIsOwl = [one mph_hasCaseInsensitiveSubstring:@"Owl"];
 	BOOL twoIsOwl = [two mph_hasCaseInsensitiveSubstring:@"Owl"];
@@ -86,8 +101,9 @@ NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id) = ^(id one, id two) {
 	};
 
 	// if both lines are cable cars, sort by the first word
-	if (oneIsCableCar && twoIsCableCar)
-		return [[one substringToIndex:[one rangeOfString:@" "].location] caseInsensitiveCompare:[two substringToIndex:[two rangeOfString:@" "].location]];
+	if (oneIsCableCar && twoIsCableCar) {
+		return [one caseInsensitiveCompare:two];
+	}
 
 	// otherwise if one line is a cable car line and the other is not, we want to move the cablecar lines to the bottom of the list (eg: California Cable Car vs N)
 	if (oneIsCableCar && !twoIsCableCar)

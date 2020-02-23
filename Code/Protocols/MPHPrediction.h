@@ -1,3 +1,13 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
+
+#import "MPHDefines.h"
+
+
 @protocol MPHPrediction <NSObject>
 @required
 @property (nonatomic, readonly) id uniqueIdentifier;

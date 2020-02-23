@@ -1,4 +1,11 @@
+#import <TargetConditionals.h>
+
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
+
 #import "MPHMessage.h"
+#import "MPHUtilities.h"
 
 @implementation MPHMessage
 - (NSString *) description {

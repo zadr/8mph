@@ -4,12 +4,17 @@
 #import "MPH511Stop.h"
 
 #import "MPHGoogleGeocoder.h"
+#import "MPHUtilities.h"
 
 #import "NSDictionaryAdditions.h"
 #import "NSFileManagerAdditions.h"
 #import "NSStringAdditions.h"
 
-#import "FMDB.h"
+#import "DDXMLDocument.h"
+#import "DDXMLElement.h"
+
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
 #import "FMResultSetMPHAdditions.h"
 #import <sqlite3.h>
 
@@ -127,14 +132,14 @@
 	__weak typeof(self) weakSelf = self;
 	[[[NSURLSession sharedSession] dataTaskWithRequest:routesRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {		__strong typeof(weakSelf) strongSelf = weakSelf;
 
-		NSXMLDocument *routeDocument = [[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentXMLKind error:nil];
-		NSXMLElement *routeAgencyListElement = [[routeDocument.rootElement elementsForName:@"AgencyList"] lastObject];
-		NSXMLElement *routeAgencyElement = [[routeAgencyListElement elementsForName:@"Agency"] lastObject];
-		NSXMLElement *routeRouteListElement = [[routeAgencyElement elementsForName:@"RouteList"] lastObject];
-		for (NSXMLElement *routeRouteElement in [routeRouteListElement elementsForName:@"Route"]) {
-			NSXMLElement *routeDirectionListElement = [[routeRouteElement elementsForName:@"RouteDirectionList"] lastObject];
+		DDXMLDocument *routeDocument = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
+		DDXMLElement *routeAgencyListElement = [[routeDocument.rootElement elementsForName:@"AgencyList"] lastObject];
+		DDXMLElement *routeAgencyElement = [[routeAgencyListElement elementsForName:@"Agency"] lastObject];
+		DDXMLElement *routeRouteListElement = [[routeAgencyElement elementsForName:@"RouteList"] lastObject];
+		for (DDXMLElement *routeRouteElement in [routeRouteListElement elementsForName:@"Route"]) {
+			DDXMLElement *routeDirectionListElement = [[routeRouteElement elementsForName:@"RouteDirectionList"] lastObject];
 			NSMutableString *routeStopsRequestIDF = [NSMutableString string];
-			for (NSXMLElement *routeDirectionElement in [routeDirectionListElement elementsForName:@"RouteDirection"]) {
+			for (DDXMLElement *routeDirectionElement in [routeDirectionListElement elementsForName:@"RouteDirection"]) {
 				NSString *routeCode = [routeRouteElement attributeForName:@"Code"].stringValue;
 				NSString *routeDirectionCode = [routeDirectionElement attributeForName:@"Code"].stringValue;
 				NSString *update = [NSString stringWithFormat:@"INSERT INTO routes (route_name, route_code, direction_name, direction_code) VALUES (\"%@\", \"%@\", \"%@\", \"%@\");", [routeRouteElement attributeForName:@"Name"].stringValue, routeCode, [routeDirectionElement attributeForName:@"Name"].stringValue, routeDirectionCode];
@@ -151,15 +156,15 @@
 
 			NSURLRequest *routeStopsRequest = [self APIReqestWithURLString:@"http://services.my511.org/Transit2.0/GetStopsForRoutes.aspx" parameters:@{ @"routeIDF": routeStopsRequestIDF }];
 			[[[NSURLSession sharedSession] dataTaskWithRequest:routeStopsRequest completionHandler:^(NSData *routeStopsData, NSURLResponse *routeStopsResponse, NSError *routeStopsError) {
-				NSXMLDocument *stopsDocument = [[NSXMLDocument alloc] initWithData:routeStopsData options:NSXMLDocumentXMLKind error:nil];
-				NSXMLElement *stopsAgencyListElement = [[stopsDocument.rootElement elementsForName:@"AgencyList"] lastObject];
-				for (NSXMLElement *stopsAgencyElement in [stopsAgencyListElement elementsForName:@"Agency"]) {
-					NSXMLElement *stopsRouteListElement = [[stopsAgencyElement elementsForName:@"RouteList"] lastObject];
-					for (NSXMLElement *stopsRouteElement in [stopsRouteListElement elementsForName:@"Route"]) {
-						NSXMLElement *stopsRouteDirectionListElement = [[stopsRouteElement elementsForName:@"RouteDirectionList"] lastObject];
-						for (NSXMLElement *stopsRouteDirectionElement in [stopsRouteDirectionListElement elementsForName:@"RouteDirection"]) {
-							NSXMLElement *stopStopsListElement = [[stopsRouteDirectionElement elementsForName:@"StopList"] lastObject];
-							for (NSXMLElement *stopElement in [stopStopsListElement elementsForName:@"Stop"]) {
+				DDXMLDocument *stopsDocument = [[DDXMLDocument alloc] initWithData:routeStopsData options:DDXMLDocumentXMLKind error:nil];
+				DDXMLElement *stopsAgencyListElement = [[stopsDocument.rootElement elementsForName:@"AgencyList"] lastObject];
+				for (DDXMLElement *stopsAgencyElement in [stopsAgencyListElement elementsForName:@"Agency"]) {
+					DDXMLElement *stopsRouteListElement = [[stopsAgencyElement elementsForName:@"RouteList"] lastObject];
+					for (DDXMLElement *stopsRouteElement in [stopsRouteListElement elementsForName:@"Route"]) {
+						DDXMLElement *stopsRouteDirectionListElement = [[stopsRouteElement elementsForName:@"RouteDirectionList"] lastObject];
+						for (DDXMLElement *stopsRouteDirectionElement in [stopsRouteDirectionListElement elementsForName:@"RouteDirection"]) {
+							DDXMLElement *stopStopsListElement = [[stopsRouteDirectionElement elementsForName:@"StopList"] lastObject];
+							for (DDXMLElement *stopElement in [stopStopsListElement elementsForName:@"Stop"]) {
 
 								NSString *query = [NSString stringWithFormat:@"SELECT stop_codes FROM stops WHERE stop_name = '%@';", [stopElement attributeForName:@"name"].stringValue];
 								NSString *codes = [newDatabase stringForQuery:query];

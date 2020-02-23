@@ -1,6 +1,8 @@
 // a plan contains itineraries, which contains legs that have leg endpoints (transit) and steps (walking)
 
 #import <CoreLocation/CoreLocation.h>
+#import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface MPHOTPPlan : NSObject
 + (MPHOTPPlan *) planFromData:(NSData *) data;

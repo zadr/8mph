@@ -1,3 +1,8 @@
+#import <TargetConditionals.h>
+#import <Foundation/Foundation.h>
+
+#import "MPHDefines.h"
+
 @protocol MPHRoute;
 @protocol MPHStop;
 

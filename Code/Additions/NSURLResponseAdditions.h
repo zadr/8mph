@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @interface NSURLRequest (MPHAdditions)
 @property (nonatomic, readonly) NSString *mph_cURLCommand;
 @end

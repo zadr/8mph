@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @protocol MPHRoute;
 
 @interface MPHMonitoringController : NSObject
