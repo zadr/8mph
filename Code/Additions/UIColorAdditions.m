@@ -288,4 +288,10 @@
 	[self getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
 	return [UIColor colorWithHue:hue saturation:saturation brightness:brightness * .80 alpha:alpha];
 }
+
+- (UIColor *) mph_lightenedColor {
+	CGFloat hue, saturation, brightness, alpha = 0.;
+	[self getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+	return [UIColor colorWithHue:hue saturation:saturation brightness:brightness * 1.20 alpha:alpha];
+}
 @end

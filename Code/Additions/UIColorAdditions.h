@@ -72,5 +72,6 @@
 @interface UIColor (Additions)
 - (NSComparisonResult) mph_compare:(UIColor *) color;
 
+- (UIColor *) mph_lightenedColor;
 - (UIColor *) mph_darkenedColor;
 @end

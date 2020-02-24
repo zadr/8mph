@@ -268,20 +268,7 @@
 }
 
 - (id <MPHStop>) stopWithTag:(id) tag onRoute:(id <MPHRoute>) route inDirection:(MPHDirection) direction {
-	__block NSArray *directions = nil;
-	if (direction == MPHDirectionInbound) {
-		NSString *query = [NSString stringWithFormat:@"SELECT inbound_routes FROM routes WHERE tag = \"%@\";", route.tag];
-		dispatch_sync(_queue, ^{
-			directions = [self->_database arrayForQuery:query];
-		});
-	} else {
-		NSString *query = [NSString stringWithFormat:@"SELECT outbound_routes FROM routes WHERE tag = \"%@\";", route.tag];
-		dispatch_sync(_queue, ^{
-			directions = [self->_database arrayForQuery:query];
-		});
-	}
-
-	NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops WHERE stops.tag = \"%@\" AND stops.routeTag = \"%@\"';", tag, route.tag];
+	NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops WHERE stops.tag = \"%@\" AND stops.routeTag = \"%@\";", tag, route.tag];
 
 	return [[self stopFromQuery:query] lastObject];
 }

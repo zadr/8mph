@@ -118,6 +118,8 @@
 		text = buRange.location != NSNotFound ? [text substringToIndex:buRange.location] : text;
 		UIImage *image = [_imageGenerator generateImageWithParameters:@{
 			MPHImageFillColor: route.color,
+			MPHImageStrokeColor: self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? route.color.mph_lightenedColor : route.color.mph_darkenedColor,
+			MPHImageStrokeWidth: @(4 + self.view.window.screen.scale),
 			MPHImageText: text,
 			MPHImageFont: text.length <= 3 ? (text.length == 3 ? [UIFont systemFontOfSize:24] : [UIFont systemFontOfSize:28]) : [UIFont systemFontOfSize:22],
 			MPHImageRadius: @(35)

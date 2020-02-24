@@ -66,10 +66,10 @@
 	return [newPolylines copy];
 }
 
-- (MKPolylineRenderer *) polylineViewForOverlay:(id <MKOverlay>) overlay {
+- (MKOverlayPathRenderer *) polylineViewForOverlay:(id <MKOverlay>) overlay {
 	MKPolylineRenderer *view = [_polylineViews objectForKey:overlay];
 	if (!view) {
-		view = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+		view = [[MKPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
 		view.strokeColor = [MPHColor blueColor];
 
 		[_polylineViews setObject:view forKey:overlay];

@@ -8,6 +8,8 @@
 #import "MPHRoute.h"
 #import "MPHMessage.h"
 
+#import "UIColorAdditions.h"
+
 static const CGFloat MPHEdgeHorizontalInset = 13.;
 static const CGFloat MPHEdgeVerticalInset = 14.;
 
@@ -86,8 +88,11 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 
 		NSMutableArray *images = [NSMutableArray array];
 		for (NSString *line in message.affectedLines) {
+			UIColor *color = [message colorForAffectedLine:line];
 			UIImage *image = [_imageGenerator generateImageWithParameters:@{
- 				MPHImageFillColor: [message colorForAffectedLine:line],
+ 				MPHImageFillColor: color,
+				MPHImageStrokeColor: self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? color.mph_lightenedColor : color.mph_darkenedColor,
+				MPHImageStrokeWidth: @(3 + self.view.window.screen.scale),
 				MPHImageText: line,
 				MPHImageTextColor: [UIColor whiteColor],
 				MPHImageFont: line.length <= 3 ? line.length == 3 ? [UIFont systemFontOfSize:24.] : [UIFont systemFontOfSize:28.] : [UIFont systemFontOfSize:22.],
