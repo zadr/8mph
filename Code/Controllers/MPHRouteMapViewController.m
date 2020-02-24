@@ -31,6 +31,9 @@
 - (MKOverlayRenderer *) mapView:(MKMapView *) mapView rendererForOverlay:(id <MKOverlay>) overlay {
 	// TODO: MKRoadWidthAtZoomScale
 	__strong id <MPHRouteController> strongRouteController = _routeController;
-	return [[MPHPolylineController polylineControllerForService:strongRouteController.route.service] polylineViewForOverlay:overlay];
+	MKPolylineRenderer *renderer = [[MPHPolylineController polylineControllerForService:strongRouteController.route.service] polylineViewForOverlay:overlay];
+	renderer.strokeColor = _routeController.route.color;
+	renderer.fillColor = _routeController.route.color;
+	return renderer;
 }
 @end
