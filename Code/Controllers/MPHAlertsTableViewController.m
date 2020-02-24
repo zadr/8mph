@@ -51,6 +51,8 @@ static const CGFloat MPHEdgeVerticalInset = 14.;
 	[super viewDidLoad];
 
 	self.title = NSLocalizedString(@"Rider Messages", @"Rider Messages");
+
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void) viewWillAppear:(BOOL) animated {

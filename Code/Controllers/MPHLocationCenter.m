@@ -60,10 +60,7 @@ NSString *const MPHLocationDidUpdateNotification = @"MPHLocationDidUpdateNotific
 #pragma mark -
 
 - (CLLocation *) currentLocation {
-#if TARGET_OS_IPHONE
-	if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
-		[_locationManager requestWhenInUseAuthorization];
-#endif
+	[_locationManager requestWhenInUseAuthorization];
 
 	if (_currentLocation)
 		return _currentLocation;

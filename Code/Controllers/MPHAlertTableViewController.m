@@ -68,6 +68,7 @@
     UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     if (!headerView) {
         headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"header"];
+		headerView.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle3];
 		headerView.textLabel.numberOfLines = 0;
 	}
 
@@ -78,7 +79,7 @@
 
 - (CGFloat) tableView:(UITableView *) tableView heightForHeaderInSection:(NSInteger) section {
     CGFloat width = CGRectGetWidth(tableView.frame) - 15.;;
-	CGSize size = [[self _titleForHeaderInSection:section] boundingRectWithSize:CGSizeMake(width, 90000) options:(NSStringDrawingOptions)(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:18.] } context:nil].size;
+	CGSize size = [[self _titleForHeaderInSection:section] boundingRectWithSize:CGSizeMake(width, 90000) options:(NSStringDrawingOptions)(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:@{ NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleTitle3] } context:nil].size;
 
     return fmax(size.height, section ? 38. : self.tableView.rowHeight);
 }

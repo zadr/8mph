@@ -64,6 +64,9 @@
 }
 
 - (void) fetchPredictions {
+	if (_stops.count == 0)
+		return;
+
 	NSDate *lastRequestedDate = _lastRequestedPredictionTime;
 	if (lastRequestedDate && [[NSDate date] timeIntervalSinceDate:lastRequestedDate] < 30)
 		return;

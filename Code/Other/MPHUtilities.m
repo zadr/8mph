@@ -50,7 +50,7 @@ NSString *NSStringFromMPHService(MPHService service) {
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 UIColor *UIColorForMPHService(MPHService service) {
 	if (service == MPHServiceMUNI)
-		return [UIColor MUNIColor];
+		return [UIColor MUNIColorV1];
 
 	if (service == MPHServiceBART)
 		return [UIColor BARTColor];

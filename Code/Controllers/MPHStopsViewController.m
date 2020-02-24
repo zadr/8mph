@@ -71,6 +71,7 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Alerts" style:UIBarButtonItemStylePlain target:self action:@selector(showAlerts:)];
 
 	NSString *key = [NSString stringWithFormat:@"MPHStopsSortDirection-%zd", _service];
@@ -192,6 +193,7 @@
 
 	id <MPHStop> stop = [_stops objectAtSignedIndex:indexPath.row];
 	cell.textLabel.text = stop.name;
+	cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 	cell.textLabel.minimumScaleFactor = (14. / cell.textLabel.font.pointSize);
 	cell.textLabel.numberOfLines = 1;
 	cell.textLabel.adjustsFontSizeToFitWidth = YES;
@@ -231,7 +233,7 @@
 - (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
 	if ([_selectedIndexPath isEqual:indexPath]) {
 		CGSize textSize = [@"Jy" sizeWithAttributes:@{
-			NSFontAttributeName: [UIFont systemFontOfSize:18.]
+			NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]
 		}];
 
 		if (!_cachedPredictionString)
@@ -266,14 +268,24 @@
 	if (![self.tableView.indexPathForSelectedRow isEqual:indexPath])
 		return;
 
+	BOOL needsScrollToTop = NO;
+	if (indexPath.row == 0 && indexPath.section == 0) {
+		self.tableView.contentInset = UIEdgeInsetsMake(12.0, 0.0, 0.0, 0.0);
+
+		needsScrollToTop = YES;
+	} else {
+		self.tableView.contentInset = UIEdgeInsetsZero;
+	}
+
 	[_stopsController fetchPredictionsForStop:_stops[indexPath.row]];
 
-	if (!previouslySelectedIndexPath)
-		return;
-
 	[tableView beginUpdates];
-	[tableView reloadRowsAtIndexPaths:@[previouslySelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+		if (previouslySelectedIndexPath)
+			[tableView reloadRowsAtIndexPaths:@[previouslySelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 	[tableView endUpdates];
+
+	if (needsScrollToTop)
+		[self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 #pragma mark -

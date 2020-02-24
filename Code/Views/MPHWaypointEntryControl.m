@@ -142,7 +142,7 @@
 	}];
 
 	[UIView animateWithDuration:(1. / 3.) delay:0. options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveEaseInOut) animations:^{
-		CGRect containerFrame = _containerView.frame;
+		CGRect containerFrame = self->_containerView.frame;
 		CGRect snapshotFrame = snapshotView.frame;
 		if (direction == MPHWaypointSlideDirectionPushFromLeft) {
 			containerFrame.origin.x += containerFrame.size.width;
@@ -151,7 +151,7 @@
 			containerFrame.origin.x -= containerFrame.size.width;
 			snapshotFrame.origin.x -= containerFrame.size.width;
 		}
-		_containerView.frame = containerFrame;
+		self->_containerView.frame = containerFrame;
 		snapshotView.frame = snapshotFrame;
 
 		if (actions)
@@ -172,7 +172,7 @@
 			frame.size.height += 60.;
 			self.frame = frame;
 
-			_backgroundView.frame = frame;
+			self->_backgroundView.frame = frame;
 		}];
 	}
 

@@ -14,7 +14,7 @@
 
 	_subTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	_subTextLabel.textColor = self.textLabel.textColor;
-	_subTextLabel.font = [UIFont systemFontOfSize:13.];
+	_subTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
 	_subTextLabel.backgroundColor = [UIColor clearColor];
 	_subTextLabel.highlightedTextColor = self.textLabel.highlightedTextColor;
 
@@ -30,12 +30,6 @@
 	[super layoutSubviews];
 
 	if (_subTextLabel.text.length) {
-		if (self.frame.size.height > 54.) {
-			CGRect frame = self.textLabel.frame;
-			frame.origin.y = 8.;
-			self.textLabel.frame = frame;
-		}
-
 		CGRect frame = _subTextLabel.frame;
 		frame.size = [_subTextLabel.text sizeWithAttributes:@{ NSFontAttributeName: _subTextLabel.font }];
 		frame.origin.y = (self.textLabel.frame.origin.y + ((self.textLabel.frame.size.height - frame.size.height) / (CGFloat)2.));

@@ -64,9 +64,14 @@
 	for (id key in keys) {
 		id object = predictions[key];
 
+		UIFont *footnoteFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+		UIFontDescriptor *footnoteFontDescriptors = footnoteFont.fontDescriptor;
+		footnoteFontDescriptors = [footnoteFontDescriptors fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+		footnoteFont = [UIFont fontWithDescriptor:footnoteFontDescriptors size:footnoteFont.pointSize] ?: footnoteFont;
+
 		NSDictionary *attributes = @{
 			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
+			NSFontAttributeName: footnoteFont
 		};
 
 		id <MPHPrediction> anyPrediction = [object lastObject];
@@ -85,7 +90,7 @@
   
 		attributes = @{
 			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-			NSFontAttributeName: [UIFont systemFontOfSize:13.]
+			NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 		};
 
 		for (id <MPHPrediction> prediction in object) {
@@ -112,7 +117,7 @@
 	else {
 		text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
 			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-			NSFontAttributeName: [UIFont systemFontOfSize:13.]
+			NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 		}];
 	}
 

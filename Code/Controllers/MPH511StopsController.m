@@ -107,9 +107,13 @@
 	[predictions enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stopIteration) {
 		id <MPHPrediction> anyPrediction = [object lastObject];
 		NSString *stationString = [NSString stringWithFormat:@"\n • %@: ", anyPrediction.route.capitalizedString];
+		UIFont *footnoteFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+		UIFontDescriptor *footnoteFontDescriptors = footnoteFont.fontDescriptor;
+		footnoteFontDescriptors = [footnoteFontDescriptors fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+		footnoteFont = [UIFont fontWithDescriptor:footnoteFontDescriptors size:footnoteFont.pointSize] ?: footnoteFont;
 		NSAttributedString *station = [[NSAttributedString alloc] initWithString:stationString attributes:@{
 			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-			NSFontAttributeName: [UIFont boldSystemFontOfSize:13.]
+			NSFontAttributeName: footnoteFont
 		}];
 		[text appendAttributedString:station];
 		object = [object sortedArrayUsingComparator:^NSComparisonResult(id one, id two) {
@@ -124,12 +128,12 @@
 			if (prediction.minutesETA < 5) {
 				attributes = @{
 					NSForegroundColorAttributeName: [UIColor colorWithRed:(0. / 255.) green:(102. / 255.) blue:(0. / 255.) alpha:1.],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
+					NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 				};
 			} else {
 				attributes = @{
 					NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-					NSFontAttributeName: [UIFont systemFontOfSize:13.]
+					NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 				};
 			}
 			if (prediction.minutesETA) {
@@ -152,7 +156,7 @@
 	else {
 		text = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"No trains", @"No trains text") attributes:@{
 			NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-			NSFontAttributeName: [UIFont systemFontOfSize:13.]
+			NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 		}];
 	}
 

@@ -15,8 +15,8 @@
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceSamTrans];
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceDumbartonExpress];
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceACTransit];
-	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceCaltrain];
-//	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceMUNI];
+//	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceCaltrain];
+	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceMUNI];
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceBART];
 }
 @end

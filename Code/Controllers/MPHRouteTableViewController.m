@@ -143,6 +143,7 @@
 			_cachedDistances[stop.name] = subText;
 		}
 		cell.subTextLabel.text = subText;
+		cell.subTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
 	}
 
 	NSMutableAttributedString *minutes = [[NSMutableAttributedString alloc] init];
@@ -167,19 +168,19 @@
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
-				NSFontAttributeName: [UIFont systemFontOfSize:13.]
+				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		} else if (prediction.minutesETA > 45) {
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
-				NSFontAttributeName: [UIFont systemFontOfSize:13.]
+				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		} else {
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
 				NSBackgroundColorAttributeName: [UIColor clearColor],
-				NSFontAttributeName: [UIFont systemFontOfSize:13.]
+				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		}
 		if (prediction.minutesETA) {

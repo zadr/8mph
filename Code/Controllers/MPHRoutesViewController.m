@@ -12,6 +12,7 @@
 #import "MPHUtilities.h"
 
 #import "NSArrayAdditions.h"
+#import "NSStringAdditions.h"
 #import "UIColorAdditions.h"
 
 @implementation MPHRoutesViewController {
@@ -38,7 +39,8 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
-	self.tableView.rowHeight = 46.;
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.tableView.rowHeight = 50;
 
 	[self detectNearbyRoutes];
 
@@ -58,6 +60,7 @@
 	self.navigationController.navigationBar.barTintColor = UIColorForMPHService(_service);
 	self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
 	self.navigationController.toolbar.barTintColor = [UIColor secondarySystemBackgroundColor];
+	self.view.backgroundColor = [UIColor systemBackgroundColor];
 }
 
 #pragma mark -
@@ -93,13 +96,26 @@
 	else route = [_routes objectAtSignedIndex:indexPath.row];
 
 	NSRange dashRange = [route.name rangeOfString:@"-"];
-	if (dashRange.location != NSNotFound)
+	if ([route.name mph_hasCaseInsensitivePrefix:@"JBUS-"])
+		cell.textLabel.text = @"Church Bus";
+	else if ([route.name mph_hasCaseInsensitivePrefix:@"KTBU-"])
+		cell.textLabel.text = @"Ingleside-Third Street Bus";
+	else if ([route.name mph_hasCaseInsensitivePrefix:@"LBUS-"])
+		cell.textLabel.text = @"Taraval Bus";
+	else if ([route.name mph_hasCaseInsensitivePrefix:@"MBUS-"])
+		cell.textLabel.text = @"Ocean View Bus";
+	else if ([route.name mph_hasCaseInsensitivePrefix:@"NBUS-"])
+		cell.textLabel.text = @"Judah Bus";
+	else if (dashRange.location != NSNotFound)
 		cell.textLabel.text = [route.name substringFromIndex:dashRange.location + dashRange.length];
 	else cell.textLabel.text = route.name;
 	cell.imageView.image = _cachedRouteImages[route.name];
 
 	if (!cell.imageView.image) {
 		NSString *text = dashRange.location != NSNotFound ? [route.name substringToIndex:dashRange.location] : route.tag;
+
+		NSRange buRange = [text rangeOfString:@"BU"];
+		text = buRange.location != NSNotFound ? [text substringToIndex:buRange.location] : text;
 		UIImage *image = [_imageGenerator generateImageWithParameters:@{
 			MPHImageFillColor: route.color,
 			MPHImageText: text,
