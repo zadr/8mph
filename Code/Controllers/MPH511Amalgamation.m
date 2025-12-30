@@ -348,6 +348,16 @@
 }
 @end
 
+@implementation MPH511MUNIAmalgamation
+- (MPHService) service {
+	return MPHServiceMUNI;
+}
+
+- (NSString *) APIAgencyName {
+	return @"SF";
+}
+@end
+
 @implementation MPHSamTransAmalgamation
 - (MPHService) service {
 	return MPHServiceSamTrans;

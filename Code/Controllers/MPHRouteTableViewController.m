@@ -87,24 +87,24 @@
 #pragma mark -
 
 - (void) _hideToolbar {
-	[self.navigationController setToolbarHidden:YES animated:YES];
+//	[self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 - (void) scrollViewWillBeginDragging:(UIScrollView *) scrollView {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hideToolbar) object:nil];
-	[self performSelector:@selector(_hideToolbar) withObject:nil afterDelay:.2 inModes:@[ NSRunLoopCommonModes ]];
+//	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hideToolbar) object:nil];
+//	[self performSelector:@selector(_hideToolbar) withObject:nil afterDelay:.2 inModes:@[ NSRunLoopCommonModes ]];
 }
 
 - (void) scrollViewWillEndDragging:(UIScrollView *) scrollView withVelocity:(CGPoint) velocity targetContentOffset:(inout CGPoint *) targetContentOffset {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hideToolbar) object:nil];
+//	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hideToolbar) object:nil];
 
-	if (fabs((*targetContentOffset).y - scrollView.contentOffset.y) < 2.)
-		return;
-
-	if (velocity.y < 0 || (*targetContentOffset).y > scrollView.contentSize.height)
-		[self.navigationController setToolbarHidden:NO animated:YES];
-	else if (fabs(velocity.y) > 0.0) /* -0 is a thing */
-		[self.navigationController setToolbarHidden:YES animated:YES];
+//	if (fabs((*targetContentOffset).y - scrollView.contentOffset.y) < 2.)
+//		return;
+//
+//	if (velocity.y < 0 || (*targetContentOffset).y > scrollView.contentSize.height)
+//		[self.navigationController setToolbarHidden:NO animated:YES];
+//	else if (fabs(velocity.y) > 0.0) /* -0 is a thing */
+//		[self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 #pragma mark -
@@ -167,19 +167,16 @@
 		if (prediction.minutesETA < 5) {
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		} else if (prediction.minutesETA > 45) {
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		} else {
 			attributes = @{
 				NSForegroundColorAttributeName: [UIColor secondaryLabelColor],
-				NSBackgroundColorAttributeName: [UIColor clearColor],
 				NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 			};
 		}
@@ -279,10 +276,10 @@
 #pragma mark -
 
 - (void) tapGestureRecognizerRecognized:(UITapGestureRecognizer *) tapGestureRecognizer {
-	CGPoint locationInView = [tapGestureRecognizer locationInView:tapGestureRecognizer.view];
+//	CGPoint locationInView = [tapGestureRecognizer locationInView:tapGestureRecognizer.view];
 
-	if (locationInView.y > (CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.navigationController.toolbar.frame)))
-		[self.navigationController setToolbarHidden:NO animated:YES];
+//	if (locationInView.y > (CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.navigationController.toolbar.frame)))
+//		[self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 @end

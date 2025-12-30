@@ -107,93 +107,97 @@
 	});
 
 	NSMutableURLRequest *routeListRequest = [[NSMutableURLRequest alloc] init];
-	routeListRequest.URL = [NSURL URLWithString:@"http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=sf-muni"];
+//	routeListRequest.URL = [NSURL URLWithString:@"https://retro.umoiq.com/service/publicXMLFeed?command=routeList&a=sfmta-cis"];
+	routeListRequest.URL = [NSURL URLWithString:@"https://retro.umoiq.com/api/pub/v1/agencies/sfmta-cis/routes?key=6fbba0cb1477045caa0ea47c9c4b081c"];
+	[routeListRequest addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
 
 	[[[NSURLSession sharedSession] dataTaskWithRequest:routeListRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:nil];
-		for (DDXMLElement *routeElement in [document.rootElement elementsForName:@"route"]) {
+		NSArray *routesJSON = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
+		for (NSDictionary *route in routesJSON) {
 			NSMutableURLRequest *routeRequest = [[NSMutableURLRequest alloc] init];
-			NSString *tag = [routeElement attributeForName:@"tag"].stringValue;
+			NSString *tag = route[@"id"];
 
-			routeRequest.URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=sf-muni&r=%@", [tag mph_stringByPercentEncodingString]]];
+//			routeRequest.URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://retro.umoiq.com/service/publicXMLFeed?command=routeConfig&a=sfmta-cis&r=%@", [tag mph_stringByPercentEncodingString]]];
+			routeRequest.URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://retro.umoiq.com/api/pub/v1/agencies/sfmta-cis/routes/%@?key=6fbba0cb1477045caa0ea47c9c4b081c", [tag mph_stringByPercentEncodingString]]];
+			[routeRequest addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
+
 			[[[NSURLSession sharedSession] dataTaskWithRequest:routeRequest completionHandler:^(NSData *successfulRouteRequestData, NSURLResponse *successfulRouteRequestResponse, NSError *successfulRouteRequestError) {
-				DDXMLDocument *innerDocument = [[DDXMLDocument alloc] initWithData:successfulRouteRequestData options:DDXMLDocumentXMLKind error:nil];
-				DDXMLElement *requestRouteElement = [innerDocument.rootElement elementsForName:@"route"].lastObject;
-				NSString *routeTag = [requestRouteElement attributeForName:@"tag"].stringValue;
-				NSString *routeTitle = [requestRouteElement attributeForName:@"title"].stringValue;
+				NSDictionary *routeJSON = [NSJSONSerialization JSONObjectWithData:successfulRouteRequestData options:(NSJSONReadingOptions)0 error:nil];
+				NSString *routeTag = routeJSON[@"id"];
+				NSString *routeTitle = routeJSON[@"title"];
 				NSString *inboundRoutes = @"";
 				NSString *outboundRoutes = @"";
 
 				NSMutableDictionary *stops = [NSMutableDictionary dictionary];
-				for (DDXMLElement *stopElement in [requestRouteElement elementsForName:@"stop"]) {
+				for (NSDictionary *stopJSON in routeJSON[@"stops"]) {
 					NSMutableDictionary *stop = [NSMutableDictionary dictionary];
-					stop[@"tag"] = [stopElement attributeForName:@"tag"].stringValue;
-					stop[@"title"] = [stopElement attributeForName:@"title"].stringValue;
-					stop[@"latitude"] = [stopElement attributeForName:@"lat"].stringValue;
-					stop[@"longitude"] = [stopElement attributeForName:@"lon"].stringValue;
-					stop[@"stopId"] = [stopElement attributeForName:@"stopId"].stringValue;
+					stop[@"tag"] = stopJSON[@"id"];
+					stop[@"title"] = stopJSON[@"name"];
+					stop[@"latitude"] = [NSString stringWithFormat:@"%@", stopJSON[@"lat"]];
+					stop[@"longitude"] = [NSString stringWithFormat:@"%@", stopJSON[@"lon"]];
+					stop[@"stopId"] = stop[@"code"];
 
 					stops[stop[@"tag"]] = stop;
 				}
 
-				for (DDXMLElement *directionElement in [requestRouteElement elementsForName:@"direction"]) {
-					NSString *directionTag = [directionElement attributeForName:@"tag"].stringValue;
-					NSString *directionTitle = [directionElement attributeForName:@"title"].stringValue;
-					NSString *directionName = [directionElement attributeForName:@"name"].stringValue;
-					NSString *directionUseForUI = [directionElement attributeForName:@"useForUI"].stringValue;
-
-					if ([directionTag mph_hasCaseInsensitiveSubstring:@"OB"] || [directionTitle mph_hasCaseInsensitiveSubstring:@"outbound"] || [directionName mph_hasCaseInsensitiveSubstring:@"outbound"]) {
-						if (outboundRoutes.length)
-							outboundRoutes = [outboundRoutes stringByAppendingFormat:@"`%@", directionTag];
-						else outboundRoutes = [outboundRoutes stringByAppendingString:directionTag];
-					} else {
-						if (inboundRoutes.length)
-							inboundRoutes = [inboundRoutes stringByAppendingFormat:@"`%@", directionTag];
-						else inboundRoutes = [inboundRoutes stringByAppendingString:directionTag];
-					}
-
-					NSString *stopList = @"";
-					for (DDXMLElement *stopElement in [directionElement elementsForName:@"stop"]) {
-						NSString *stopTag = [stopElement attributeForName:@"tag"].stringValue;
-						NSDictionary *stopDictionary = stops[stopTag];
-
-						if (stopDictionary) {
-							NSString *stopInsert = [NSString stringWithFormat:@"INSERT OR REPLACE INTO stops (tag, title, latitude, longitude, stopId, routeTag) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")", stopTag, stopDictionary[@"title"], stopDictionary[@"latitude"], stopDictionary[@"longitude"], stopDictionary[@"stopId"], routeTag];
-							dispatch_sync(self->_queue, ^{
-								[newDatabase executeUpdate:stopInsert];
-							});
-						}
-
-						if (stopList.length)
-							stopList = [stopList stringByAppendingFormat:@"`%@", stopTag];
-						else stopList = [stopList stringByAppendingString:stopTag];
-					}
-
-					NSString *directionInsert = [NSString stringWithFormat:@"INSERT OR REPLACE INTO directions (tag, title, name, useForUI, stops) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")", directionTag, directionTitle, directionName, directionUseForUI, stopList];
-					dispatch_sync(self->_queue, ^{
-						[newDatabase executeUpdate:directionInsert];
-					});
-
-				}
+//				for (DDXMLElement *directionElement in [requestRouteElement elementsForName:@"direction"]) {
+//					NSString *directionTag = [directionElement attributeForName:@"tag"].stringValue;
+//					NSString *directionTitle = [directionElement attributeForName:@"title"].stringValue;
+//					NSString *directionName = [directionElement attributeForName:@"name"].stringValue;
+//					NSString *directionUseForUI = [directionElement attributeForName:@"useForUI"].stringValue;
+//
+//					if ([directionTag mph_hasCaseInsensitiveSubstring:@"OB"] || [directionTitle mph_hasCaseInsensitiveSubstring:@"outbound"] || [directionName mph_hasCaseInsensitiveSubstring:@"outbound"]) {
+//						if (outboundRoutes.length)
+//							outboundRoutes = [outboundRoutes stringByAppendingFormat:@"`%@", directionTag];
+//						else outboundRoutes = [outboundRoutes stringByAppendingString:directionTag];
+//					} else {
+//						if (inboundRoutes.length)
+//							inboundRoutes = [inboundRoutes stringByAppendingFormat:@"`%@", directionTag];
+//						else inboundRoutes = [inboundRoutes stringByAppendingString:directionTag];
+//					}
+//
+//					NSString *stopList = @"";
+//					for (DDXMLElement *stopElement in [directionElement elementsForName:@"stop"]) {
+//						NSString *stopTag = [stopElement attributeForName:@"tag"].stringValue;
+//						NSDictionary *stopDictionary = stops[stopTag];
+//
+//						if (stopDictionary) {
+//							NSString *stopInsert = [NSString stringWithFormat:@"INSERT OR REPLACE INTO stops (tag, title, latitude, longitude, stopId, routeTag) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")", stopTag, stopDictionary[@"title"], stopDictionary[@"latitude"], stopDictionary[@"longitude"], stopDictionary[@"stopId"], routeTag];
+//							dispatch_sync(self->_queue, ^{
+//								[newDatabase executeUpdate:stopInsert];
+//							});
+//						}
+//
+//						if (stopList.length)
+//							stopList = [stopList stringByAppendingFormat:@"`%@", stopTag];
+//						else stopList = [stopList stringByAppendingString:stopTag];
+//					}
+//
+//					NSString *directionInsert = [NSString stringWithFormat:@"INSERT OR REPLACE INTO directions (tag, title, name, useForUI, stops) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")", directionTag, directionTitle, directionName, directionUseForUI, stopList];
+//					dispatch_sync(self->_queue, ^{
+//						[newDatabase executeUpdate:directionInsert];
+//					});
+//
+//				}
 
 				NSString *routeInsert = [NSString stringWithFormat:@"INSERT OR REPLACE INTO routes (tag, title, inbound_routes, outbound_routes) VALUES (\"%@\", \"%@\", \"%@\", \"%@\")", routeTag, routeTitle, inboundRoutes, outboundRoutes];
 				dispatch_sync(self->_queue, ^{
 					[newDatabase executeUpdate:routeInsert];
 				});
 
-				NSUInteger pathCount = 1;
-				for (DDXMLElement *pathElement in [requestRouteElement elementsForName:@"path"]) {
-					for (DDXMLElement *pointElement in [pathElement elementsForName:@"point"]) {
-						NSString *latitude = [pointElement attributeForName:@"lat"].stringValue;
-						NSString *longitude = [pointElement attributeForName:@"lon"].stringValue;
-						NSString *pointInsert = [NSString stringWithFormat:@"INSERT INTO paths (tag, pathCount, latitude, longitude) VALUES (\"%@\", \"%zd\", \"%@\", \"%@\")", routeTag, pathCount, latitude, longitude];
-						dispatch_sync(self->_queue, ^{
-							[newDatabase executeUpdate:pointInsert];
-						});
-					}
-
-					pathCount++;
-				}
+//				NSUInteger pathCount = 1;
+//				for (DDXMLElement *pathElement in routeJSON[@"paths"]) {
+//					for (DDXMLElement *pointElement in [pathElement elementsForName:@"point"]) {
+//						NSString *latitude = [pointElement attributeForName:@"lat"].stringValue;
+//						NSString *longitude = [pointElement attributeForName:@"lon"].stringValue;
+//						NSString *pointInsert = [NSString stringWithFormat:@"INSERT INTO paths (tag, pathCount, latitude, longitude) VALUES (\"%@\", \"%zd\", \"%@\", \"%@\")", routeTag, pathCount, latitude, longitude];
+//						dispatch_sync(self->_queue, ^{
+//							[newDatabase executeUpdate:pointInsert];
+//						});
+//					}
+//
+//					pathCount++;
+//				}
 			}] resume];
 		}
 	}] resume];
@@ -277,7 +281,8 @@
 
 - (void) fetchMessages {
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-	request.URL = [NSURL URLWithString:@"http://webservices.nextbus.com/service/publicXMLFeed?command=messages&a=sf-muni"];
+	request.URL = [NSURL URLWithString:@"https://retro.umoiq.com/service/publicXMLFeed?command=messages&a=sfmta-cis"];
+	[request addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
 
 	__weak typeof(self) weakSelf = self;
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {

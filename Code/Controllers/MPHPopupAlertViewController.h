@@ -1,3 +1,5 @@
+#import <AppKit/AppKit.h>
+
 #import "MPHAlertEditing.h"
 
 extern NSString *const MPHPopupAlertDisplayNameKey;

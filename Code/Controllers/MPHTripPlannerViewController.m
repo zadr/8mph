@@ -61,7 +61,7 @@
 	[self.view addSubview:_mapView];
 	[self.view addSubview:_entryControl];
 
-	self.navigationController.navigationBarHidden = YES;
+//	self.navigationController.navigationBarHidden = YES;
 
 	UILongPressGestureRecognizer *startRequestingLocationDataGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(startRequestingLocationData:)];
 	startRequestingLocationDataGestureRecognizer.minimumPressDuration = .35;

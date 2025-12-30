@@ -47,9 +47,9 @@
 		return [UIColor MUNIFColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"J-"])
 		return [UIColor MUNIJColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"JBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"KTBU-"] || [tag mph_hasCaseInsensitivePrefix:@"LBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"MBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"NBUS-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"JBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"TBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"KBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"KTBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"KTBU-"] || [tag mph_hasCaseInsensitivePrefix:@"LBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"MBUS-"] || [tag mph_hasCaseInsensitivePrefix:@"NBUS-"])
 		return [UIColor MUNISalmonColor];
-	if ([tag mph_hasCaseInsensitivePrefix:@"K-"])
+	if ([tag mph_hasCaseInsensitivePrefix:@"K-"] || [tag mph_hasCaseInsensitivePrefix:@"KT-"])
 		return [UIColor MUNIKColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"L-"])
 		return [UIColor MUNIKColor];
@@ -73,7 +73,7 @@
 		return [UIColor MUNIPowellHydeCableCarColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"C-"])
 		return [UIColor MUNICaliforniaCableCarColor];
-
+ // 42 91 144
 	if ([tag mph_hasCaseInsensitivePrefix:@"1AX-"] || [tag mph_hasCaseInsensitivePrefix:@"1BX-"] || [tag mph_hasCaseInsensitivePrefix:@"31AX-"] || [tag mph_hasCaseInsensitivePrefix:@"31BX-"] || [tag mph_hasCaseInsensitivePrefix:@"38AX-"] || [tag mph_hasCaseInsensitivePrefix:@"38BX-"] || [tag mph_hasCaseInsensitivePrefix:@"7X-"] || [tag mph_hasCaseInsensitivePrefix:@"81X-"] || [tag mph_hasCaseInsensitivePrefix:@"83X-"])
 		return [UIColor MUNIPinkColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"30X-"] || [tag mph_hasCaseInsensitivePrefix:@"82X-"] || [tag mph_hasCaseInsensitivePrefix:@"88-"] || [tag mph_hasCaseInsensitivePrefix:@"NX-"])
@@ -82,6 +82,8 @@
 		return [UIColor MUNIPinkAlt2Color];
 	if ([tag mph_hasCaseInsensitivePrefix:@"J Bus-"] || [tag mph_hasCaseInsensitivePrefix:@"KT Bus-"] || [tag mph_hasCaseInsensitivePrefix:@"L Bus-"] || [tag mph_hasCaseInsensitivePrefix:@"M Bus-"])
 		return [UIColor MUNISalmonColor];
+	if ([tag mph_hasCaseInsensitivePrefix:@"15-"])
+		return [UIColor colorWithRed:(42.0 / 255.0) green:(91.0 / 255.0) blue:(144.0 / 255.0) alpha:1.0];
 	if ([tag mph_hasCaseInsensitivePrefix:@"18-"] || [tag mph_hasCaseInsensitivePrefix:@"19-"] || [tag mph_hasCaseInsensitivePrefix:@"22-"] || [tag mph_hasCaseInsensitivePrefix:@"24-"] || [tag mph_hasCaseInsensitivePrefix:@"28R-"] || [tag mph_hasCaseInsensitivePrefix:@"29-"] || [tag mph_hasCaseInsensitivePrefix:@"33-"] || [tag mph_hasCaseInsensitivePrefix:@"44-"] || [tag mph_hasCaseInsensitivePrefix:@"47-"] || [tag mph_hasCaseInsensitivePrefix:@"49-"] || [tag mph_hasCaseInsensitivePrefix:@"55-"])
 		return [UIColor MUNIOrangeColor];
 	if ([tag mph_hasCaseInsensitivePrefix:@"28-"] || [tag mph_hasCaseInsensitivePrefix:@"48-"])

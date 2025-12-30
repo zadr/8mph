@@ -25,7 +25,9 @@
 	if (stopsParameter.length)
 		[stopsParameter deleteCharactersInRange:NSMakeRange(stopsParameter.length - 1, 1)];
 
-	return [NSString mph_requestWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&%@", stopsParameter];
+	NSMutableURLRequest *request = [[NSString mph_requestWithFormat:@"https://retro.umoiq.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sfmta-cis&%@", stopsParameter] mutableCopy];;
+	[request addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
+	return request;
 }
 
 + (NSURLRequest *) nextBusPredictionsWithStopsAndRoutes:(NSDictionary *) stopsAndRoutes {
@@ -42,7 +44,9 @@
 
 	[stopsParameter deleteCharactersInRange:NSMakeRange(stopsParameter.length - 1, 1)];
 
-	return [NSString mph_requestWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&%@", stopsParameter];
+	NSMutableURLRequest *request = [[NSString mph_requestWithFormat:@"https://retro.umoiq.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sfmta-cis&%@", stopsParameter] mutableCopy];
+	[request addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
+	return request;
 }
 
 + (MPHNextBusPrediction *) predictionFromXMLElement:(DDXMLElement *) predictionElement onRoute:(MPHNextBusRoute *) route withPredictionsElement:(DDXMLElement *) predictionsElement {

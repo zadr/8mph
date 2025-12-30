@@ -42,8 +42,7 @@
 	self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:.2 alpha:.7];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void) viewWillAppear:(BOOL) animated {
 	[super viewWillAppear:animated];
 
 	_isVisible = YES;

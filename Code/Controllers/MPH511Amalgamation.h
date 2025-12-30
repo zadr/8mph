@@ -16,6 +16,9 @@
 @interface MPHDumbartonAmalgamation : MPH511Amalgamation
 @end
 
+@interface MPH511MUNIAmalgamation : MPH511Amalgamation
+@end
+
 @interface MPHSamTransAmalgamation : MPH511Amalgamation
 @end
 

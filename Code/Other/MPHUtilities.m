@@ -83,6 +83,7 @@ NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id) = ^(id one, id two) {
 
 	BOOL oneIsCableCar = NO;
 	BOOL twoIsCableCar = NO;
+
 	NSArray *cableCarNames = @[ @"Cable Car", @"Powell-" ];
 	for (NSString *cableCarName in cableCarNames) {
 		oneIsCableCar = oneIsCableCar || [one mph_hasCaseInsensitiveSubstring:cableCarName];
@@ -91,6 +92,12 @@ NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id) = ^(id one, id two) {
 
 	BOOL oneIsOwl = [one mph_hasCaseInsensitiveSubstring:@"Owl"];
 	BOOL twoIsOwl = [two mph_hasCaseInsensitiveSubstring:@"Owl"];
+
+	BOOL oneIsBus = [one mph_hasCaseInsensitiveSubstring:@"BU"];
+	BOOL twoIsBus = [two mph_hasCaseInsensitiveSubstring:@"BU"];
+
+	BOOL oneIsKLMOrKT = [one mph_hasCaseInsensitivePrefix:@"KLM"] || [one mph_hasCaseInsensitivePrefix:@"KT"];
+	BOOL twoIsKLMOrKT = [one mph_hasCaseInsensitivePrefix:@"KLM"] || [one mph_hasCaseInsensitivePrefix:@"KT"];;
 
 	NSComparisonResult (^inline_compare)(NSInteger, NSInteger) = ^(NSInteger three, NSInteger four) {
 		if (three > four)
@@ -111,9 +118,23 @@ NSComparisonResult (^compareMUNIRoutesWithTitles)(id, id) = ^(id one, id two) {
 	if (!oneIsCableCar && twoIsCableCar)
 		return NSOrderedAscending;
 
-	// if both lines are character lines, just return the result of the comparison (eg: N, J)
-	if (oneIsCharacter && twoIsCharacter && !oneIsOwl && !twoIsOwl)
-		return inline_compare([lineOne characterAtIndex:0], [lineTwo characterAtIndex:0]);
+	// if both lines are character lines, sort alphabetical, and with train > bus if both sides are equal (J and JBUS)
+	if (oneIsCharacter && twoIsCharacter && !oneIsOwl && !twoIsOwl) {
+		NSComparisonResult result = inline_compare([lineOne characterAtIndex:0], [lineTwo characterAtIndex:0]);
+
+		if (result == NSOrderedSame) {
+			if (oneIsKLMOrKT && twoIsKLMOrKT) {
+				return inline_compare([lineOne characterAtIndex:1], [lineTwo characterAtIndex:1]);
+			}
+
+			if (oneIsBus && !twoIsBus)
+				return NSOrderedDescending;
+			if (!oneIsBus && twoIsBus)
+				return NSOrderedAscending;
+		}
+
+		return result;
+	}
 
 	// TODO: sort letter owl character lines below number character lines
 	if (oneIsOwl && !twoIsOwl)

@@ -1,4 +1,4 @@
- #import "MPHRouteViewController.h"
+#import "MPHRouteViewController.h"
 
 #import "MPHAmalgamator.h"
 #import "MPHLocationCenter.h"
@@ -81,26 +81,24 @@ typedef NS_ENUM(NSInteger, MPHView) {
 	_tableViewController.edgesForExtendedLayout = (UIRectEdgeTop | UIRectEdgeBottom);
 
 	switch ([[NSUserDefaults standardUserDefaults] integerForKey:MPHDefaultViewForRoute(_route.tag)]) {
-	case MPHViewList:
-		[self.navigationController setToolbarHidden:NO animated:YES];
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(flipViewsAround:)];
+		case MPHViewList:
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(flipViewsAround:)];
 
-		[self.view addSubview:_mapViewContrller.mapView];
-		[self.view addSubview:_tableViewController.tableView];
+			[self.view addSubview:_mapViewContrller.mapView];
+			[self.view addSubview:_tableViewController.tableView];
 
-		break;
-	case MPHViewMap:
-		[self.navigationController setToolbarHidden:YES animated:YES];
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Times" style:UIBarButtonItemStylePlain target:self action:@selector(flipViewsAround:)];
+			break;
+		case MPHViewMap:
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Times" style:UIBarButtonItemStylePlain target:self action:@selector(flipViewsAround:)];
 
-		_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
-		_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
-		_mapViewContrller.mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
+			_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
+			_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
+			_mapViewContrller.mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
 
-		[self.view addSubview:_tableViewController.tableView];
-		[self.view addSubview:_mapViewContrller.mapView];
+			[self.view addSubview:_tableViewController.tableView];
+			[self.view addSubview:_mapViewContrller.mapView];
 
-		break;
+			break;
 	}
 
 	_tableViewController.tableView.frame = self.view.bounds;
@@ -119,12 +117,6 @@ typedef NS_ENUM(NSInteger, MPHView) {
 	_mapViewContrller.mapView.frame = self.view.bounds;
 }
 
-- (void) viewWillDisappear:(BOOL) animated {
-	[super viewWillDisappear:animated];
-
-	[self.navigationController setToolbarHidden:YES animated:animated];
-}
-
 #pragma mark -
 
 - (void) viewWillTransitionToSize:(CGSize) size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>) coordinator {
@@ -135,23 +127,6 @@ typedef NS_ENUM(NSInteger, MPHView) {
 		_mapViewContrller.view.frame = frame;
 	} completion:nil];
 }
-
-- (BOOL) shouldAutomaticallyForwardAppearanceMethods {
-	return YES;
-}
-
-- (UIViewController *) childViewControllerForStatusBarStyle {
-	if (_tableViewController.tableView.superview)
-		return _tableViewController;
-	return nil;
-}
-
-- (UIViewController *) childViewControllerForStatusBarHidden {
-	if (_tableViewController.tableView.superview)
-		return _tableViewController;
-	return nil;
-}
-
 
 #pragma mark -
 
@@ -165,7 +140,7 @@ typedef NS_ENUM(NSInteger, MPHView) {
 			[_tableViewController.tableView reloadData];
 		});
 }
-// the display of data about a route, ,  from an
+
 - (void) routeControllerDidLoadVehicleLocations:(id <MPHRouteController>) routeController {
 	
 }
@@ -192,34 +167,33 @@ typedef NS_ENUM(NSInteger, MPHView) {
 	dispatch_block_t animation = NULL;
 
 	switch ([[NSUserDefaults standardUserDefaults] integerForKey:MPHDefaultViewForRoute(_route.tag)]) {
-	case MPHViewList: {
-		transition = UIViewAnimationOptionTransitionCurlUp;
-		[[NSUserDefaults standardUserDefaults] setInteger:MPHViewMap forKey:MPHDefaultViewForRoute(_route.tag)];
+		case MPHViewList: {
+			transition = UIViewAnimationOptionTransitionCurlUp;
+			[[NSUserDefaults standardUserDefaults] setInteger:MPHViewMap forKey:MPHDefaultViewForRoute(_route.tag)];
 
-		_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
-		_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
+			_mapViewContrller.mapView.centerCoordinate = [MPHLocationCenter locationCenter].currentLocation.coordinate;
+			_mapViewContrller.mapView.region = MKCoordinateRegionMake([MPHLocationCenter locationCenter].currentLocation.coordinate, MKCoordinateSpanMake(0.03125, 0.03125));
 
-		animation = ^{
-			[self.navigationController setToolbarHidden:YES animated:YES];
-			self.navigationItem.rightBarButtonItem.title = @"Times";
+			animation = ^{
+				self.navigationItem.rightBarButtonItem.title = @"Times";
 
-			[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
-						   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
-		};
-		break;
-	}
+				[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
+							   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
+			};
+			break;
+		}
 
-	case MPHViewMap: {
-		transition = UIViewAnimationOptionTransitionCurlDown;
-		[[NSUserDefaults standardUserDefaults] setInteger:MPHViewList forKey:MPHDefaultViewForRoute(_route.tag)];
+		case MPHViewMap: {
+			transition = UIViewAnimationOptionTransitionCurlDown;
+			[[NSUserDefaults standardUserDefaults] setInteger:MPHViewList forKey:MPHDefaultViewForRoute(_route.tag)];
 
-		animation = ^{
-			[self.navigationController setToolbarHidden:NO animated:YES];
-			self.navigationItem.rightBarButtonItem.title = @"Map";
-			[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
-						   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
-		};
-	}
+			animation = ^{
+				self.navigationItem.rightBarButtonItem.title = @"Map";
+
+				[self.view exchangeSubviewAtIndex:[self.view.subviews indexOfObject:_tableViewController.tableView]
+							   withSubviewAtIndex:[self.view.subviews indexOfObject:_mapViewContrller.mapView]];
+			};
+		}
 	}
 
 	[UIView transitionWithView:self.view

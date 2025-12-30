@@ -1,3 +1,5 @@
+#import <AppKit/AppKit.h>
+
 #import "MPHApplicationDelegate.h"
 
 #import "MPHLocationCenter.h"

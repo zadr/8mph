@@ -17,6 +17,6 @@
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceACTransit];
 //	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceCaltrain];
 	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceMUNI];
-//	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceBART];
+	[[MPHAmalgamator amalgamator] slurpRouteDataVersion:@"" forService:MPHServiceBART];
 }
 @end

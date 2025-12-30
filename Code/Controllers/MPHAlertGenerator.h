@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 extern NSString *const MPHAlertMachineIdentifierKey;
 extern NSString *const MPHAlertTitleKey;
 extern NSString *const MPHAlertMessageKey;

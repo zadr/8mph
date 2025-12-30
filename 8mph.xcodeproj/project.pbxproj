@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19092A3B2CB2E9E10090BB55 /* MPHMUNI2Amalgamation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19092A3A2CB2E9E10090BB55 /* MPHMUNI2Amalgamation.swift */; };
 		1951DA941FC0FD8A009E02F2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1951DA931FC0FD8A009E02F2 /* Launch.storyboard */; };
 		19824F8923EFC0EB00D02E05 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1151FB007260062BF42 /* FMDatabasePool.m */; };
 		19824F8A23EFC0EB00D02E05 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AFE1131FB007250062BF42 /* FMDatabaseQueue.m */; };
@@ -312,6 +313,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		19092A3A2CB2E9E10090BB55 /* MPHMUNI2Amalgamation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPHMUNI2Amalgamation.swift; sourceTree = "<group>"; };
+		19092A3C2CB2E9E20090BB55 /* 8mph-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "8mph-Bridging-Header.h"; sourceTree = "<group>"; };
 		1915570F2403608700EDDB8B /* 8mph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = 8mph.entitlements; path = 8mph/8mph.entitlements; sourceTree = "<group>"; };
 		1951DA931FC0FD8A009E02F2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Launch.storyboard; path = Resources/Launch.storyboard; sourceTree = "<group>"; };
 		19AFE10E1FB007240062BF42 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = Code/External/FMDB/src/FMDatabase.h; sourceTree = SOURCE_ROOT; };
@@ -1001,8 +1004,10 @@
 				92AA46F516FB9E0100A18D04 /* MPH511Amalgamation.h */,
 				922DD3A215B15C770011BD23 /* MPHBARTAmalgamation.m */,
 				922DD3A115B15C770011BD23 /* MPHBARTAmalgamation.h */,
+				19092A3A2CB2E9E10090BB55 /* MPHMUNI2Amalgamation.swift */,
 				922DD39E15B15C530011BD23 /* MPHMUNIAmalgamation.m */,
 				922DD39D15B15C530011BD23 /* MPHMUNIAmalgamation.h */,
+				19092A3C2CB2E9E20090BB55 /* 8mph-Bridging-Header.h */,
 			);
 			name = "Service Controllers";
 			sourceTree = "<group>";
@@ -1620,10 +1625,14 @@
 				TargetAttributes = {
 					9219326215A0052C00BE1D86 = {
 						DevelopmentTeam = 37EUQ42C7J;
+						LastSwiftMigration = 1600;
 					};
 					92A54AA915AD209300F21FC5 = {
 						DevelopmentTeam = 37EUQ42C7J;
 						ProvisioningStyle = Automatic;
+					};
+					92AA466816F976E300A18D04 = {
+						DevelopmentTeam = 37EUQ42C7J;
 					};
 				};
 			};
@@ -1794,6 +1803,7 @@
 				9287E134186D87780066BC90 /* MPHOTPPlan.m in Sources */,
 				92F7C0D7187152DC00FAA65F /* MKPolylineAdditions.m in Sources */,
 				924108CE15A3E3C6001F7681 /* MPHDefines.m in Sources */,
+				19092A3B2CB2E9E10090BB55 /* MPHMUNI2Amalgamation.swift in Sources */,
 				92C0EAF71838CFBA0012DCF6 /* MPHRootNavigationStackController.m in Sources */,
 				92E75D8A15A6B17D00C90116 /* NSArrayAdditions.m in Sources */,
 				92E75D8E15A6B78000C90116 /* MPHPredictions.m in Sources */,
@@ -2274,7 +2284,10 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "8mph-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2313,7 +2326,9 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "8mph-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2322,8 +2337,8 @@
 		92A54AC515AD209400F21FC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2334,8 +2349,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				INFOPLIST_FILE = "Data Importer/MPHDataImporter-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
 					"-ObjC",
@@ -2344,6 +2357,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2352,8 +2366,8 @@
 		92A54AC615AD209400F21FC5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2364,7 +2378,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				INFOPLIST_FILE = "Data Importer/MPHDataImporter-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
 					"-ObjC",
@@ -2373,6 +2386,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2394,6 +2408,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 37EUQ42C7J;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2435,6 +2450,7 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 37EUQ42C7J;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

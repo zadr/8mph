@@ -72,8 +72,10 @@
 
 - (void) reloadVehicleLocations {
 	__weak __typeof__((self)) weakSelf = self;
-	NSString *URLString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=sf-muni&r=%@&t=%zd", self.route.tag, _lastVehicleLocationTime];
-	NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+	NSString *URLString = [NSString stringWithFormat:@"https://retro.umoiq.com/service/publicXMLFeed?command=vehicleLocations&a=sfmta-cis&r=%@&t=%zd", self.route.tag, _lastVehicleLocationTime];
+	NSMutableURLRequest *URLRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+	[URLRequest addValue:@"https://retro.umoiq.com/" forHTTPHeaderField:@"Referer"];
+
 	[[[NSURLSession sharedSession] dataTaskWithRequest:URLRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		NSError *xmlError = nil;
 		DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:data options:DDXMLDocumentXMLKind error:&xmlError];

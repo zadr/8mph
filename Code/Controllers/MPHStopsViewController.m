@@ -87,7 +87,7 @@
 }
 
 - (void) viewWillAppear:(BOOL) animated {
-	[self.navigationController setToolbarHidden:NO animated:animated];
+//	[self.navigationController setToolbarHidden:NO animated:animated];
 
 	[super viewWillAppear:animated];
 
@@ -101,7 +101,7 @@
 - (void) viewWillDisappear:(BOOL) animated {
 	[super viewWillDisappear:animated];
 
-	[self.navigationController setToolbarHidden:YES animated:animated];
+//	[self.navigationController setToolbarHidden:YES animated:animated];
 }
 
 #pragma mark -

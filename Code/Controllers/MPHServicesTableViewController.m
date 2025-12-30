@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, MPHSection) {
 typedef NS_ENUM(NSInteger, MPHServiceRow) {
 	MPHServiceRowMUNI,
 	MPHServiceRowBART,
-	MPHServiceRowCaltrain,
+//	MPHServiceRowCaltrain,
 	MPHServiceRowCount,
 
 	MPHServiceRowACTransit,
@@ -41,7 +41,8 @@ typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 }
 
 - (id) init {
-	return self = [super initWithStyle:UITableViewStyleGrouped];
+	self = [super initWithStyle:UITableViewStyleGrouped];
+	return self;
 }
 
 - (void) viewDidLoad {
@@ -70,8 +71,8 @@ typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 			cell.imageView.image = [[UIImage imageNamed:@"bus-4"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		else if (indexPath.row == MPHServiceRowBART)
 			cell.imageView.image = [[UIImage imageNamed:@"train-3"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		else if (indexPath.row == MPHServiceRowCaltrain)
-			cell.imageView.image = [[UIImage imageNamed:@"train-2"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//		else if (indexPath.row == MPHServiceRowCaltrain)
+//			cell.imageView.image = [[UIImage imageNamed:@"train-2"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	} else if (indexPath.section == MPHSectionPlanATrip) {
 #if defined(MPH_ENABLE_TRIP_PLANNING)
 		if (indexPath.row == MPHTripPlanningSectionPlan) {
@@ -135,8 +136,8 @@ typedef NS_ENUM(NSInteger, MPHTripPlanningSection) {
 			viewController = [[MPHRoutesViewController alloc] initWithService:MPHServiceMUNI];
 		if (indexPath.row == MPHServiceRowBART)
 			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceBART];
-		if (indexPath.row == MPHServiceRowCaltrain)
-			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceCaltrain];
+//		if (indexPath.row == MPHServiceRowCaltrain)
+//			viewController = [[MPHStopsViewController alloc] initWithService:MPHServiceCaltrain];
 		if (indexPath.row == MPHServiceRowACTransit)
 			viewController = [[MPHRoutesViewController alloc] initWithService:MPHServiceACTransit];
 		if (indexPath.row == MPHServiceRowDumbartonExpress)
